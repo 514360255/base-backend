@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.framework.admin.mapper.AccountMapper">
+    <select id="selectByAccount" resultType="com.base.framework.admin.model.entity.SysAccount">
+        SELECT
+            id, name, account, mobile, email, role_code AS roleCode
+        FROM sys_account WHERE account = #{account} AND password = #{password} AND is_delete = 1 AND deleted_at IS NULL
+    </select>
+
+    <select id="getUserInfoById" resultType="com.base.framework.admin.model.entity.SysAccount">
+        SELECT
+            id, name, account, mobile, email, role_code AS roleCode
+        FROM sys_account WHERE id = #{id} AND is_delete = 1 AND deleted_at IS NULL
+    </select>
+
+    <select id="queryUserList" resultType="com.base.framework.admin.model.entity.SysAccount">
+        SELECT
+            sa.id,
+            sa.name,
+            sa.account,
+            sa.mobile,
+            sa.email,
+            sa.role_code AS roleCode,
+            sa.created_at AS createdAt,
+            sa.created_by AS createdBy,
+            sa.updated_at AS updatedAt,
+            sa.updated_by AS updatedBy,
+            sa.is_active AS isActive,
+            sr.name AS roleName
+        FROM sys_account sa
+        LEFT JOIN sys_role sr ON sa.role_code = sr.code
+        <where>
+            sa.is_delete = 1 AND sa.deleted_at IS NULL
+            <if test="keyword != '' and keyword != null">
+                AND sa.account LIKE CONCAT('%', #{account}, '%')
+            </if>
+            <if test="isActive != '' and isActive != null">
+                AND sa.is_active = #{isActive}
+            </if>
+            <if test="roleCode != '' and roleCode != null">
+                AND sa.role_code = #{roleCode}
+            </if>
+        </where>
+    </select>
+
+</mapper>
