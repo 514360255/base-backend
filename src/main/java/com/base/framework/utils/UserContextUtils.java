@@ -1,6 +1,6 @@
 package com.base.framework.utils;
 
-import com.base.framework.admin.model.entity.SysAccount;
+import com.base.framework.admin.model.vo.LoginUserVO;
 
 /**
  * @Author: 郭郭
@@ -8,13 +8,13 @@ import com.base.framework.admin.model.entity.SysAccount;
  * @Description: 用户信息上下文
  **/
 public class UserContextUtils {
-    private static final ThreadLocal<SysAccount> USER_HOLDER = new ThreadLocal<>();
+    private static final ThreadLocal<LoginUserVO> USER_HOLDER = new ThreadLocal<>();
 
-    public static void setUser(SysAccount user) {
+    public static void setUser(LoginUserVO user) {
         USER_HOLDER.set(user);
     }
 
-    public static SysAccount getUser() {
+    public static LoginUserVO getUser() {
         return USER_HOLDER.get();
     }
 

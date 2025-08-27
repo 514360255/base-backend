@@ -7,10 +7,8 @@ import com.base.framework.common.ResultUtils;
 import com.base.framework.exception.BusinessException;
 import com.base.framework.admin.model.dto.user.UserLoginRequest;
 import com.base.framework.admin.model.vo.LoginUserVO;
-import com.base.framework.admin.model.vo.AccountVO;
 import com.base.framework.admin.service.AccountService;
 
-import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,10 +18,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
 
+import static com.base.framework.constant.JwtConstant.HEADER_TOKEN;
 import static com.base.framework.constant.RouteConstant.ADMIN_PREFIX;
 
 /**
  * 用户接口
+ * @author guojiuling
  */
 @RestController
 @RequestMapping(ADMIN_PREFIX + "/account")
@@ -53,7 +53,8 @@ public class AccountController {
 
     @GetMapping("/userInfo")
     public BaseResponse<LoginUserVO> getLoginUser(HttpServletRequest request) {
-        LoginUserVO user = accountService.getLoginUser(request);
+        String token = request.getHeader(HEADER_TOKEN);
+        LoginUserVO user = accountService.getLoginUser(token);
         return ResultUtils.success(user);
     }
 
@@ -64,16 +65,14 @@ public class AccountController {
 
     /**
      * 用户注销
-     *
-     * @param request
-     * @return
      */
     @PostMapping("/logout")
     public BaseResponse<Boolean> userLogout(HttpServletRequest request) {
-        if (request == null) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        String token = request.getHeader(HEADER_TOKEN);
+        if (token == null) {
+            throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR, ErrorCode.NOT_LOGIN_ERROR.getMessage());
         }
-        boolean result = accountService.userLogout(request);
+        boolean result = accountService.userLogout();
         return ResultUtils.success(result);
     }
 

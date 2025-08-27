@@ -2,15 +2,17 @@ package com.base.framework.admin.model.vo;
 
 import java.io.Serializable;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 已登录用户视图（脱敏）
- **/
+ * @author guojiuling
+ */
+
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class LoginUserVO implements Serializable {
+public class LoginUserVO extends BaseVO implements Serializable {
     /**
      * id
      */
@@ -39,7 +41,7 @@ public class LoginUserVO implements Serializable {
     /**
      * 角色Code
      */
-    private int roleCode;
+    private String roleCode;
 
     /**
      * token

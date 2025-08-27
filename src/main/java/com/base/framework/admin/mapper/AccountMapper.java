@@ -3,8 +3,6 @@ package com.base.framework.admin.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.base.framework.admin.model.dto.user.UserQueryRequest;
 import com.base.framework.admin.model.entity.SysAccount;
-import com.base.framework.admin.model.vo.AccountVO;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -27,7 +25,7 @@ public interface AccountMapper extends BaseMapper<SysAccount> {
      * @param id String
      * @return SysAccount
      */
-    SysAccount getUserInfoById(String id);
+    SysAccount getUserInfoById(Long id);
 
     /**
      * 查询用户列表

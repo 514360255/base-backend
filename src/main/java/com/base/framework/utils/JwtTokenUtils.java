@@ -8,6 +8,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * @author guojiuling
+ */
 public class JwtTokenUtils {
 
     private static Claims claims = null;
@@ -20,10 +23,7 @@ public class JwtTokenUtils {
                 .builder()
                 .setHeaderParam("typ", "JWT")
                 .setSubject(subject)
-                .claim("username", subject)
-                .claim("role", role)
                 .claim("userId", userId)
-                .claim("name", name)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + JwtConstant.EXPIRATION))
                 .signWith(SignatureAlgorithm.HS256, JwtConstant.APP_SECRET_KEY).compact();
@@ -61,44 +61,18 @@ public class JwtTokenUtils {
     }
 
     /**
-     * 从Token中获取username
-     */
-    public static String getUsername(String token) {
-        Claims claims = getTokenClaim(token);
-        if(claims == null) {
-            return null;
-        }
-        return claims.get("username").toString();
-    }
-
-    public static String getName(String token) {
-        Claims claims = getTokenClaim(token);
-        if(claims == null) {
-            return null;
-        }
-        return claims.get("name").toString();
-    }
-
-    /**
-     * 从token中获取角色
-     */
-    public static String getRole(String token) {
-        Claims claims = getTokenClaim(token);
-        if(claims == null) {
-            return null;
-        }
-        return claims.get("role").toString();
-    }
-
-    /**
      * 从token中获取userId
      */
-    public static String getUserId(String token) {
+    public static Long getUserId(String token) {
         Claims claims = getTokenClaim(token);
         if(claims == null) {
             return null;
         }
-        return claims.get("userId").toString();
+        String userId = (String) claims.get("userId");
+        if(userId == null) {
+            return null;
+        }
+        return Long.valueOf(userId);
     }
 
     /**
@@ -108,21 +82,13 @@ public class JwtTokenUtils {
         try {
             Claims claims = getTokenClaim(token);
             if(claims == null) {
-                return false;
+                return true;
             }
             Date expiration = claims.getExpiration();
             return expiration.before(new Date());
         } catch (Exception e) {
             return false;
         }
-    }
-
-
-    /**
-     * 验证令牌
-     */
-    public static Boolean validateToken(String token) {
-        return !isExpiration(token);
     }
 
 }

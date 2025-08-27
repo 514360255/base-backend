@@ -17,7 +17,7 @@ public class BaseVO implements Serializable {
     /**
      * id
      */
-    private String id;
+    private Long id;
 
     /**
      * 状态 1:启用，0:禁用

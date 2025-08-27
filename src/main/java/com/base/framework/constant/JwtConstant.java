@@ -13,7 +13,7 @@ public class JwtConstant {
 
     public static final String TOKEN_PREFIX = "Bearer";
 
-    public static final String HEADER_TOKEN = "C-Token";
+    public static final String HEADER_TOKEN = "Authorization";
 
     public static final String USER_NAME = "C-UserName";
 

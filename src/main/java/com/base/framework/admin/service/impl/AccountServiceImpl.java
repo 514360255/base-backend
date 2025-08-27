@@ -1,32 +1,24 @@
 package com.base.framework.admin.service.impl;
 
 import static com.base.framework.constant.JwtConstant.SALT;
-import static com.base.framework.constant.UserConstant.USER_LOGIN_STATE;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.extra.cglib.CglibUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.base.framework.admin.model.vo.CustomUserDetailsVO;
 import com.base.framework.common.ErrorCode;
-import com.base.framework.constant.CommonConstant;
 import com.base.framework.constant.JwtConstant;
 import com.base.framework.exception.BusinessException;
 import com.base.framework.admin.mapper.AccountMapper;
 import com.base.framework.admin.model.dto.user.UserQueryRequest;
 import com.base.framework.admin.model.entity.SysAccount;
-import com.base.framework.admin.model.enums.UserRoleEnum;
 import com.base.framework.admin.model.vo.LoginUserVO;
 import com.base.framework.admin.model.vo.AccountVO;
 import com.base.framework.admin.service.AccountService;
 import com.base.framework.utils.JwtTokenUtils;
-import com.base.framework.utils.SqlUtils;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
-import com.base.framework.utils.UserContextUtils;
+import com.base.framework.utils.SecurityUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +29,7 @@ import org.springframework.util.DigestUtils;
 
 /**
  * 用户服务实现
+ * @author guojiuling
  */
 @Service
 @Slf4j
@@ -64,11 +57,11 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, SysAccount> i
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户不存在或密码错误");
         }
         // 3. 记录用户的登录态
-        UserContextUtils.setUser(user);
-        LoginUserVO loginUserVO = new LoginUserVO();
+        CustomUserDetailsVO loginUserVO = new CustomUserDetailsVO();
         BeanUtils.copyProperties(user, loginUserVO);
         String token = JwtTokenUtils.createToken(user.getName(), String.valueOf(user.getId()), "", user.getName());
         loginUserVO.setToken(JwtConstant.TOKEN_PREFIX +" "+ token);
+        SecurityUtils.setCurrentUser(loginUserVO);
         return loginUserVO;
     }
     /**
@@ -76,19 +69,21 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, SysAccount> i
      *
      */
     @Override
-    public LoginUserVO getLoginUser(HttpServletRequest request) {
-        // 先判断是否已登录
-        String token = request.getHeader("authorization");
-        if (token == null) {
-            throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
+    public LoginUserVO getLoginUser(String token) {
+        Long userId = JwtTokenUtils.getUserId(token);
+        CustomUserDetailsVO customUserDetailsVO = SecurityUtils.getCurrentUser();
+        if(customUserDetailsVO == null || customUserDetailsVO.getId() == null) {
+            SysAccount sysAccount = accountMapper.getUserInfoById(userId);
+            if(sysAccount == null) {
+                log.info("用户不存在: " + userId);
+                throw new BusinessException(ErrorCode.NO_ACCOUNT, ErrorCode.NO_ACCOUNT.getMessage());
+            }
+            CustomUserDetailsVO userInfo = new CustomUserDetailsVO();
+            BeanUtils.copyProperties(sysAccount, userInfo);
+            customUserDetailsVO = userInfo;
         }
-        SysAccount userObj = UserContextUtils.getUser();
-        if(token.startsWith(JwtConstant.TOKEN_PREFIX) && userObj == null) {
-            userObj = accountMapper.getUserInfoById(JwtTokenUtils.getUserId(token));
-        }
-        LoginUserVO loginUserVO = new LoginUserVO();
-        BeanUtils.copyProperties(userObj, loginUserVO);
-        return loginUserVO;
+        customUserDetailsVO.setToken(token);
+        return customUserDetailsVO;
     }
 
     @Override
@@ -96,80 +91,18 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, SysAccount> i
         List<SysAccount> list = PageHelper
                 .startPage(params.getPageNo(), params.getPageSize(), params.isCount(), params.isReasonable(), params.isPageSizeZero())
                 .doSelectPage(() -> accountMapper.queryUserList(params));
-
+        String userName = SecurityUtils.getCurrentUsername();
+        System.out.println("当前用户：" + userName);
         return new PageInfo<>(CglibUtil.copyList(list, AccountVO::new));
-    }
-
-    @Override
-    public boolean isAdmin(SysAccount user) {
-        return user != null && UserRoleEnum.ADMIN.getValue().equals(user.getRoleCode());
     }
 
     /**
      * 用户注销
-     *
-     * @param request
      */
     @Override
-    public boolean userLogout(HttpServletRequest request) {
-        if (request.getSession().getAttribute(USER_LOGIN_STATE) == null) {
-            throw new BusinessException(ErrorCode.OPERATION_ERROR, "未登录");
-        }
+    public boolean userLogout() {
         // 移除登录态
-        request.getSession().removeAttribute(USER_LOGIN_STATE);
+        SecurityUtils.removeCurrentUser();
         return true;
-    }
-
-    @Override
-    public LoginUserVO getLoginUserVO(SysAccount user) {
-        if (user == null) {
-            return null;
-        }
-        LoginUserVO loginUserVO = new LoginUserVO();
-        BeanUtils.copyProperties(user, loginUserVO);
-        return loginUserVO;
-    }
-
-    @Override
-    public AccountVO getUserVO(SysAccount user) {
-        if (user == null) {
-            return null;
-        }
-        AccountVO userVO = new AccountVO();
-        BeanUtils.copyProperties(user, userVO);
-        return userVO;
-    }
-
-    @Override
-    public List<AccountVO> getUserVO(List<SysAccount> userList) {
-        if (CollUtil.isEmpty(userList)) {
-            return new ArrayList<>();
-        }
-        return userList.stream().map(this::getUserVO).collect(Collectors.toList());
-    }
-
-    @Override
-    public QueryWrapper<SysAccount> getQueryWrapper(UserQueryRequest userQueryRequest) {
-        if (userQueryRequest == null) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR, "请求参数为空");
-        }
-        Long id = userQueryRequest.getId();
-        String unionId = userQueryRequest.getUnionId();
-        String mpOpenId = userQueryRequest.getMpOpenId();
-        String userName = userQueryRequest.getUserName();
-        String userProfile = userQueryRequest.getUserProfile();
-        String userRole = userQueryRequest.getUserRole();
-        String sortField = userQueryRequest.getSortField();
-        String sortOrder = userQueryRequest.getSortOrder();
-        QueryWrapper<SysAccount> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(id != null, "id", id);
-        queryWrapper.eq(StringUtils.isNotBlank(unionId), "unionId", unionId);
-        queryWrapper.eq(StringUtils.isNotBlank(mpOpenId), "mpOpenId", mpOpenId);
-        queryWrapper.eq(StringUtils.isNotBlank(userRole), "userRole", userRole);
-        queryWrapper.like(StringUtils.isNotBlank(userProfile), "userProfile", userProfile);
-        queryWrapper.like(StringUtils.isNotBlank(userName), "userName", userName);
-        queryWrapper.orderBy(SqlUtils.validSortField(sortField), sortOrder.equals(CommonConstant.SORT_ORDER_ASC),
-                sortField);
-        return queryWrapper;
     }
 }

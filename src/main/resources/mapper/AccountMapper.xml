@@ -3,14 +3,14 @@
 <mapper namespace="com.base.framework.admin.mapper.AccountMapper">
     <select id="selectByAccount" resultType="com.base.framework.admin.model.entity.SysAccount">
         SELECT
-            id, name, account, mobile, email, role_code AS roleCode
-        FROM sys_account WHERE account = #{account} AND password = #{password} AND is_delete = 1 AND deleted_at IS NULL
+            id, name, account, mobile, email, role_code AS roleCode, created_by AS createdBy, created_at AS createdAt
+        FROM sys_account WHERE account = #{account} AND password = #{password} AND is_deleted = 1 AND deleted_at IS NULL AND is_active = 1
     </select>
 
     <select id="getUserInfoById" resultType="com.base.framework.admin.model.entity.SysAccount">
         SELECT
-            id, name, account, mobile, email, role_code AS roleCode
-        FROM sys_account WHERE id = #{id} AND is_delete = 1 AND deleted_at IS NULL
+            id, name, account, mobile, email, role_code AS roleCode, created_by AS createdBy, created_at AS createdAt
+        FROM sys_account WHERE id = #{id} AND is_deleted = 1 AND deleted_at IS NULL AND is_active = 1
     </select>
 
     <select id="queryUserList" resultType="com.base.framework.admin.model.entity.SysAccount">
@@ -23,14 +23,12 @@
             sa.role_code AS roleCode,
             sa.created_at AS createdAt,
             sa.created_by AS createdBy,
-            sa.updated_at AS updatedAt,
-            sa.updated_by AS updatedBy,
             sa.is_active AS isActive,
             sr.name AS roleName
         FROM sys_account sa
         LEFT JOIN sys_role sr ON sa.role_code = sr.code
         <where>
-            sa.is_delete = 1 AND sa.deleted_at IS NULL
+            sa.is_deleted = 1 AND sa.deleted_at IS NULL AND sa.role_code != 'SUPER_ADMIN'
             <if test="keyword != '' and keyword != null">
                 AND sa.account LIKE CONCAT('%', #{account}, '%')
             </if>

@@ -6,10 +6,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * 主类（项目启动入口）
  *
+ * @author guojiuling
  */
 // todo 如需开启 Redis，须移除 exclude 中的内容
 @SpringBootApplication(exclude = {RedisAutoConfiguration.class})
@@ -20,6 +22,7 @@ public class MainApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(MainApplication.class, args);
+        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_GLOBAL);
     }
 
 }

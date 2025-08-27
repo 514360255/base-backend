@@ -1,7 +1,9 @@
 package com.base.framework.config;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.base.framework.admin.model.vo.CustomUserDetailsVO;
 import com.base.framework.utils.JwtTokenUtils;
+import com.base.framework.utils.SecurityUtils;
 import com.base.framework.utils.SnowflakeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
@@ -27,8 +29,11 @@ import static com.base.framework.constant.JwtConstant.HEADER_TOKEN;
 public class CreateAndUpdateMetaObjectHandler implements MetaObjectHandler {
 
     public static String getCurrentUserName() {
-        HttpServletRequest httpServletRequest = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-        return JwtTokenUtils.getUsername(httpServletRequest.getHeader(HEADER_TOKEN));
+        CustomUserDetailsVO userDetailsVO = SecurityUtils.getCurrentUser();
+        if(userDetailsVO != null && userDetailsVO.getName() != null) {
+            return userDetailsVO.getName();
+        }
+        return null;
     }
 
 
@@ -37,9 +42,9 @@ public class CreateAndUpdateMetaObjectHandler implements MetaObjectHandler {
         try {
             log.info("insertFill...");
             this.strictInsertFill(metaObject, "id", Long.class, SnowflakeUtils.creatNo());
-            this.strictInsertFill(metaObject, "createBy", String.class, getCurrentUserName());
-            this.strictInsertFill(metaObject, "createAt", Date.class, new Date());
-            this.strictInsertFill(metaObject, "isDeleted", int.class, 0);
+            this.strictInsertFill(metaObject, "createdBy", String.class, getCurrentUserName());
+            this.strictInsertFill(metaObject, "createdAt", Date.class, new Date());
+            this.strictInsertFill(metaObject, "isDeleted", int.class, 1);
         }catch (Exception e) {
             e.printStackTrace();
             System.out.println("自动注入失败：{}" + e.getMessage());
@@ -49,8 +54,8 @@ public class CreateAndUpdateMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void updateFill(MetaObject metaObject) {
         try {
-            this.strictUpdateFill(metaObject, "modifyBy", String.class, getCurrentUserName());
-            this.strictUpdateFill(metaObject, "modifyAt", Date.class, new Date());
+            this.strictUpdateFill(metaObject, "updatedBy", String.class, getCurrentUserName());
+            this.strictUpdateFill(metaObject, "updatedAt", Date.class, new Date());
         }catch (Exception e) {
             e.printStackTrace();
             System.out.println("自动注入失败：{}" + e.getMessage());
