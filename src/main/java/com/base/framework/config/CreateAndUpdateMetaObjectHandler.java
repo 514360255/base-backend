@@ -43,8 +43,6 @@ public class CreateAndUpdateMetaObjectHandler implements MetaObjectHandler {
             log.info("insertFill...");
             this.strictInsertFill(metaObject, "id", Long.class, SnowflakeUtils.creatNo());
             this.strictInsertFill(metaObject, "createdBy", String.class, getCurrentUserName());
-            this.strictInsertFill(metaObject, "createdAt", Date.class, new Date());
-            this.strictInsertFill(metaObject, "isDeleted", int.class, 1);
         }catch (Exception e) {
             e.printStackTrace();
             System.out.println("自动注入失败：{}" + e.getMessage());
@@ -54,22 +52,11 @@ public class CreateAndUpdateMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void updateFill(MetaObject metaObject) {
         try {
+            log.info("updateFill...");
             this.strictUpdateFill(metaObject, "updatedBy", String.class, getCurrentUserName());
-            this.strictUpdateFill(metaObject, "updatedAt", Date.class, new Date());
         }catch (Exception e) {
             e.printStackTrace();
             System.out.println("自动注入失败：{}" + e.getMessage());
-        }
-    }
-
-    /**
-     * 新增批量填充
-     * @param entityList
-     */
-    public void batchInsertFill(List<?> entityList) {
-        for (Object entity : entityList) {
-            MetaObject metaObject = SystemMetaObject.forObject(entity);
-            this.insertFill(metaObject);
         }
     }
 

@@ -10,11 +10,34 @@
     </select>
 
     <select id="getDetailById" resultType="com.base.framework.admin.model.entity.SysRoleEntity">
-        SELECT * FROM sys_role WHERE id = #{id}
+        SELECT id, name, code, is_active AS isActive FROM sys_role WHERE id = #{id}
     </select>
 
-    <update id="deleteById">
+    <delete id="deleteById">
         DELETE FROM sys_role WHERE id = #{id}
+    </delete>
+
+    <update id="update">
+        UPDATE
+            sys_role
+        SET
+            name = #{name},
+            is_active = #{isActive},
+            updated_at = now(),
+            updated_by = #{updatedBy}
+        WHERE
+            id = #{id}
+    </update>
+
+    <update id="updateState">
+        UPDATE
+            sys_role
+        SET
+            is_active = #{isActive},
+            updated_at = now(),
+            updated_by = #{updatedBy}
+        WHERE
+            id = #{id}
     </update>
 
     <select id="queryUserList" resultType="com.base.framework.admin.model.entity.SysRoleEntity">

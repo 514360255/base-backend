@@ -2,6 +2,7 @@ package com.base.framework.admin.service;
 
 import com.base.framework.admin.model.dto.role.SysRoleAddDTO;
 import com.base.framework.admin.model.dto.role.SysRoleRequestDTO;
+import com.base.framework.admin.model.vo.SysRoleVO;
 import com.base.framework.utils.ResultVo;
 import com.github.pagehelper.PageInfo;
 
@@ -29,5 +30,27 @@ public interface SysRoleService {
      * @param id void
      */
     ResultVo<Boolean> deleteById(String id);
+
+    /**
+     * 角色详情
+     * @param id String
+     * @return SysRoleVO
+     */
+    ResultVo<SysRoleVO> getDetailById(String id);
+
+    /**
+     * 修改角色
+     * @param params SysRoleRequestDTO
+     * @return Boolean
+     */
+    ResultVo<Boolean> update(SysRoleAddDTO params);
+
+
+    /**
+     * 修改角色状态
+     * @param params SysRoleRequestDTO
+     * @return Boolean
+     */
+    ResultVo<Boolean> updateState(SysRoleAddDTO params);
 
 }

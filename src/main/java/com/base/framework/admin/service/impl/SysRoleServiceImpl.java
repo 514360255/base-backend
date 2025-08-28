@@ -10,10 +10,10 @@ import com.base.framework.admin.service.SysRoleService;
 import com.base.framework.common.ErrorCode;
 import com.base.framework.exception.BusinessException;
 import com.base.framework.utils.ResultVo;
-import com.base.framework.utils.SecurityUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -51,11 +51,33 @@ public class SysRoleServiceImpl implements SysRoleService {
 
     @Override
     public ResultVo<Boolean> deleteById(String id) {
+        this.getDetailById(id);
+        sysRoleMapper.deleteById(id);
+        return ResultVo.ok(true);
+    }
+
+    @Override
+    public ResultVo<SysRoleVO> getDetailById(String id) {
         SysRoleEntity sysRoleEntity = sysRoleMapper.getDetailById(id);
         if(sysRoleEntity == null) {
             throw new BusinessException(401, "角色不存在");
         }
-        sysRoleMapper.deleteById(id);
+        SysRoleVO sysRoleVO = new SysRoleVO();
+        BeanUtils.copyProperties(sysRoleEntity, sysRoleVO);
+        return ResultVo.ok(sysRoleVO);
+    }
+
+    @Override
+    public ResultVo<Boolean> update(SysRoleAddDTO params){
+        this.getDetailById(String.valueOf(params.getId()));
+        sysRoleMapper.update(params);
+        return ResultVo.ok(true);
+    }
+
+    @Override
+    public ResultVo<Boolean> updateState(SysRoleAddDTO params){
+        this.getDetailById(String.valueOf(params.getId()));
+        sysRoleMapper.updateState(params);
         return ResultVo.ok(true);
     }
 

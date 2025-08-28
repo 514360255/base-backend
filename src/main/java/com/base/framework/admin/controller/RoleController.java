@@ -2,9 +2,11 @@ package com.base.framework.admin.controller;
 
 import com.base.framework.admin.model.dto.role.SysRoleAddDTO;
 import com.base.framework.admin.model.dto.role.SysRoleRequestDTO;
+import com.base.framework.admin.model.vo.SysRoleVO;
 import com.base.framework.admin.service.SysRoleService;
 import com.base.framework.common.BaseResponse;
 import com.base.framework.common.ResultUtils;
+import com.base.framework.exception.BusinessException;
 import com.base.framework.utils.ResultVo;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -53,5 +55,37 @@ public class RoleController {
     @DeleteMapping("{id}")
     public ResultVo<Boolean> deleteById(@PathVariable("id") String id) {
         return sysRoleService.deleteById(id);
+    }
+
+    /**
+     * 角色详情
+     * @param id String
+     * @return SysRoleVO
+     */
+    @GetMapping("{id}")
+    public ResultVo<SysRoleVO> getDetailById(@PathVariable("id") String id) {
+        return sysRoleService.getDetailById(id);
+    }
+
+    /**
+     * 修改角色
+     * @param params
+     * @return
+     */
+    @PutMapping
+    public ResultVo<Boolean> update(@RequestBody SysRoleAddDTO params) {
+        return sysRoleService.update(params);
+    }
+
+    /**
+     * 修改角色状态
+     * @return ResultVo<Boolean>
+     */
+    @PostMapping("update/state")
+    public ResultVo<Boolean> updateRoleState(@RequestBody SysRoleAddDTO params) {
+        if(params.getId() == null) {
+            throw new BusinessException(500,"角色ID不能为空");
+        }
+        return sysRoleService.updateState(params);
     }
 }

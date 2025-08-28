@@ -23,4 +23,9 @@ public class SysRoleAddDTO extends BaseDTO {
      */
     private String name;
 
+    /**
+     * 角色状态
+     */
+    private int isActive;
+
 }

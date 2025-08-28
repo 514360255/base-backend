@@ -46,4 +46,16 @@ public interface SysRoleMapper extends BaseMapper<BaseDTO> {
      */
     void deleteById(String id);
 
+    /**
+     * 修改角色
+     * @param params SysRoleRequestDTO
+     */
+    void update(SysRoleAddDTO params);
+
+    /**
+     * 修改角色状态
+     * @param params SysRoleRequestDTO
+     */
+    void updateState(SysRoleAddDTO params);
+
 }
