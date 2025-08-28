@@ -33,6 +33,6 @@ public class SysRoleRequestDTO extends PageRequest implements Serializable {
     /**
      * 角色状态
      */
-    private int isActive;
+    private Integer isActive;
 
 }
