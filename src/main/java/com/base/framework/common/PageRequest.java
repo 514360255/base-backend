@@ -30,10 +30,18 @@ public class PageRequest {
      */
     private String sortOrder = CommonConstant.SORT_ORDER_ASC;
 
-    // 在执行查询语句前，会执行一次count统计
+    /**
+     * 在执行查询语句前，会执行一次count统计
+     */
     private boolean count = false;
-    // 如果pageNum<1会查询第一页，如果pageNum>pages（总页数）会查询最后一页
+
+    /**
+     * 如果pageNum<1会查询第一页，如果pageNum>pages（总页数）会查询最后一页
+     */
     private boolean reasonable = false;
-    // 传入参数pageSizeZero （true），那么这时候 传入的 pageSize如果为0，那么就是查询全部
+
+    /**
+     * 传入参数pageSizeZero （true），那么这时候 传入的 pageSize如果为0，那么就是查询全部
+     */
     private boolean pageSizeZero = false;
 }

@@ -60,9 +60,9 @@ CREATE TABLE `medical_appointment`.`sys_role` (
 CREATE TABLE `medical_appointment`.`sys_menu` (
     `id`                      BIGINT                                               PRIMARY KEY COMMENT '主键',
     `name`                    CHAR(255)                   NOT NULL                             COMMENT '名称',
-    `code`                    CHAR(255)                   NOT NULL                             COMMENT '编码',
-    `path`                    VARCHAR(255)                NOT NULL                             COMMENT 'path',
-    `parent_id`               BIGINT                                                           COMMENT '父级ID',
+    `path`                    VARCHAR(255)                                                     COMMENT '树关系路径',
+    `pathname`                VARCHAR(255)                NOT NULL                             COMMENT '组件地址',
+    `parent_id`               BIGINT                               DEFAULT 0                   COMMENT '父级ID',
     `icon`                    VARCHAR(255)                                                     COMMENT 'icon图标',
     `sort_order`              INT                                                              COMMENT '排序',
     `is_show`                 TINYINT(0)                           DEFAULT 1                   COMMENT '是否显示 1:显示，0:不显示',
@@ -71,10 +71,7 @@ CREATE TABLE `medical_appointment`.`sys_menu` (
     `created_at`              DATETIME                    NOT NULL DEFAULT CURRENT_TIMESTAMP   COMMENT '创建时间',
     `created_by`              VARCHAR(50)                 NOT NULL                             COMMENT '创建人',
     `updated_at`              DATETIME                                                         COMMENT '修改时间',
-    `updated_by`              VARCHAR(50)                                                      COMMENT '修改人',
-    `deleted_at`              DATETIME                                                         COMMENT '删除时间',
-    `deleted_by`              VARCHAR(50)                                                      COMMENT '删除人',
-    `is_deleted`              TINYINT(0)                  NOT NULL DEFAULT 1                   COMMENT '标记删除 1:未删除，0:已删除'
+    `updated_by`              VARCHAR(50)                                                      COMMENT '修改人'
 ) COMMENT = '菜单' CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE `medical_appointment`.`sys_role_menu_mapping` (

@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
  **/
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class SysRoleAddDTO extends BaseDTO {
+public class SysRoleFormDTO extends BaseDTO {
 
     /**
      * 角色code

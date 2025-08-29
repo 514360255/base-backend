@@ -2,7 +2,7 @@ package com.base.framework.admin.service.impl;
 
 import cn.hutool.extra.cglib.CglibUtil;
 import com.base.framework.admin.mapper.SysRoleMapper;
-import com.base.framework.admin.model.dto.role.SysRoleAddDTO;
+import com.base.framework.admin.model.dto.role.SysRoleFormDTO;
 import com.base.framework.admin.model.dto.role.SysRoleRequestDTO;
 import com.base.framework.admin.model.entity.SysRoleEntity;
 import com.base.framework.admin.model.vo.SysRoleVO;
@@ -32,7 +32,7 @@ public class SysRoleServiceImpl implements SysRoleService {
     private SysRoleMapper sysRoleMapper;
 
     @Override
-    public ResultVo<Long> save(SysRoleAddDTO sysRoleAddDTO) {
+    public ResultVo save(SysRoleFormDTO sysRoleAddDTO) {
         SysRoleEntity sysRoleEntity = sysRoleMapper.getDetailByCode(sysRoleAddDTO.getCode());
         if(sysRoleEntity != null) {
             throw new BusinessException(ErrorCode.REPEAT_ERROR, ErrorCode.REPEAT_ERROR.getMessage());
@@ -42,11 +42,11 @@ public class SysRoleServiceImpl implements SysRoleService {
     }
 
     @Override
-    public PageInfo queryRoleList(SysRoleRequestDTO params) {
+    public ResultVo queryRoleList(SysRoleRequestDTO params) {
         List<SysRoleEntity> list =
                 PageHelper.startPage(params.getPageNo(), params.getPageSize(), params.isCount(), params.isReasonable(), params.isPageSizeZero())
                         .doSelectPage(() -> sysRoleMapper.queryUserList(params));
-        return new PageInfo<>(CglibUtil.copyList(list, SysRoleVO::new));
+        return ResultVo.ok(new PageInfo<>(CglibUtil.copyList(list, SysRoleVO::new)));
     }
 
     @Override
@@ -60,7 +60,7 @@ public class SysRoleServiceImpl implements SysRoleService {
     public ResultVo<SysRoleVO> getDetailById(String id) {
         SysRoleEntity sysRoleEntity = sysRoleMapper.getDetailById(id);
         if(sysRoleEntity == null) {
-            throw new BusinessException(401, "角色不存在");
+            throw new BusinessException(500, "角色不存在");
         }
         SysRoleVO sysRoleVO = new SysRoleVO();
         BeanUtils.copyProperties(sysRoleEntity, sysRoleVO);
@@ -68,14 +68,14 @@ public class SysRoleServiceImpl implements SysRoleService {
     }
 
     @Override
-    public ResultVo<Boolean> update(SysRoleAddDTO params){
+    public ResultVo<Boolean> update(SysRoleFormDTO params){
         this.getDetailById(String.valueOf(params.getId()));
         sysRoleMapper.update(params);
         return ResultVo.ok(true);
     }
 
     @Override
-    public ResultVo<Boolean> updateState(SysRoleAddDTO params){
+    public ResultVo<Boolean> updateState(SysRoleFormDTO params){
         this.getDetailById(String.valueOf(params.getId()));
         sysRoleMapper.updateState(params);
         return ResultVo.ok(true);

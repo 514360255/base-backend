@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.framework.admin.mapper.SysMenuMapper">
+    <insert id="save" parameterType="com.base.framework.admin.model.entity.SysMenuEntity" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+            sys_menu(id, name, path, pathname, parent_id, icon, sort_order, is_show, type, created_by)
+        VALUES
+            (#{id}, #{name}, #{path}, #{pathname}, #{parentId}, #{icon}, #{sortOrder}, 1, #{type}, #{createdBy})
+    </insert>
+
+    <select id="getDetailByPathname" resultType="com.base.framework.admin.model.entity.SysMenuEntity">
+        SELECT * FROM sys_menu WHERE pathname = #{pathname} AND is_active = 1
+    </select>
+
+    <select id="getDetailById" resultType="com.base.framework.admin.model.entity.SysMenuEntity">
+        SELECT
+            id,
+            name,
+            icon,
+            type,
+            pathname,
+            parent_id AS parentId,
+            is_show AS isShow,
+            sort_order AS sortOrder,
+            is_active AS isActive,
+            created_at AS createdAt,
+            created_by AS createdBy
+        FROM
+            sys_menu
+        WHERE
+            id = #{id}
+    </select>
+
+    <delete id="delete">
+        DELETE FROM sys_menu WHERE id IN
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="update">
+        UPDATE
+            sys_menu
+        SET
+            name = #{name},
+            parent_id = #{parentId},
+            icon = #{icon},
+            type = #{type},
+            is_show = #{isShow},
+            pathname = #{pathname},
+            sort_order = #{sortOrder},
+            is_active = #{isActive},
+            updated_at = now(),
+            updated_by = #{updatedBy}
+        WHERE
+            id = #{id}
+    </update>
+
+    <select id="queryMenuPage" resultType="com.base.framework.admin.model.entity.SysMenuEntity">
+        SELECT
+            id,
+            name,
+            icon,
+            type,
+            pathname,
+            parent_id AS parentId,
+            is_show AS isShow,
+            sort_order AS sortOrder,
+            is_active AS isActive,
+            created_at AS createdAt,
+            created_by AS createdBy
+        FROM
+            sys_menu
+        <where>
+            <if test="name != null and name != ''">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+        </where>
+    </select>
+
+    <update id="updateState">
+        UPDATE sys_menu SET is_active = #{isActive}, updated_by = #{updatedBy}, updated_at = now() WHERE id = #{id}
+    </update>
+
+</mapper>

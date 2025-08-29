@@ -1,14 +1,11 @@
 package com.base.framework.admin.controller;
 
-import com.base.framework.admin.model.dto.role.SysRoleAddDTO;
+import com.base.framework.admin.model.dto.role.SysRoleFormDTO;
 import com.base.framework.admin.model.dto.role.SysRoleRequestDTO;
 import com.base.framework.admin.model.vo.SysRoleVO;
 import com.base.framework.admin.service.SysRoleService;
-import com.base.framework.common.BaseResponse;
-import com.base.framework.common.ResultUtils;
 import com.base.framework.exception.BusinessException;
 import com.base.framework.utils.ResultVo;
-import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,18 +31,18 @@ public class RoleController {
      * @return String
      */
     @PostMapping("save")
-    public ResultVo<Long> save(@RequestBody SysRoleAddDTO sysRoleAddDTO) {
+    public ResultVo save(@RequestBody SysRoleFormDTO sysRoleAddDTO) {
         return sysRoleService.save(sysRoleAddDTO);
     }
 
     /**
      * 角色列表
-     * @param params
-     * @return BaseResponse<PageInfo>
+     * @param params SysRoleRequestDTO
+     * @return ResultVo
      */
     @GetMapping("list")
-    public BaseResponse<PageInfo> list(SysRoleRequestDTO params) {
-        return ResultUtils.success(sysRoleService.queryRoleList(params));
+    public ResultVo list(SysRoleRequestDTO params) {
+        return sysRoleService.queryRoleList(params);
     }
 
     /**
@@ -73,7 +70,7 @@ public class RoleController {
      * @return
      */
     @PutMapping
-    public ResultVo<Boolean> update(@RequestBody SysRoleAddDTO params) {
+    public ResultVo<Boolean> update(@RequestBody SysRoleFormDTO params) {
         return sysRoleService.update(params);
     }
 
@@ -82,7 +79,7 @@ public class RoleController {
      * @return ResultVo<Boolean>
      */
     @PostMapping("update/state")
-    public ResultVo<Boolean> updateRoleState(@RequestBody SysRoleAddDTO params) {
+    public ResultVo<Boolean> updateRoleState(@RequestBody SysRoleFormDTO params) {
         if(params.getId() == null) {
             throw new BusinessException(500,"角色ID不能为空");
         }

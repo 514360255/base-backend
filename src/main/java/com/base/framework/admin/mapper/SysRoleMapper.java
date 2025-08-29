@@ -2,7 +2,7 @@ package com.base.framework.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.base.framework.admin.model.dto.BaseDTO;
-import com.base.framework.admin.model.dto.role.SysRoleAddDTO;
+import com.base.framework.admin.model.dto.role.SysRoleFormDTO;
 import com.base.framework.admin.model.dto.role.SysRoleRequestDTO;
 import com.base.framework.admin.model.entity.SysRoleEntity;
 
@@ -18,7 +18,7 @@ public interface SysRoleMapper extends BaseMapper<BaseDTO> {
     /**
      * 保存角色
      */
-    Long save(SysRoleAddDTO sysRoleAddDTO);
+    Long save(SysRoleFormDTO sysRoleAddDTO);
 
     /**
      * 角色列表
@@ -50,12 +50,12 @@ public interface SysRoleMapper extends BaseMapper<BaseDTO> {
      * 修改角色
      * @param params SysRoleRequestDTO
      */
-    void update(SysRoleAddDTO params);
+    void update(SysRoleFormDTO params);
 
     /**
      * 修改角色状态
      * @param params SysRoleRequestDTO
      */
-    void updateState(SysRoleAddDTO params);
+    void updateState(SysRoleFormDTO params);
 
 }
