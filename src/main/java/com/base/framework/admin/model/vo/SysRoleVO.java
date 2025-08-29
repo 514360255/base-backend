@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 角色
@@ -21,6 +22,11 @@ public class SysRoleVO extends BaseVO implements Serializable {
      * 角色code
      */
     private String code;
+
+    /**
+     * 菜单id
+     */
+    private List<Long> menuIds;
 
 
     private static final long serialVersionUID = 1L;

@@ -9,8 +9,24 @@
         SELECT * FROM sys_role WHERE code = #{code}
     </select>
 
-    <select id="getDetailById" resultType="com.base.framework.admin.model.entity.SysRoleEntity">
-        SELECT id, name, code, is_active AS isActive FROM sys_role WHERE id = #{id}
+    <resultMap id="detailMap" type="com.base.framework.admin.model.entity.SysRoleEntity">
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="code" column="code" />
+        <result property="isActive" column="isActive" />
+        <collection property="menuIds" ofType="java.lang.Long" javaType="java.util.List">
+            <result column="menuId" />
+        </collection>
+    </resultMap>
+
+    <select id="getDetailById" resultMap="detailMap">
+        SELECT
+            sr.id, sr.name, sr.code, sr.is_active AS isActive, mp.menu_id AS menuId
+        FROM
+            sys_role sr
+        LEFT JOIN sys_role_menu_mapping mp ON mp.role_id = sr.id
+        WHERE
+            sr.id = #{id}
     </select>
 
     <delete id="deleteById">

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @Author: 郭郭
@@ -26,5 +27,10 @@ public class SysRoleEntity extends BaseEntity implements Serializable {
      * 角色code
      */
     private String code;
+
+    /**
+     * 菜单
+     */
+    List<Long> menuIds;
 
 }

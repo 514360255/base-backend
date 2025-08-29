@@ -31,7 +31,7 @@ public class RoleController {
      * @return String
      */
     @PostMapping("save")
-    public ResultVo save(@RequestBody SysRoleFormDTO sysRoleAddDTO) {
+    public ResultVo<Long> save(@RequestBody SysRoleFormDTO sysRoleAddDTO) {
         return sysRoleService.save(sysRoleAddDTO);
     }
 

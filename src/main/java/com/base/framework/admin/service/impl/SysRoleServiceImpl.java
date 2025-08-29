@@ -2,6 +2,9 @@ package com.base.framework.admin.service.impl;
 
 import cn.hutool.extra.cglib.CglibUtil;
 import com.base.framework.admin.mapper.SysRoleMapper;
+import com.base.framework.admin.mapper.SysRoleMenuMappingMapper;
+import com.base.framework.admin.model.dto.SysRoleMenuMapping;
+import com.base.framework.admin.model.dto.menu.SysMenuFormDTO;
 import com.base.framework.admin.model.dto.role.SysRoleFormDTO;
 import com.base.framework.admin.model.dto.role.SysRoleRequestDTO;
 import com.base.framework.admin.model.entity.SysRoleEntity;
@@ -15,8 +18,10 @@ import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,14 +36,34 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Resource
     private SysRoleMapper sysRoleMapper;
 
+    @Resource
+    private SysRoleMenuMappingMapper sysRoleMenuMappingMapper;
+
+    private void saveMapping(SysRoleFormDTO params, Long id) {
+
+        List<SysRoleMenuMapping> mappings = new ArrayList<>();
+        params.getMenuIds().forEach(item -> {
+            SysRoleMenuMapping sysRoleMenuMapping = new SysRoleMenuMapping();
+            sysRoleMenuMapping.setMenuId(item);
+            sysRoleMenuMapping.setRoleId(params.getId());
+            mappings.add(sysRoleMenuMapping);
+        });
+        sysRoleMenuMappingMapper.save(mappings);
+    }
+
     @Override
-    public ResultVo save(SysRoleFormDTO sysRoleAddDTO) {
-        SysRoleEntity sysRoleEntity = sysRoleMapper.getDetailByCode(sysRoleAddDTO.getCode());
+    @Transactional
+    public ResultVo<Long> save(SysRoleFormDTO params) {
+        SysRoleEntity sysRoleEntity = sysRoleMapper.getDetailByCode(params.getCode());
         if(sysRoleEntity != null) {
             throw new BusinessException(ErrorCode.REPEAT_ERROR, ErrorCode.REPEAT_ERROR.getMessage());
         }
-        Long id = sysRoleMapper.save(sysRoleAddDTO);
-        return ResultVo.ok(id);
+        sysRoleMapper.save(params);
+        if(params.getId() == null) {
+            throw new BusinessException(500, "角色写入失败");
+        }
+        this.saveMapping(params, params.getId());
+        return ResultVo.ok(params.getId());
     }
 
     @Override
@@ -50,9 +75,11 @@ public class SysRoleServiceImpl implements SysRoleService {
     }
 
     @Override
+    @Transactional
     public ResultVo<Boolean> deleteById(String id) {
         this.getDetailById(id);
         sysRoleMapper.deleteById(id);
+        sysRoleMenuMappingMapper.delete(Long.valueOf(id));
         return ResultVo.ok(true);
     }
 
@@ -68,13 +95,17 @@ public class SysRoleServiceImpl implements SysRoleService {
     }
 
     @Override
+    @Transactional
     public ResultVo<Boolean> update(SysRoleFormDTO params){
         this.getDetailById(String.valueOf(params.getId()));
         sysRoleMapper.update(params);
+        sysRoleMenuMappingMapper.delete(params.getId());
+        this.saveMapping(params, params.getId());
         return ResultVo.ok(true);
     }
 
     @Override
+    @Transactional
     public ResultVo<Boolean> updateState(SysRoleFormDTO params){
         this.getDetailById(String.valueOf(params.getId()));
         sysRoleMapper.updateState(params);

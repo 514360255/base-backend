@@ -57,5 +57,4 @@ public interface SysRoleMapper extends BaseMapper<BaseDTO> {
      * @param params SysRoleRequestDTO
      */
     void updateState(SysRoleFormDTO params);
-
 }

@@ -16,6 +16,7 @@ import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -49,16 +50,18 @@ public class SysMenuServiceImpl implements SysMenuService {
     }
 
     @Override
+    @Transactional
     public ResultVo<Long> save(SysMenuFormDTO params) {
         SysMenuEntity sysMenuEntity = sysMenuMapper.getDetailByPathname(params.getPathname());
         if(sysMenuEntity != null) {
             throw new BusinessException(500, "菜单组件地址重复");
         }
-        Long id = sysMenuMapper.save(params);
-        return ResultVo.ok(id);
+        sysMenuMapper.save(params);
+        return ResultVo.ok(params.getId());
     }
 
     @Override
+    @Transactional
     public ResultVo<Boolean> update(SysMenuFormDTO params) {
         SysMenuEntity sysMenuEntity = sysMenuMapper.getDetailById(params.getId());
         if(sysMenuEntity == null) {
@@ -92,6 +95,9 @@ public class SysMenuServiceImpl implements SysMenuService {
         Set<Long> visited = new HashSet<>();
         List<Long> result = new ArrayList<>();
         collectChildrenIds(list, id, result, visited);
+        if(result.isEmpty()) {
+            result.add(id);
+        }
         sysMenuMapper.delete(result);
         return ResultVo.ok(true);
     }
@@ -108,6 +114,7 @@ public class SysMenuServiceImpl implements SysMenuService {
     }
 
     @Override
+    @Transactional
     public ResultVo<Boolean> updateState(SysMenuFormDTO params) {
         SysMenuEntity sysMenuEntity = sysMenuMapper.getDetailById(params.getId());
         if(sysMenuEntity == null) {

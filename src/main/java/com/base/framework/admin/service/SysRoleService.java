@@ -15,7 +15,7 @@ public interface SysRoleService {
      * 保存角色
      * @return Long
      */
-    ResultVo save(SysRoleFormDTO sysRoleAddDTO);
+    ResultVo<Long> save(SysRoleFormDTO sysRoleAddDTO);
 
     /**
      * 角色分页
