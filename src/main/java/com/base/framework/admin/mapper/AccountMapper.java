@@ -1,7 +1,8 @@
 package com.base.framework.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.base.framework.admin.model.dto.user.UserQueryRequest;
+import com.base.framework.admin.model.dto.user.SysAccountFormDTO;
+import com.base.framework.admin.model.dto.user.SysAccountQueryRequest;
 import com.base.framework.admin.model.entity.SysAccount;
 
 import java.util.List;
@@ -18,7 +19,14 @@ public interface AccountMapper extends BaseMapper<SysAccount> {
      * @param password String
      * @return SysAccount
      */
-    SysAccount selectByAccount(String account, String password);
+    SysAccount getAccountInfo(String account, String password);
+
+    /**
+     * 根据账号查询用户信息
+     * @param account String
+     * @return SysAccount
+     */
+    SysAccount getAccount(String account);
 
     /**
      * 获取用户信息
@@ -32,7 +40,33 @@ public interface AccountMapper extends BaseMapper<SysAccount> {
      * @param et UserQueryRequest
      * @return List<AccountVO></>
      */
-    List<SysAccount> queryUserList(UserQueryRequest et);
+    List<SysAccount> queryUserList(SysAccountQueryRequest et);
+
+    /**
+     * 保存账号
+     * @param params  SysAccountFormDTO
+     * @return SysAccount
+     */
+    Long save(SysAccountFormDTO params);
+
+    /**
+     * 修改账号
+     * @param params  SysAccountFormDTO
+     */
+    void update(SysAccountFormDTO params);
+
+    /**
+     * 修改状态
+     * @param params  SysAccountFormDTO
+     */
+    void updateState(SysAccountFormDTO params);
+
+    /**
+     * 删除账号
+     * @param id Long
+     * @param userName String
+     */
+    void delete(Long id, String userName);
 
 }
 

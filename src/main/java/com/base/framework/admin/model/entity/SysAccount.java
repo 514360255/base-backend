@@ -39,6 +39,11 @@ public class SysAccount extends BaseEntity implements Serializable {
     private String roleCode;
 
     /**
+     * 角色名称
+     */
+    private String roleName;
+
+    /**
      * 密码
      */
     private String password;

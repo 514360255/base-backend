@@ -3,11 +3,13 @@ package com.base.framework.admin.model.vo;
 import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 用户视图（脱敏）
  * @author guojiuling
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class AccountVO extends BaseVO implements Serializable {
 
@@ -69,6 +71,11 @@ public class AccountVO extends BaseVO implements Serializable {
      * 角色Code
      */
     private String roleCode;
+
+    /**
+     * 角色名称
+     */
+    private String roleName;
 
     private static final long serialVersionUID = 1L;
 }

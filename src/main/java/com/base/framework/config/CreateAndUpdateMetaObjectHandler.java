@@ -16,20 +16,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class CreateAndUpdateMetaObjectHandler implements MetaObjectHandler {
 
-    public static String getCurrentUserName() {
-        CustomUserDetailsVO userDetailsVO = SecurityUtils.getCurrentUser();
-        if(userDetailsVO != null && userDetailsVO.getName() != null) {
-            return userDetailsVO.getName();
-        }
-        return null;
-    }
-
-
     @Override
     public void insertFill(MetaObject metaObject) {
         try {
             log.info("insertFill...");
-            this.strictInsertFill(metaObject, "createdBy", String.class, getCurrentUserName());
+            this.strictInsertFill(metaObject, "createdBy", String.class, SecurityUtils.getCurrentUsername());
         }catch (Exception e) {
             e.printStackTrace();
             System.out.println("自动注入失败：{}" + e.getMessage());
@@ -40,7 +31,7 @@ public class CreateAndUpdateMetaObjectHandler implements MetaObjectHandler {
     public void updateFill(MetaObject metaObject) {
         try {
             log.info("updateFill...");
-            this.strictUpdateFill(metaObject, "updatedBy", String.class, getCurrentUserName());
+            this.strictUpdateFill(metaObject, "updatedBy", String.class, SecurityUtils.getCurrentUsername());
         }catch (Exception e) {
             e.printStackTrace();
             System.out.println("自动注入失败：{}" + e.getMessage());

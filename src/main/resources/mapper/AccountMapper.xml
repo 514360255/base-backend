@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.base.framework.admin.mapper.AccountMapper">
-    <select id="selectByAccount" resultType="com.base.framework.admin.model.entity.SysAccount">
+
+    <insert id="save" parameterType="com.base.framework.admin.model.entity.SysAccount" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sys_account (id, name, account, mobile, email, role_code, is_active, password, created_by)
+        VALUES (#{id}, #{name}, #{account}, #{mobile}, #{email}, #{roleCode}, #{isActive}, #{password}, #{createdBy})
+    </insert>
+
+    <select id="getAccountInfo" resultType="com.base.framework.admin.model.entity.SysAccount">
         SELECT
             id, name, account, mobile, email, role_code AS roleCode, created_by AS createdBy, created_at AS createdAt
         FROM sys_account WHERE account = #{account} AND password = #{password} AND is_deleted = 1 AND deleted_at IS NULL AND is_active = 1
     </select>
 
+    <select id="getAccount" resultType="com.base.framework.admin.model.entity.SysAccount">
+        SELECT
+            id
+        FROM sys_account WHERE account = #{account} AND is_deleted = 1 AND deleted_at IS NULL AND is_active = 1
+    </select>
+
     <select id="getUserInfoById" resultType="com.base.framework.admin.model.entity.SysAccount">
         SELECT
-            id, name, account, mobile, email, role_code AS roleCode, created_by AS createdBy, created_at AS createdAt
+            id, name, account, mobile, email, password, role_code AS roleCode, is_active AS isActive, created_by AS createdBy, created_at AS createdAt
         FROM sys_account WHERE id = #{id} AND is_deleted = 1 AND deleted_at IS NULL AND is_active = 1
     </select>
 
@@ -29,8 +41,8 @@
         LEFT JOIN sys_role sr ON sa.role_code = sr.code
         <where>
             sa.is_deleted = 1 AND sa.deleted_at IS NULL AND sa.role_code != 'SUPER_ADMIN'
-            <if test="keyword != '' and keyword != null">
-                AND sa.account LIKE CONCAT('%', #{account}, '%')
+            <if test="name != '' and name != null">
+                AND sa.name LIKE CONCAT('%', #{name}, '%')
             </if>
             <if test="isActive != '' and isActive != null">
                 AND sa.is_active = #{isActive}
@@ -40,5 +52,34 @@
             </if>
         </where>
     </select>
+
+    <update id="delete">
+        UPDATE sys_account SET is_deleted = 0, deleted_at = now(), deleted_by = #{userName} WHERE id = #{id}
+    </update>
+
+    <update id="update">
+        UPDATE
+            sys_account
+        SET
+            name = #{name},
+            mobile = #{mobile},
+            role_code = #{roleCode},
+            is_active = #{isActive},
+            password = #{password},
+            updated_at = now(),
+            updated_by = #{updatedBy}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateState">
+        UPDATE
+            sys_account
+        SET
+            is_active = #{isActive},
+            updated_at = now(),
+            updated_by = #{updatedBy}
+        WHERE
+            id = #{id}
+    </update>
 
 </mapper>

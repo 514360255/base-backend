@@ -7,10 +7,11 @@ import lombok.EqualsAndHashCode;
 
 /**
  * 用户查询请求
+ * @author guojiuling
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class UserQueryRequest extends PageRequest implements Serializable {
+public class SysAccountQueryRequest extends PageRequest implements Serializable {
     /**
      * id
      */
@@ -47,7 +48,7 @@ public class UserQueryRequest extends PageRequest implements Serializable {
     /**
      * 关键词
      */
-    private String keyword;
+    private String name;
 
     /**
      * 角色code
@@ -57,7 +58,7 @@ public class UserQueryRequest extends PageRequest implements Serializable {
     /**
      * 状态
      */
-    private int isActive;
+    private Long isActive;
 
     private static final long serialVersionUID = 1L;
 }
