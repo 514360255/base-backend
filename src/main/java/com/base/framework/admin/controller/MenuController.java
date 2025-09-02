@@ -34,6 +34,15 @@ public class MenuController {
     }
 
     /**
+     * 根据角色查询菜单
+     * @return
+     */
+    @GetMapping("list")
+    public ResultVo queryMenuListByRoleCode() {
+        return sysMenuService.queryMenuListByRoleCode();
+    }
+
+    /**
      * 保存菜单
      * @param params SysMenuFormDTO
      * @return ResultVo
@@ -63,14 +72,34 @@ public class MenuController {
         return sysMenuService.delete(id);
     }
 
+    /**
+     * 菜单详情
+     * @param id Long
+     * @return ResultVo<SysMenuVO>
+     */
     @GetMapping("{id}")
     public ResultVo<SysMenuVO> getDetailById(@PathVariable("id") Long id) {
         return sysMenuService.getDetailById(id);
     }
 
+    /**
+     * 修改状态
+     * @param params SysMenuFormDTO
+     * @return ResultVo<Boolean>
+     */
     @PostMapping("update/state")
     public ResultVo<Boolean> updateState(@RequestBody SysMenuFormDTO params) {
         return sysMenuService.updateState(params);
+    }
+
+    /**
+     * 修改显示隐藏
+     * @param params SysMenuFormDTO
+     * @return ResultVo<Boolean>
+     */
+    @PostMapping("update/show")
+    public ResultVo<Boolean> updateShow(@RequestBody SysMenuFormDTO params) {
+        return sysMenuService.updateShow(params);
     }
 
 }

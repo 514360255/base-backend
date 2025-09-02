@@ -24,4 +24,11 @@ public interface SysRoleMenuMappingMapper extends BaseMapper<BaseDTO> {
      * @param id Long
      */
     void delete(Long id);
+
+    /**
+     * 根据角色id获取菜单id
+     * @param roleId Long
+     * @return List<Long>
+     */
+    List<Long> getMenuIds(Long roleId);
 }

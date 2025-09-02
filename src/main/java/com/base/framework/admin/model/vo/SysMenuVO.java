@@ -46,6 +46,11 @@ public class SysMenuVO extends BaseVO implements Serializable {
     private int type;
 
     /**
+     * 是否显示
+     */
+    private int isShow;
+
+    /**
      * 树形结构
      */
     private List<SysMenuVO> children;

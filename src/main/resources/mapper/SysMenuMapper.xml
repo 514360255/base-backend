@@ -5,7 +5,7 @@
         INSERT INTO
             sys_menu(id, name, path, pathname, parent_id, icon, sort_order, is_show, type, created_by)
         VALUES
-            (#{id}, #{name}, #{path}, #{pathname}, #{parentId}, #{icon}, #{sortOrder}, 1, #{type}, #{createdBy})
+            (#{id}, #{name}, #{path}, #{pathname}, #{parentId}, #{icon}, #{sortOrder}, #{isShow}, #{type}, #{createdBy})
     </insert>
 
     <select id="getDetailByPathname" resultType="com.base.framework.admin.model.entity.SysMenuEntity">
@@ -23,6 +23,7 @@
             is_show AS isShow,
             sort_order AS sortOrder,
             is_active AS isActive,
+            is_show AS isShow,
             created_at AS createdAt,
             created_by AS createdBy
         FROM
@@ -50,6 +51,7 @@
             pathname = #{pathname},
             sort_order = #{sortOrder},
             is_active = #{isActive},
+            is_show = #{isShow},
             updated_at = now(),
             updated_by = #{updatedBy}
         WHERE
@@ -67,6 +69,7 @@
             is_show AS isShow,
             sort_order AS sortOrder,
             is_active AS isActive,
+            is_show AS isShow,
             created_at AS createdAt,
             created_by AS createdBy
         FROM
@@ -81,5 +84,31 @@
     <update id="updateState">
         UPDATE sys_menu SET is_active = #{isActive}, updated_by = #{updatedBy}, updated_at = now() WHERE id = #{id}
     </update>
+
+    <update id="updateShow">
+        UPDATE sys_menu SET is_show = #{isShow}, updated_by = #{updatedBy}, updated_at = now() WHERE id = #{id}
+    </update>
+
+    <select id="getMenusByIds" resultType="com.base.framework.admin.model.entity.SysMenuEntity">
+        SELECT
+            id,
+            name,
+            icon,
+            type,
+            pathname,
+            parent_id AS parentId,
+            is_show AS isShow,
+            sort_order AS sortOrder
+        FROM
+            sys_menu
+        WHERE
+            is_active = 1
+        <if test="roleCode != 'SUPER_ADMIN'">
+            AND id IN
+            <foreach collection="list" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+    </select>
 
 </mapper>

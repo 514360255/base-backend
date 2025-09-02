@@ -2,15 +2,20 @@ package com.base.framework.admin.service.impl;
 
 import cn.hutool.extra.cglib.CglibUtil;
 import com.base.framework.admin.mapper.SysMenuMapper;
+import com.base.framework.admin.mapper.SysRoleMapper;
+import com.base.framework.admin.mapper.SysRoleMenuMappingMapper;
 import com.base.framework.admin.model.dto.menu.SysMenuFormDTO;
 import com.base.framework.admin.model.dto.menu.SysMenuRequestDTO;
 import com.base.framework.admin.model.entity.SysMenuEntity;
+import com.base.framework.admin.model.entity.SysRoleEntity;
+import com.base.framework.admin.model.vo.CustomUserDetailsVO;
 import com.base.framework.admin.model.vo.SysMenuVO;
 import com.base.framework.admin.model.vo.SysRoleVO;
 import com.base.framework.admin.service.SysMenuService;
 import com.base.framework.exception.BusinessException;
 import com.base.framework.utils.MenuTreeUtil;
 import com.base.framework.utils.ResultVo;
+import com.base.framework.utils.SecurityUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -19,10 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @Author: 郭郭
@@ -36,6 +38,12 @@ public class SysMenuServiceImpl implements SysMenuService {
     @Resource
     SysMenuMapper sysMenuMapper;
 
+    @Resource
+    SysRoleMapper sysRoleMapper;
+
+    @Resource
+    SysRoleMenuMappingMapper sysRoleMenuMappingMapper;
+
     private List<SysMenuEntity> queryMenuList(SysMenuRequestDTO params) {
         List<SysMenuEntity> list =
                 PageHelper.startPage(params.getPageNo(), params.getPageSize(), params.isCount(), params.isReasonable(), params.isPageSizeZero())
@@ -47,6 +55,35 @@ public class SysMenuServiceImpl implements SysMenuService {
     public ResultVo queryMenuPage(SysMenuRequestDTO params) {
         List<SysMenuVO> sysRoleVOList = CglibUtil.copyList(this.queryMenuList(params), SysMenuVO::new);
         return ResultVo.ok(new PageInfo<>(MenuTreeUtil.buildTree(sysRoleVOList)));
+    }
+
+    @Override
+    public ResultVo queryMenuListByRoleCode() {
+        CustomUserDetailsVO customUserDetailsVO = SecurityUtils.getCurrentUser();
+        if(customUserDetailsVO == null) {
+            throw  new BusinessException(500, "账号未登录");
+        }
+        List<SysMenuVO> sysRoleVOList;
+        if(Objects.equals(customUserDetailsVO.getRoleCode(), "SUPER_ADMIN")) {
+            List<SysMenuEntity> sysRoleEntities = sysMenuMapper.getMenusByIds(new ArrayList<>(), customUserDetailsVO.getRoleCode());
+            sysRoleVOList = CglibUtil.copyList(sysRoleEntities, SysMenuVO::new);
+        }else {
+            SysRoleEntity sysRoleEntity = sysRoleMapper.getDetailByCode(customUserDetailsVO.getRoleCode());
+            if(sysRoleEntity == null) {
+                throw  new BusinessException(500, "角色不存在");
+            }
+            List<Long> menuIds = sysRoleMenuMappingMapper.getMenuIds(sysRoleEntity.getId());
+            if(menuIds == null) {
+                return ResultVo.ok(new ArrayList<>());
+            }
+            List<SysMenuEntity> sysRoleEntities = sysMenuMapper.getMenusByIds(menuIds, customUserDetailsVO.getRoleCode());
+            if(sysRoleEntities == null) {
+                return ResultVo.ok(new ArrayList<>());
+            }
+            sysRoleVOList = CglibUtil.copyList(sysRoleEntities, SysMenuVO::new);
+        }
+
+        return ResultVo.ok(MenuTreeUtil.buildTree(sysRoleVOList));
     }
 
     @Override
@@ -121,6 +158,17 @@ public class SysMenuServiceImpl implements SysMenuService {
             throw new BusinessException(500, "菜单不存在");
         }
         sysMenuMapper.updateState(params);
+        return ResultVo.ok(true);
+    }
+
+    @Override
+    @Transactional
+    public ResultVo<Boolean> updateShow(SysMenuFormDTO params) {
+        SysMenuEntity sysMenuEntity = sysMenuMapper.getDetailById(params.getId());
+        if(sysMenuEntity == null) {
+            throw new BusinessException(500, "菜单不存在");
+        }
+        sysMenuMapper.updateShow(params);
         return ResultVo.ok(true);
     }
 

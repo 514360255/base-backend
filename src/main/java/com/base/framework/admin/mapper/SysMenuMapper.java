@@ -60,4 +60,18 @@ public interface SysMenuMapper extends BaseMapper<BaseDTO> {
      */
     void updateState(SysMenuFormDTO params);
 
+    /**
+     * 修改菜单显示状态
+     * @param params SysRoleRequestDTO
+     */
+    void updateShow(SysMenuFormDTO params);
+
+    /**
+     * 查询菜单
+     * @param ids List<Long>
+     * @param roleCode String
+     * @return List<SysMenuEntity>
+     */
+    List<SysMenuEntity> getMenusByIds(@Param("list") List<Long> ids, @Param("roleCode") String roleCode);
+
 }

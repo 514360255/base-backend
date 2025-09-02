@@ -20,6 +20,12 @@ public interface SysMenuService {
     ResultVo queryMenuPage(SysMenuRequestDTO params);
 
     /**
+     * 根据角色获取菜单列表
+     * @return ResultVo
+     */
+    ResultVo queryMenuListByRoleCode();
+
+    /**
      * 保存菜单
      * @param params SysMenuFormDTO
      * @return ResultVo<Long>
@@ -53,4 +59,11 @@ public interface SysMenuService {
      * @return  ResultVo<Boolean>
      */
     ResultVo<Boolean> updateState(SysMenuFormDTO id);
+
+    /**
+     * 修改菜单显示状态
+     * @param id Long
+     * @return  ResultVo<Boolean>
+     */
+    ResultVo<Boolean> updateShow(SysMenuFormDTO id);
 }
