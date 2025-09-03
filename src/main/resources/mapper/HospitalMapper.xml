@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.framework.admin.mapper.HospitalMapper">
+
+    <insert id="save" parameterType="com.base.framework.admin.model.entity.HospitalEntity" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+            m_hospital(id, name, code, description, address, department, account_id, is_active, created_by)
+        VALUES
+            (#{id}, #{name}, #{code}, #{description}, #{address}, #{department}, #{accountId}, #{isActive}, #{createdBy})
+    </insert>
+
+    <select id="queryHospitalPage" resultType="com.base.framework.admin.model.entity.HospitalEntity">
+        SELECT
+            id,
+            name,
+            code,
+            department,
+            is_active AS isActive,
+            created_at AS createdAt,
+            created_by AS createdBy
+        FROM
+            m_hospital
+        <where>
+            is_deleted = 1 AND deleted_at IS NULL
+            <if test="name != null and name != ''">
+                AND `name` LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="isActive != null">
+                AND is_active = #{isActive}
+            </if>
+            <if test="accountId != null and accountId != ''">
+                AND account_id = #{accountId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getHospitalDetail" resultType="com.base.framework.admin.model.entity.HospitalEntity">
+        SELECT
+            id,
+            name,
+            code,
+            department,
+            address,
+            description,
+            is_active AS isActive,
+            created_at AS createdAt,
+            created_by AS createdBy
+        FROM
+            m_hospital
+        WHERE
+            code = #{code} OR id = #{id}
+    </select>
+
+    <update id="deleteHospital">
+        UPDATE
+            m_hospital
+        SET
+            deleted_by = #{createdBy},
+            deleted_at = now(),
+            is_deleted = 0
+        WHERE
+            id = #{id}
+    </update>
+
+    <update id="updateState">
+        UPDATE
+            m_hospital
+        SET
+            updated_by = #{updatedBy},
+            updated_at = now(),
+            is_active = #{isActive}
+        WHERE
+            id = #{id}
+    </update>
+
+    <update id="update">
+        UPDATE
+            m_hospital
+        SET
+            name = #{name},
+            address = #{address},
+            department = #{department},
+            description = #{description},
+            updated_by = #{updatedBy},
+            updated_at = now(),
+            is_active = #{isActive}
+        WHERE
+            id = #{id}
+    </update>
+
+</mapper>

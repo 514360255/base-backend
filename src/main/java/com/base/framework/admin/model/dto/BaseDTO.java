@@ -42,6 +42,12 @@ public class BaseDTO implements Serializable {
     private String deletedBy;
 
     /**
+     * 账号id
+     */
+    @TableField(fill = FieldFill.INSERT)
+    private Long accountId;
+
+    /**
      * 是否删除
      */
     private int isDelete;

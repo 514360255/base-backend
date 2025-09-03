@@ -41,6 +41,11 @@ public class SecurityUtils {
         return user != null ? user.getName() : null;
     }
 
+    public static String getRoleCode() {
+        CustomUserDetailsVO user = getCurrentUser();
+        return user != null ? user.getRoleCode() : null;
+    }
+
     public static Long getCurrentUserId() {
         CustomUserDetailsVO user = getCurrentUser();
         return user != null ? user.getId() : null;

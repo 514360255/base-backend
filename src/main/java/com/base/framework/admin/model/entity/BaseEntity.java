@@ -59,6 +59,11 @@ public class BaseEntity implements Serializable {
      */
     private int isDelete;
 
+    /**
+     * 账号id
+     */
+    private Long accountId;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

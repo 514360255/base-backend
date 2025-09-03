@@ -10,7 +10,6 @@ import com.base.framework.admin.model.entity.SysMenuEntity;
 import com.base.framework.admin.model.entity.SysRoleEntity;
 import com.base.framework.admin.model.vo.CustomUserDetailsVO;
 import com.base.framework.admin.model.vo.SysMenuVO;
-import com.base.framework.admin.model.vo.SysRoleVO;
 import com.base.framework.admin.service.SysMenuService;
 import com.base.framework.exception.BusinessException;
 import com.base.framework.utils.MenuTreeUtil;

@@ -21,6 +21,7 @@ public class CreateAndUpdateMetaObjectHandler implements MetaObjectHandler {
         try {
             log.info("insertFill...");
             this.strictInsertFill(metaObject, "createdBy", String.class, SecurityUtils.getCurrentUsername());
+            this.strictInsertFill(metaObject, "accountId", Long.class, SecurityUtils.getCurrentUserId());
         }catch (Exception e) {
             e.printStackTrace();
             System.out.println("自动注入失败：{}" + e.getMessage());

@@ -80,7 +80,7 @@ CREATE TABLE `medical_appointment`.`sys_role_menu_mapping` (
     `role_id`                 BIGINT                                                           COMMENT '角色ID'
 ) COMMENT = '角色菜单关联' CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
-CREATE TABLE `medical_appointment`.`m_medical_appointment_hospital` (
+CREATE TABLE `medical_appointment`.`m_hospital` (
     `id`                      BIGINT                                               PRIMARY KEY COMMENT '主键',
     `name`                    VARCHAR(255)                NOT NULL                             COMMENT '医院名称',
     `code`                    VARCHAR(255)                NOT NULL                             COMMENT '医院编码唯一',
@@ -98,7 +98,7 @@ CREATE TABLE `medical_appointment`.`m_medical_appointment_hospital` (
     `is_deleted`              TINYINT(0)                  NOT NULL DEFAULT 1                   COMMENT '标记删除 1:未删除，0:已删除'
 ) COMMENT = '医院信息' CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
-CREATE TABLE `medical_appointment`.`m_medical_appointment_order` (
+CREATE TABLE `medical_appointment`.`m_order` (
     `id`                      BIGINT                                               PRIMARY KEY COMMENT '主键',
     `hospital_id`             VARCHAR(255)               NOT NULL                              COMMENT '医院id',
     `title`                   VARCHAR(255)               NOT NULL                              COMMENT '标题',
