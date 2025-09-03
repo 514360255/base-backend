@@ -53,6 +53,21 @@ public class AccountVO extends BaseVO implements Serializable {
     private String name;
 
     /**
+     * 上级姓名
+     */
+    private String parentName;
+
+    /**
+     * 医院名称
+     */
+    private String hospitalName;
+
+    /**
+     * 医院id
+     */
+    private Long hospitalId;
+
+    /**
      * 账号
      */
     private String account;

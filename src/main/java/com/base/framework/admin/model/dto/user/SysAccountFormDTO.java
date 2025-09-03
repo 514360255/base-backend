@@ -2,6 +2,7 @@ package com.base.framework.admin.model.dto.user;
 
 import com.base.framework.admin.model.dto.BaseDTO;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
@@ -10,8 +11,19 @@ import java.io.Serializable;
  * @Create: 2025/8/29
  * @Description:
  **/
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class SysAccountFormDTO extends BaseDTO implements Serializable {
+
+    /**
+     * 上级id
+     */
+    private Long parentId;
+
+    /**
+     * 医院id
+     */
+    private Long hospitalId;
 
     /**
      * 用户名

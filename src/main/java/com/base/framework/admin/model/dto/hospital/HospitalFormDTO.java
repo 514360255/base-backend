@@ -1,7 +1,5 @@
 package com.base.framework.admin.model.dto.hospital;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.base.framework.admin.model.dto.BaseDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -17,6 +17,7 @@ import com.base.framework.admin.model.vo.AccountVO;
 import com.base.framework.admin.service.AccountService;
 import com.base.framework.utils.JwtTokenUtils;
 import java.util.List;
+import java.util.Objects;
 import javax.annotation.Resource;
 
 import com.base.framework.utils.ResultVo;
@@ -91,6 +92,9 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, SysAccount> i
 
     @Override
     public PageInfo queryUserList(SysAccountQueryRequest params) {
+        if(!SecurityUtils.isSuperAdmin()){
+            params.setParentId(SecurityUtils.getCurrentUserId());
+        }
         List<SysAccount> list = PageHelper
                 .startPage(params.getPageNo(), params.getPageSize(), params.isCount(), params.isReasonable(), params.isPageSizeZero())
                 .doSelectPage(() -> accountMapper.queryUserList(params));
@@ -122,6 +126,9 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, SysAccount> i
     @Transactional
     public ResultVo<Boolean> delete(Long id) {
         this.getUserInfoById(id);
+        if(Objects.equals(SecurityUtils.getCurrentUserId(), id)) {
+            throw new BusinessException(500, "删除是自己的账号");
+        }
         String userName = SecurityUtils.getCurrentUsername();
         accountMapper.delete(id, userName);
 
@@ -146,6 +153,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, SysAccount> i
         if(params.getPassword() == null) {
             params.setPassword("123456");
         }
+        params.setParentId(SecurityUtils.getCurrentUserId());
         String encryptPassword = DigestUtils.md5DigestAsHex((SALT + params.getPassword()).getBytes());
         params.setPassword(encryptPassword);
         accountMapper.save(params);

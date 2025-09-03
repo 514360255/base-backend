@@ -14,6 +14,26 @@ import lombok.Data;
 public class SysAccount extends BaseEntity implements Serializable {
 
     /**
+     * 上级Id
+     */
+    private Long parentId;
+
+    /**
+     * 上级姓名
+     */
+    private String parentName;
+
+    /**
+     * 医院名称
+     */
+    private String hospitalName;
+
+    /**
+     * 医院id
+     */
+    private Long hospitalId;
+
+    /**
      * 姓名
      */
     private String name;

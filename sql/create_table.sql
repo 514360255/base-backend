@@ -32,6 +32,8 @@ CREATE TABLE `medical_appointment`.`sys_account` (
     `id`                      BIGINT                                               PRIMARY KEY COMMENT '主键',
     `name`                    CHAR(20)                    NOT NULL                             COMMENT '姓名',
     `account`                 VARCHAR(255)                NOT NULL                             COMMENT '账号',
+    `parent_id`               BIGINT                                                           COMMENT '上级id',
+    `hospital_id`             BIGINT                                                           COMMENT '医院id',
     `mobile`                  VARCHAR(50)                 NOT NULL                             COMMENT '手机号',
     `email`                   VARCHAR(255)                NOT NULL                             COMMENT '邮箱 多个邮箱用 ";" 隔开',
     `role_code`               VARCHAR(50)                 NOT NULL                             COMMENT '角色ID',

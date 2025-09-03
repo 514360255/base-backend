@@ -60,5 +60,10 @@ public class SysAccountQueryRequest extends PageRequest implements Serializable 
      */
     private Long isActive;
 
+    /**
+     * 上级id
+     */
+    private Long parentId;
+
     private static final long serialVersionUID = 1L;
 }
