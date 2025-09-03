@@ -21,7 +21,7 @@ import static com.base.framework.constant.RouteConstant.ADMIN_PREFIX;
 @RestController
 @RequestMapping(ADMIN_PREFIX + "/role")
 @Slf4j
-public class RoleController {
+public class SysRoleController {
 
     @Resource
     private SysRoleService sysRoleService;

@@ -125,17 +125,22 @@ public class SysMenuServiceImpl implements SysMenuService {
     }
 
     @Override
+    @Transactional
     public ResultVo<Boolean> delete(Long id) {
         SysMenuRequestDTO sysMenuRequestDTO = new SysMenuRequestDTO();
         List<SysMenuEntity> list = this.queryMenuList(sysMenuRequestDTO);
         // 防止重复
         Set<Long> visited = new HashSet<>();
-        List<Long> result = new ArrayList<>();
-        collectChildrenIds(list, id, result, visited);
-        if(result.isEmpty()) {
-            result.add(id);
+        List<Long> ids = new ArrayList<>();
+        collectChildrenIds(list, id, ids, visited);
+        if(ids.isEmpty()) {
+            ids.add(id);
         }
-        sysMenuMapper.delete(result);
+        // 删除菜单
+        sysMenuMapper.delete(ids);
+
+        // 删除角色和菜单关系
+        sysRoleMenuMappingMapper.deleteRoleMenuMapping(ids);
         return ResultVo.ok(true);
     }
 
