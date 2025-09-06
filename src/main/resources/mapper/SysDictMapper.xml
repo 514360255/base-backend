@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.framework.admin.mapper.SysDictMapper">
+
+    <insert id="save" parameterType="com.base.framework.admin.model.entity.SysDictEntity" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+            sys_dict(id, parent_id, account_id, name, remark, sort_order, is_active, created_by)
+        VALUES
+            (#{id}, #{parentId}, #{accountId}, #{name}, #{remark}, #{sortOrder}, #{isActive}, #{createdBy})
+    </insert>
+
+    <select id="dictDetailByName" resultType="com.base.framework.admin.model.entity.SysDictEntity">
+        SELECT * FROM sys_dict WHERE name = #{name} AND parent_id = #{id}
+    </select>
+
+    <select id="queryDictPage"  resultType="com.base.framework.admin.model.entity.SysDictEntity">
+        SELECT
+            sd.name,
+            sd.remark,
+            sd.id,
+        sd.parent_id AS parentId,
+            sd.sort_order AS sortOrder,
+            sd.is_active AS isActive,
+            sd.created_at AS createdAt,
+            sd.created_by AS createdBy,
+            di.name As parentName
+        FROM
+            sys_dict sd
+        LEFT JOIN sys_dict di ON sd.parent_id = di.id
+        <where>
+            <if test="isActive != null">
+                AND sd.is_active = #{isActive}
+            </if>
+            <if test="name != null and name != ''">
+                AND sd.name LIKE CONCAT('%', #{name}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getDictById" resultType="com.base.framework.admin.model.entity.SysDictEntity">
+        SELECT
+            name,
+            remark,
+            id,
+            parent_id AS parentId,
+            sort_order AS sortOrder,
+            is_active AS isActive,
+            created_at AS createdAt,
+            created_by AS createdBy
+        FROM
+            sys_dict
+        WHERE
+            id = #{id}
+    </select>
+
+    <delete id="delete">
+        DELETE FROM sys_dict WHERE id IN
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="update">
+        UPDATE
+            sys_dict
+        SET
+            name = #{name},
+            sort_order = #{sortOrder},
+            parent_id = #{parentId},
+            remark = #{remark},
+            is_active = #{isActive},
+            account_id = #{accountId}
+        WHERE
+            id = #{id}
+    </update>
+
+    <update id="updateState">
+        UPDATE
+            sys_dict
+        SET
+            is_active = #{isActive}
+        WHERE
+            id = #{id}
+    </update>
+
+</mapper>

@@ -100,16 +100,16 @@ CREATE TABLE `medical_appointment`.`m_hospital` (
     `is_deleted`              TINYINT(0)                  NOT NULL DEFAULT 1                   COMMENT '标记删除 1:未删除，0:已删除'
 ) COMMENT = '医院信息' CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
-CREATE TABLE `medical_appointment`.`m_order` (
+CREATE TABLE `medical_appointment`.`m_appointment_order` (
     `id`                      BIGINT                                               PRIMARY KEY COMMENT '主键',
-    `hospital_id`             VARCHAR(255)               NOT NULL                              COMMENT '医院id',
-    `title`                   VARCHAR(255)               NOT NULL                              COMMENT '标题',
+    `hospital_id`             BIGINT                     NOT NULL                              COMMENT '医院id',
+    `name`                    VARCHAR(50)                NOT NULL                              COMMENT '姓名',
     `age`                     INT                        NOT NULL                              COMMENT '年龄',
     `mobile`                  VARCHAR(20)                NOT NULL                              COMMENT '手机号',
     `appointment_time`        DATETIME                   NOT NULL                              COMMENT '预约时间',
     `disease`                 VARCHAR(100)               NOT NULL                              COMMENT '诊疗疾病',
     `remark`                  VARCHAR(255)                                                     COMMENT '备注',
-    `account_id`              VARCHAR(255)                                                     COMMENT '用户ID',
+    `account_id`              VARCHAR(255)                                                     COMMENT '账号ID',
     `write_off`               TINYINT(0)                 NOT NULL DEFAULT 1                    COMMENT '核销 1:已核销 0:未核销',
     `created_at`              DATETIME                   NOT NULL DEFAULT CURRENT_TIMESTAMP    COMMENT '创建时间',
     `created_by`              VARCHAR(50)                NOT NULL                              COMMENT '创建人',
@@ -123,15 +123,14 @@ CREATE TABLE `medical_appointment`.`m_order` (
 
 CREATE TABLE `medical_appointment`.`sys_dict` (
     `id`                      BIGINT                                               PRIMARY KEY COMMENT '主键',
-    `category`                VARCHAR(100)               NOT NULL                              COMMENT '字典分类',
-    `code`                    VARCHAR(50)                NOT NULL                              COMMENT '字典编码',
-    `remark`                  VARCHAR(255)               NOT NULL                              COMMENT '备注',
-    `sort_order`              INT                        NOT NULL                              COMMENT '排序',
+    `parent_id`               BIGINT                                                           COMMENT '上级id',
+    `account_id`              BIGINT                                                           COMMENT '账号id',
+    `name`                    VARCHAR(100)               NOT NULL                              COMMENT '字典名',
+    `remark`                  VARCHAR(255)                                                     COMMENT '备注',
+    `sort_order`              INT                                                              COMMENT '排序',
     `is_active`               TINYINT(0)                 NOT NULL DEFAULT 1                    COMMENT '状态 1:启用，0:禁用',
     `created_at`              DATETIME                   NOT NULL DEFAULT CURRENT_TIMESTAMP    COMMENT '创建时间',
-    `created_by`              VARCHAR(50)                NOT NULL                              COMMENT '创建人',
-    `updated_at`              DATETIME                                                         COMMENT '修改时间',
-    `updated_by`              VARCHAR(50)                                                      COMMENT '修改人'
+    `created_by`              VARCHAR(50)                NOT NULL                              COMMENT '创建人'
 ) COMMENT = '字典' CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 INSERT INTO `medical_appointment`.`sys_account`
