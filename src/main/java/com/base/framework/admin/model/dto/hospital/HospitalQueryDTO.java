@@ -30,4 +30,9 @@ public class HospitalQueryDTO extends PageRequest implements Serializable {
      */
     private Long accountId;
 
+    /**
+     * 科室id
+     */
+    private Long department;
+
 }

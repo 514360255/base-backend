@@ -32,7 +32,12 @@ public class HospitalVO extends BaseVO {
     private String address;
 
     /**
-     * 医院科室
+     * 医院科室id
+     */
+    private String departmentId;
+
+    /**
+     * 医院科室名称
      */
     private String department;
 

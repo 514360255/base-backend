@@ -18,7 +18,7 @@
             sd.name,
             sd.remark,
             sd.id,
-        sd.parent_id AS parentId,
+            sd.parent_id AS parentId,
             sd.sort_order AS sortOrder,
             sd.is_active AS isActive,
             sd.created_at AS createdAt,
@@ -35,6 +35,22 @@
                 AND sd.name LIKE CONCAT('%', #{name}, '%')
             </if>
         </where>
+    </select>
+
+    <select id="queryFirstLevelList"  resultType="com.base.framework.admin.model.entity.SysDictEntity">
+        SELECT
+            sd.name,
+            sd.remark,
+            sd.id,
+            sd.parent_id AS parentId,
+            sd.sort_order AS sortOrder,
+            sd.is_active AS isActive,
+            sd.created_at AS createdAt,
+            sd.created_by AS createdBy
+        FROM
+            sys_dict sd
+        WHERE
+            sd.parent_id IS NULL OR sd.parent_id = 0
     </select>
 
     <select id="getDictById" resultType="com.base.framework.admin.model.entity.SysDictEntity">

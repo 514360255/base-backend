@@ -35,6 +35,15 @@ public class SysDictController {
     }
 
     /**
+     * 获取一级字典列表
+     * @return
+     */
+    @GetMapping("first/level/list")
+    public ResultVo queryFirstLevelList() {
+        return sysDictService.queryFirstLevelList();
+    }
+
+    /**
      * 查询所有字典列表
      * @return ResultVo
      */

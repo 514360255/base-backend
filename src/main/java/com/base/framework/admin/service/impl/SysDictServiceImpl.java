@@ -54,6 +54,12 @@ public class SysDictServiceImpl implements SysDictService {
     }
 
     @Override
+    public ResultVo queryFirstLevelList() {
+        List<SysDictEntity> list = sysDictMapper.queryFirstLevelList();
+        return ResultVo.ok(CglibUtil.copyList(list, SysDictVO::new));
+    }
+
+    @Override
     public List<SysDictVO> queryDictList() {
         List<SysDictEntity> list = sysDictMapper.queryDictPage(new DictQueryDTO());
         List<SysDictVO> sysDictVO = CglibUtil.copyList(list, SysDictVO::new);

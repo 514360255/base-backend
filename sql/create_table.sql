@@ -88,7 +88,7 @@ CREATE TABLE `medical_appointment`.`m_hospital` (
     `code`                    VARCHAR(255)                NOT NULL                             COMMENT '医院编码唯一',
     `description`             VARCHAR(255)                NOT NULL                             COMMENT '医院描述',
     `address`                 VARCHAR(255)                NOT NULL                             COMMENT '医院地址',
-    `department`              VARCHAR(255)                NOT NULL                             COMMENT '科室',
+    `department_id`           BIGINT                      NOT NULL                             COMMENT '科室ID',
     `account_id`              BIGINT                      NOT NULL                             COMMENT '账号ID',
     `is_active`               TINYINT(0)                  NOT NULL DEFAULT 1                   COMMENT '状态 1:启用，0:禁用',
     `created_at`              DATETIME                    NOT NULL DEFAULT CURRENT_TIMESTAMP   COMMENT '创建时间',

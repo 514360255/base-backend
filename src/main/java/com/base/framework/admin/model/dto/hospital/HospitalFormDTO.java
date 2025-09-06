@@ -38,6 +38,6 @@ public class HospitalFormDTO extends BaseDTO implements Serializable {
     /**
      * 医院科室
      */
-    private String department;
+    private String departmentId;
 
 }

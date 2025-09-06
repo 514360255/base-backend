@@ -23,6 +23,13 @@ public interface SysDictService {
 
     /**
      * 查询字典列表
+     * @param params DictQueryDTO
+     * @return ResultVo
+     */
+    ResultVo queryFirstLevelList();
+
+    /**
+     * 查询字典列表
      * @return ResultVo
      */
     List<SysDictVO> queryDictList();

@@ -4,51 +4,58 @@
 
     <insert id="save" parameterType="com.base.framework.admin.model.entity.HospitalEntity" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO
-            m_hospital(id, name, code, description, address, department, account_id, is_active, created_by)
+            m_hospital(id, name, code, description, address, department_id, account_id, is_active, created_by)
         VALUES
-            (#{id}, #{name}, #{code}, #{description}, #{address}, #{department}, #{accountId}, #{isActive}, #{createdBy})
+            (#{id}, #{name}, #{code}, #{description}, #{address}, #{departmentId}, #{accountId}, #{isActive}, #{createdBy})
     </insert>
 
     <select id="queryHospitalPage" resultType="com.base.framework.admin.model.entity.HospitalEntity">
         SELECT
-            id,
-            name,
-            code,
-            department,
-            is_active AS isActive,
-            created_at AS createdAt,
-            created_by AS createdBy
+            mh.id,
+            mh.name,
+            mh.code,
+            mh.department_id As departmentId,
+            mh.is_active AS isActive,
+            mh.created_at AS createdAt,
+            mh.created_by AS createdBy,
+            sd.name AS department
         FROM
-            m_hospital
+            m_hospital mh
+        LEFT JOIN sys_dict sd ON sd.id = mh.department_id
         <where>
-            is_deleted = 1 AND deleted_at IS NULL
+            mh.is_deleted = 1 AND mh.deleted_at IS NULL
             <if test="name != null and name != ''">
-                AND `name` LIKE CONCAT('%', #{name}, '%')
+                AND mh.`name` LIKE CONCAT('%', #{name}, '%')
             </if>
             <if test="isActive != null">
-                AND is_active = #{isActive}
+                AND mh.is_active = #{isActive}
             </if>
             <if test="accountId != null and accountId != ''">
-                AND account_id = #{accountId}
+                AND mh.account_id = #{accountId}
+            </if>
+            <if test="department != null and department != ''">
+                AND mh.department_id = #{department}
             </if>
         </where>
     </select>
 
     <select id="getHospitalDetail" resultType="com.base.framework.admin.model.entity.HospitalEntity">
         SELECT
-            id,
-            name,
-            code,
-            department,
-            address,
-            description,
-            is_active AS isActive,
-            created_at AS createdAt,
-            created_by AS createdBy
+            mh.id,
+            mh.name,
+            mh.code,
+            mh.department_id AS departmentId,
+            mh.address,
+            mh.description,
+            mh.is_active AS isActive,
+            mh.created_at AS createdAt,
+            mh.created_by AS createdBy,
+            sd.name AS department
         FROM
-            m_hospital
+            m_hospital mh
+        LEFT JOIN sys_dict sd ON sd.id = mh.department_id
         WHERE
-            code = #{code} OR id = #{id}
+            mh.code = #{code} OR mh.id = #{id}
     </select>
 
     <update id="deleteHospital">
@@ -79,7 +86,7 @@
         SET
             name = #{name},
             address = #{address},
-            department = #{department},
+            department_id = #{departmentId},
             description = #{description},
             updated_by = #{updatedBy},
             updated_at = now(),

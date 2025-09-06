@@ -25,6 +25,12 @@ public interface SysDictMapper extends BaseMapper<BaseDTO> {
     List<SysDictEntity> queryDictPage(DictQueryDTO params);
 
     /**
+     * 查询一级字典列表
+     * @return List<SysDictEntity>
+     */
+    List<SysDictEntity> queryFirstLevelList();
+
+    /**
      * 保存字典
      * @param params SysDictFormDTO
      * @return Long
