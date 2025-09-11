@@ -2,6 +2,7 @@ package com.base.framework.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.base.framework.admin.model.dto.user.SysAccountFormDTO;
+import com.base.framework.admin.model.dto.user.SysAccountPasswordDTO;
 import com.base.framework.admin.model.dto.user.SysAccountQueryRequest;
 import com.base.framework.admin.model.entity.SysAccount;
 
@@ -54,6 +55,12 @@ public interface AccountMapper extends BaseMapper<SysAccount> {
      * @param params  SysAccountFormDTO
      */
     void update(SysAccountFormDTO params);
+
+    /**
+     * 修改密码
+     * @param params  SysAccountFormDTO
+     */
+    void updatePassword(SysAccountPasswordDTO params);
 
     /**
      * 修改状态

@@ -5,6 +5,7 @@ import static com.base.framework.constant.JwtConstant.SALT;
 import cn.hutool.extra.cglib.CglibUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.base.framework.admin.model.dto.user.SysAccountFormDTO;
+import com.base.framework.admin.model.dto.user.SysAccountPasswordDTO;
 import com.base.framework.admin.model.vo.CustomUserDetailsVO;
 import com.base.framework.common.ErrorCode;
 import com.base.framework.constant.JwtConstant;
@@ -171,6 +172,25 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, SysAccount> i
             params.setPassword(sysAccount.getPassword());
         }
         accountMapper.update(params);
+        return ResultVo.ok(true);
+    }
+
+    @Override
+    public ResultVo<Boolean> updatePassword(SysAccountPasswordDTO params) {
+        CustomUserDetailsVO customUserDetailsVO = SecurityUtils.getCurrentUser();
+        if(customUserDetailsVO == null) {
+            throw new BusinessException(500, "用户不存在");
+        }
+        SysAccount sysAccount = this.getUserInfoById(customUserDetailsVO.getId());
+        if(!DigestUtils.md5DigestAsHex((SALT + params.getPassword()).getBytes()).equals(sysAccount.getPassword())) {
+            throw new BusinessException(500, "旧密码不正确");
+        }
+        if(!Objects.equals(params.getNewPassword(), params.getConfirmPassword())) {
+            throw new BusinessException(500, "新密码和确认新密码不一致");
+        }
+        params.setId(customUserDetailsVO.getId());
+        params.setNewPassword(DigestUtils.md5DigestAsHex((SALT + params.getNewPassword()).getBytes()));
+        accountMapper.updatePassword(params);
         return ResultVo.ok(true);
     }
 

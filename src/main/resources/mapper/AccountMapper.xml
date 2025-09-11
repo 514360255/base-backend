@@ -103,4 +103,15 @@
             id = #{id}
     </update>
 
+    <update id="updatePassword">
+        UPDATE
+            sys_account
+        SET
+            password = #{newPassword},
+            updated_at = now(),
+            updated_by = #{updatedBy}
+        WHERE
+            id = #{id}
+    </update>
+
 </mapper>

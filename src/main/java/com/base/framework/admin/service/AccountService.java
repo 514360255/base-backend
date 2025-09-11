@@ -2,6 +2,7 @@ package com.base.framework.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.base.framework.admin.model.dto.user.SysAccountFormDTO;
+import com.base.framework.admin.model.dto.user.SysAccountPasswordDTO;
 import com.base.framework.admin.model.dto.user.SysAccountQueryRequest;
 import com.base.framework.admin.model.entity.SysAccount;
 import com.base.framework.admin.model.vo.AccountVO;
@@ -71,6 +72,12 @@ public interface AccountService extends IService<SysAccount> {
      * @param params SysAccountFormDTO
      */
     ResultVo<Boolean> updateState(SysAccountFormDTO params);
+
+    /**
+     * 修改密码
+     * @param params SysAccountFormDTO
+     */
+    ResultVo<Boolean> updatePassword(SysAccountPasswordDTO params);
 
     /**
      * 用户注销

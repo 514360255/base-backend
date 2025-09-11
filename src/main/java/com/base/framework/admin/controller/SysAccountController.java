@@ -1,6 +1,7 @@
 package com.base.framework.admin.controller;
 
 import com.base.framework.admin.model.dto.user.SysAccountFormDTO;
+import com.base.framework.admin.model.dto.user.SysAccountPasswordDTO;
 import com.base.framework.admin.model.dto.user.SysAccountQueryRequest;
 import com.base.framework.admin.model.vo.AccountVO;
 import com.base.framework.common.ErrorCode;
@@ -112,6 +113,16 @@ public class SysAccountController {
     @PostMapping("update/state")
     public ResultVo<Boolean> updateState(@RequestBody SysAccountFormDTO params) {
         return accountService.updateState(params);
+    }
+
+    /**
+     * 修改状态
+     * @param params SysAccountFormDTO
+     * @return ResultVo<Boolean>
+     */
+    @PostMapping("update/password")
+    public ResultVo<Boolean> updatePassword(@RequestBody SysAccountPasswordDTO params) {
+        return accountService.updatePassword(params);
     }
 
     /**
