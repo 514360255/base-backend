@@ -16,7 +16,6 @@ public class BaseDTO implements Serializable {
     /**
      * id
      */
-    @TableField(fill = FieldFill.INSERT)
     private Long id;
 
     /**

@@ -17,7 +17,7 @@ import static com.base.framework.constant.RouteConstant.ADMIN_PREFIX;
  * @Description:
  **/
 @RestController
-@RequestMapping(ADMIN_PREFIX + "/menu")
+@RequestMapping(ADMIN_PREFIX + "menu")
 public class SysMenuController {
 
     @Resource

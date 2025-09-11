@@ -52,6 +52,10 @@ public class ResultVo<T> {
         return build(null, 500, ErrorCode.OPERATION_ERROR.getMessage(), false);
     }
 
+    public static<T> ResultVo<T> error(int code, String message){
+        return build(null, code, message, false);
+    }
+
     public ResultVo<T> code(Integer code){
         this.setCode(code);
         return this;

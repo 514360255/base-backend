@@ -1,9 +1,7 @@
 package com.base.framework.admin.controller;
 
 import cn.hutool.core.io.FileUtil;
-import com.base.framework.common.BaseResponse;
 import com.base.framework.common.ErrorCode;
-import com.base.framework.common.ResultUtils;
 import com.base.framework.constant.FileConstant;
 import com.base.framework.exception.BusinessException;
 import com.base.framework.admin.model.dto.file.UploadFileRequest;
@@ -14,6 +12,8 @@ import java.io.File;
 import java.util.Arrays;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
+import com.base.framework.utils.ResultVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +38,7 @@ public class FileController {
      *
      */
     @PostMapping("/upload")
-    public BaseResponse<String> uploadFile(@RequestPart("file") MultipartFile multipartFile,
+    public ResultVo<String> uploadFile(@RequestPart("file") MultipartFile multipartFile,
             UploadFileRequest uploadFileRequest, HttpServletRequest request) {
         String biz = uploadFileRequest.getBiz();
         FileUploadBizEnum fileUploadBizEnum = FileUploadBizEnum.getEnumByValue(biz);
@@ -57,7 +57,7 @@ public class FileController {
             file = File.createTempFile(filepath, null);
             multipartFile.transferTo(file);
             // 返回可访问地址
-            return ResultUtils.success(FileConstant.COS_HOST + filepath);
+            return ResultVo.ok(FileConstant.COS_HOST + filepath);
         } catch (Exception e) {
             log.error("file upload error, filepath = " + filepath, e);
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "上传失败");

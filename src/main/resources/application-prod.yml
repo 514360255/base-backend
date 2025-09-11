@@ -1,6 +1,3 @@
-# 线上配置文件
-server:
-  port: 8101
 spring:
   # 数据库配置
   # todo 需替换配置
@@ -16,29 +13,21 @@ spring:
       minimum-idle: 10
       pool-name: CloudHikari
     username: root
-    password: 12345678
-    url: jdbc:mysql://127.0.0.1:3306/medical_appointment?useUnicode=true&characterencoding=utf-8&useSSL=false
-  # Redis 配置
-  # todo 需替换配置
-#  redis:
-#    database: 1
-#    host: localhost
-#    port: 6379
-#    timeout: 5000
-#    password: 123456
-  # Elasticsearch 配置
-  # todo 需替换配置
-#  elasticsearch:
-#    uris: http://localhost:9200
-#    username: root
-#    password: 123456
+    password: 0c5babd935745275
+    url: jdbc:mysql://127.0.0.1:3306/medical_appointment?useUnicode=true&characterencoding=utf-8&useSSL=true&serverTimezone=UTC
+  # 文件上传
+  servlet:
+    multipart:
+      # 大小限制
+      max-file-size: 10MB
 mybatis-plus:
   configuration:
-    # 生产环境关闭日志
-    log-impl: ''
-# 接口文档配置
-knife4j:
-  basic:
-    enable: true
-    username: root
-    password: 123456
+    map-underscore-to-camel-case: false
+  global-config:
+    db-config:
+      id-type: ASSiGN_ID
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml  # XML 映射文件路径
+  type-aliases-package: com.base.framework.admin.entity
+  configuration:
+    map-underscore-to-camel-case: true

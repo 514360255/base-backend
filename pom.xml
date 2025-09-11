@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- @author <a href="https://github.com/China-Rainbow-sea/">RainbowSea</a> -->
-<!-- @from <a href="https://rainbowsea.blog.csdn.net/">RainbowSea15博客</a> -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -12,11 +10,11 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.yupi</groupId>
-    <artifactId>springboot-init</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>springboot-init</name>
+    <artifactId>medical_appointment</artifactId>
+    <version>1.0.0</version>
+    <name>medical_appointment</name>
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
     </properties>
     <dependencies>
         <dependency>
@@ -57,27 +55,27 @@
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.session</groupId>
-            <artifactId>spring-session-data-redis</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.session</groupId>-->
+<!--            <artifactId>spring-session-data-redis</artifactId>-->
+<!--        </dependency>-->
         <!-- elasticsearch-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>-->
+<!--        </dependency>-->
         <!-- https://doc.xiaominfo.com/docs/quick-start#openapi2 -->
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
-            <version>4.4.0</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.github.xiaoymin</groupId>-->
+<!--            <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>-->
+<!--            <version>4.4.0</version>-->
+<!--        </dependency>-->
         <!-- https://cloud.tencent.com/document/product/436/10199-->
-        <dependency>
-            <groupId>com.qcloud</groupId>
-            <artifactId>cos_api</artifactId>
-            <version>5.6.89</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.qcloud</groupId>-->
+<!--            <artifactId>cos_api</artifactId>-->
+<!--            <version>5.6.89</version>-->
+<!--        </dependency>-->
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -93,7 +91,7 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>5.8.8</version>
+            <version>5.8.25</version>
         </dependency>
         <dependency>
             <groupId>cglib</groupId>
@@ -138,13 +136,20 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
+                    <source>8</source>
+                    <target>8</target>
                 </configuration>
             </plugin>
         </plugins>

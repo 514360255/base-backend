@@ -19,7 +19,7 @@ import static com.base.framework.constant.RouteConstant.ADMIN_PREFIX;
  * @Description:
  **/
 @RestController
-@RequestMapping(ADMIN_PREFIX + "/role")
+@RequestMapping(ADMIN_PREFIX + "role")
 @Slf4j
 public class SysRoleController {
 

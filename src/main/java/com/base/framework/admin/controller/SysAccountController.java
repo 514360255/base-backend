@@ -3,9 +3,7 @@ package com.base.framework.admin.controller;
 import com.base.framework.admin.model.dto.user.SysAccountFormDTO;
 import com.base.framework.admin.model.dto.user.SysAccountQueryRequest;
 import com.base.framework.admin.model.vo.AccountVO;
-import com.base.framework.common.BaseResponse;
 import com.base.framework.common.ErrorCode;
-import com.base.framework.common.ResultUtils;
 import com.base.framework.exception.BusinessException;
 import com.base.framework.admin.model.dto.user.SysAccountRequestDTO;
 import com.base.framework.admin.model.vo.LoginUserVO;
@@ -29,7 +27,7 @@ import static com.base.framework.constant.RouteConstant.ADMIN_PREFIX;
  * @author guojiuling
  */
 @RestController
-@RequestMapping(ADMIN_PREFIX + "/account")
+@RequestMapping(ADMIN_PREFIX + "account")
 @Slf4j
 public class SysAccountController {
 
@@ -41,7 +39,7 @@ public class SysAccountController {
      *
      */
     @PostMapping("/login")
-    public BaseResponse<LoginUserVO> userLogin(@RequestBody SysAccountRequestDTO userLoginRequest) {
+    public ResultVo<LoginUserVO> userLogin(@RequestBody SysAccountRequestDTO userLoginRequest) {
         if (userLoginRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
@@ -51,19 +49,19 @@ public class SysAccountController {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         LoginUserVO loginUserVO = accountService.userLogin(userAccount, userPassword);
-        return ResultUtils.success(loginUserVO);
+        return ResultVo.ok(loginUserVO);
     }
 
     @GetMapping("/userInfo")
-    public BaseResponse<LoginUserVO> getLoginUser(HttpServletRequest request) {
+    public ResultVo<LoginUserVO> getLoginUser(HttpServletRequest request) {
         String token = request.getHeader(HEADER_TOKEN);
         LoginUserVO user = accountService.getLoginUser(token);
-        return ResultUtils.success(user);
+        return ResultVo.ok(user);
     }
 
     @GetMapping("/userList")
-    public BaseResponse<PageInfo> queryUserList(@Param("params") SysAccountQueryRequest params) {
-        return ResultUtils.success(accountService.queryUserList(params));
+    public ResultVo<PageInfo> queryUserList(@Param("params") SysAccountQueryRequest params) {
+        return ResultVo.ok(accountService.queryUserList(params));
     }
 
     /**
@@ -120,13 +118,13 @@ public class SysAccountController {
      * 用户注销
      */
     @PostMapping("/logout")
-    public BaseResponse<Boolean> userLogout(HttpServletRequest request) {
+    public ResultVo<Boolean> userLogout(HttpServletRequest request) {
         String token = request.getHeader(HEADER_TOKEN);
         if (token == null) {
             throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR, ErrorCode.NOT_LOGIN_ERROR.getMessage());
         }
         boolean result = accountService.userLogout();
-        return ResultUtils.success(result);
+        return ResultVo.ok(result);
     }
 
 }
