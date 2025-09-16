@@ -41,4 +41,14 @@ public class HospitalEntity extends BaseEntity {
      * 医院科室名称
      */
     private String department;
+
+    /**
+     * appid
+     */
+    private String appid;
+
+    /**
+     * secret
+     */
+    private String secret;
 }

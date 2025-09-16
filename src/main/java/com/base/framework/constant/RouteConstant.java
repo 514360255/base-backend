@@ -8,7 +8,14 @@ package com.base.framework.constant;
  */
 public class RouteConstant {
 
+    /**
+     * 后台管理前缀
+     */
     public static final String ADMIN_PREFIX = "admin/";
-    public static final String MEMBER_PREFIX = "member/";
+
+    /**
+     * 小程序前缀
+     */
+    public static final String MINI_PROGRAM_PREFIX = "mini/program/";
 
 }

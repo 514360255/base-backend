@@ -2,6 +2,7 @@ package com.base.framework.constant;
 
 /**
  * 文件常量
+ * @author guojiuling
  */
 public interface FileConstant {
 

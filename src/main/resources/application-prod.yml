@@ -27,7 +27,7 @@ mybatis-plus:
     db-config:
       id-type: ASSiGN_ID
 mybatis:
-  mapper-locations: classpath*:mapper/*.xml  # XML 映射文件路径
+  mapper-locations: classpath*:mapper/**/*.xml  # XML 映射文件路径
   type-aliases-package: com.base.framework.admin.entity
   configuration:
     map-underscore-to-camel-case: true

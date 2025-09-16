@@ -8,6 +8,7 @@ import com.base.framework.admin.model.entity.HospitalEntity;
 import com.base.framework.admin.model.vo.HospitalVO;
 import com.base.framework.admin.service.HospitalService;
 import com.base.framework.exception.BusinessException;
+import com.base.framework.utils.AesEncryptionUtil;
 import com.base.framework.utils.ResultVo;
 import com.base.framework.utils.SecurityUtils;
 import com.github.pagehelper.PageHelper;
@@ -57,11 +58,21 @@ public class HospitalServiceImpl implements HospitalService {
 
     @Override
     @Transactional
-    public ResultVo<Long> save(HospitalFormDTO params){
+    public ResultVo<Long> save(HospitalFormDTO params)  {
         HospitalEntity hospitalEntity = hospitalMapper.getHospitalDetail(params.getCode());
         if(hospitalEntity != null) {
             throw new BusinessException(500, "医院code重复");
         }
+        if(params.getAppid() == null) {
+            throw new BusinessException(500, "appid不能为空");
+        }
+        if(params.getSecret() == null) {
+            throw new BusinessException(500, "secret不能为空");
+        }
+        String appid = AesEncryptionUtil.encrypt(params.getAppid());
+        String secret = AesEncryptionUtil.encrypt(params.getSecret());
+        params.setAppid(appid);
+        params.setSecret(secret);
         hospitalMapper.save(params);
         return ResultVo.ok(params.getId());
     }

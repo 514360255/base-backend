@@ -1,11 +1,11 @@
 
 /** DROP DATABASE **/
-DROP DATABASE IF EXISTS `medical_appointment`;
+DROP DATABASE IF EXISTS `medical_db`;
 
 /** CREATE DATABASE **/
-CREATE DATABASE `medical_appointment` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+CREATE DATABASE `medical_db` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
-CREATE TABLE `medical_appointment`.`sys_member` (
+CREATE TABLE `medical_db`.`sys_member` (
     `id`                      BIGINT                                               PRIMARY KEY COMMENT '主键',
     `name`                    CHAR(20)                    NOT NULL                             COMMENT '姓名',
     `nickName`                VARCHAR(255)                                                     COMMENT '昵称',
@@ -28,7 +28,7 @@ CREATE TABLE `medical_appointment`.`sys_member` (
     `is_delete`               TINYINT(0)                           DEFAULT 1                   COMMENT '标记删除 1:未删除，0:已删除'
 ) COMMENT = '会员' CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
-CREATE TABLE `medical_appointment`.`sys_account` (
+CREATE TABLE `medical_db`.`sys_account` (
     `id`                      BIGINT                                               PRIMARY KEY COMMENT '主键',
     `name`                    CHAR(20)                    NOT NULL                             COMMENT '姓名',
     `account`                 VARCHAR(255)                NOT NULL                             COMMENT '账号',
@@ -48,7 +48,7 @@ CREATE TABLE `medical_appointment`.`sys_account` (
     `is_deleted`              TINYINT(0)                  NOT NULL DEFAULT 1                   COMMENT '标记删除 1:未删除，0:已删除'
 ) COMMENT = '后台账号' CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
-CREATE TABLE `medical_appointment`.`sys_role` (
+CREATE TABLE `medical_db`.`sys_role` (
     `id`                      BIGINT                                               PRIMARY KEY COMMENT '主键',
     `name`                    CHAR(255)                   NOT NULL                             COMMENT '名称',
     `code`                    CHAR(255)                   NOT NULL                             COMMENT '编码',
@@ -59,7 +59,7 @@ CREATE TABLE `medical_appointment`.`sys_role` (
     `updated_by`              VARCHAR(50)                                                      COMMENT '修改人'
 ) COMMENT = '角色' CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
-CREATE TABLE `medical_appointment`.`sys_menu` (
+CREATE TABLE `medical_db`.`sys_menu` (
     `id`                      BIGINT                                               PRIMARY KEY COMMENT '主键',
     `name`                    CHAR(255)                   NOT NULL                             COMMENT '名称',
     `path`                    VARCHAR(255)                                                     COMMENT '树关系路径',
@@ -76,18 +76,20 @@ CREATE TABLE `medical_appointment`.`sys_menu` (
     `updated_by`              VARCHAR(50)                                                      COMMENT '修改人'
 ) COMMENT = '菜单' CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
-CREATE TABLE `medical_appointment`.`sys_role_menu_mapping` (
+CREATE TABLE `medical_db`.`sys_role_menu_mapping` (
     `id`                      BIGINT                                               PRIMARY KEY COMMENT '主键',
     `menu_id`                 BIGINT                                                           COMMENT '菜单ID',
     `role_id`                 BIGINT                                                           COMMENT '角色ID'
 ) COMMENT = '角色菜单关联' CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
-CREATE TABLE `medical_appointment`.`m_hospital` (
+CREATE TABLE `medical_db`.`m_appointment_hospital` (
     `id`                      BIGINT                                               PRIMARY KEY COMMENT '主键',
     `name`                    VARCHAR(255)                NOT NULL                             COMMENT '医院名称',
     `code`                    VARCHAR(255)                NOT NULL                             COMMENT '医院编码唯一',
     `description`             VARCHAR(255)                NOT NULL                             COMMENT '医院描述',
     `address`                 VARCHAR(255)                NOT NULL                             COMMENT '医院地址',
+    `appid`                   VARCHAR(50)                 NOT NULL                             COMMENT 'appid',
+    `secret`                  VARCHAR(100)                NOT NULL                             COMMENT 'secret',
     `department_id`           BIGINT                      NOT NULL                             COMMENT '科室ID',
     `account_id`              BIGINT                      NOT NULL                             COMMENT '账号ID',
     `is_active`               TINYINT(0)                  NOT NULL DEFAULT 1                   COMMENT '状态 1:启用，0:禁用',
@@ -98,9 +100,24 @@ CREATE TABLE `medical_appointment`.`m_hospital` (
     `deleted_at`              DATETIME                                                         COMMENT '删除时间',
     `deleted_by`              VARCHAR(50)                                                      COMMENT '删除人',
     `is_deleted`              TINYINT(0)                  NOT NULL DEFAULT 1                   COMMENT '标记删除 1:未删除，0:已删除'
-) COMMENT = '医院信息' CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+) COMMENT = '预约医院信息' CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
-CREATE TABLE `medical_appointment`.`m_appointment_order` (
+CREATE TABLE `medical_db`.`m_appointment_department` (
+    `id`                      BIGINT                                               PRIMARY KEY COMMENT '主键',
+    `name`                    VARCHAR(50)                 NOT NULL                             COMMENT '科室名',
+    `created_at`              DATETIME                    NOT NULL DEFAULT CURRENT_TIMESTAMP   COMMENT '创建时间',
+    `created_by`              VARCHAR(50)                 NOT NULL                             COMMENT '创建人'
+) COMMENT = '预约科室' CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+CREATE TABLE `medical_db`.`m_appointment_department` (
+    `id`                      BIGINT                                               PRIMARY KEY COMMENT '主键',
+    `name`                    VARCHAR(50)                 NOT NULL                             COMMENT '科室名',
+    `problem`                 TEXT                        NOT NULL                             COMMENT '问题：\n分隔开',
+    `created_at`              DATETIME                    NOT NULL DEFAULT CURRENT_TIMESTAMP   COMMENT '创建时间',
+    `created_by`              VARCHAR(50)                 NOT NULL                             COMMENT '创建人'
+) COMMENT = '预约科室' CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+CREATE TABLE `medical_db`.`m_appointment_order` (
     `id`                      BIGINT                                               PRIMARY KEY COMMENT '主键',
     `hospital_id`             BIGINT                     NOT NULL                              COMMENT '医院id',
     `name`                    VARCHAR(50)                NOT NULL                              COMMENT '姓名',
@@ -121,7 +138,7 @@ CREATE TABLE `medical_appointment`.`m_appointment_order` (
     INDEX idx_appointment_time (appointment_time)
 ) COMMENT = '预约列表' CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
-CREATE TABLE `medical_appointment`.`sys_dict` (
+CREATE TABLE `medical_db`.`sys_dict` (
     `id`                      BIGINT                                               PRIMARY KEY COMMENT '主键',
     `parent_id`               BIGINT                                                           COMMENT '上级id',
     `account_id`              BIGINT                                                           COMMENT '账号id',
@@ -133,7 +150,22 @@ CREATE TABLE `medical_appointment`.`sys_dict` (
     `created_by`              VARCHAR(50)                NOT NULL                              COMMENT '创建人'
 ) COMMENT = '字典' CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
-INSERT INTO `medical_appointment`.`sys_account`
+CREATE TABLE `medical_db`.`image` (
+    `id`                      BIGINT                                               PRIMARY KEY COMMENT '主键',
+    `biz_type`                VARCHAR(20)                NOT NULL                              COMMENT '业务类型：PRODUCT, USER 等',
+    `biz_id`                  BIGINT                     NOT NULL                              COMMENT '关联的业务 ID',
+    `url`                     VARCHAR(500)               NOT NULL                              COMMENT '图片访问 URL',
+    `file_name`               VARCHAR(255)                                                     COMMENT '原始文件名',
+    `file_size`               BIGINT                                                           COMMENT '文件大小（字节）',
+    `width`                   INT                                                              COMMENT '宽度',
+    `height`                  INT                                                              COMMENT '高度',
+    `created_at`              DATETIME                   NOT NULL DEFAULT CURRENT_TIMESTAMP    COMMENT '创建时间',
+    `created_by`              VARCHAR(50)                NOT NULL                              COMMENT '创建人',
+    INDEX idx_biz (biz_type, biz_id)
+) COMMENT = '字典' CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+
+INSERT INTO `medical_db`.`sys_account`
 (`id`, `name`, `account`, `mobile`, `email`, `role_code`, `is_active`, `password`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`, `is_deleted`)
 VALUES
 (202507311424560001, '系统管理员', 'admin', '13641663423', '514360255@qq.com', 'SUPER_ADMIN', 1, '55f5ac30819e4db8a61d61126dbc5407', '2023-02-20 14:25:10', 'admin', NULL, NULL, NULL, NULL, 1)

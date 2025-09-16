@@ -40,4 +40,14 @@ public class HospitalFormDTO extends BaseDTO implements Serializable {
      */
     private String departmentId;
 
+    /**
+     * appid
+     */
+    private String appid;
+
+    /**
+     * secret
+     */
+    private String secret;
+
 }

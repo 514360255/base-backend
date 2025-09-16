@@ -4,9 +4,9 @@
 
     <insert id="save" parameterType="com.base.framework.admin.model.entity.HospitalEntity" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO
-            m_hospital(id, name, code, description, address, department_id, account_id, is_active, created_by)
+            m_hospital(id, name, code, description, address, department_id, account_id, appid, secret, is_active, created_by)
         VALUES
-            (#{id}, #{name}, #{code}, #{description}, #{address}, #{departmentId}, #{accountId}, #{isActive}, #{createdBy})
+            (#{id}, #{name}, #{code}, #{description}, #{address}, #{departmentId}, #{accountId}, #{appid}, #{secret}, #{isActive}, #{createdBy})
     </insert>
 
     <select id="queryHospitalPage" resultType="com.base.framework.admin.model.entity.HospitalEntity">
@@ -15,6 +15,7 @@
             mh.name,
             mh.code,
             mh.department_id As departmentId,
+            sd.name As departmentName,
             mh.is_active AS isActive,
             mh.created_at AS createdAt,
             mh.created_by AS createdBy,
@@ -47,6 +48,8 @@
             mh.department_id AS departmentId,
             mh.address,
             mh.description,
+            mh.appid,
+            mh.secret,
             mh.is_active AS isActive,
             mh.created_at AS createdAt,
             mh.created_by AS createdBy,
