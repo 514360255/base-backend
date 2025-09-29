@@ -60,7 +60,7 @@ public class SysMenuServiceImpl implements SysMenuService {
     public ResultVo queryMenuListByRoleCode() {
         CustomUserDetailsVO customUserDetailsVO = SecurityUtils.getCurrentUser();
         if(customUserDetailsVO == null) {
-            throw  new BusinessException(500, "账号未登录");
+            throw  new BusinessException(401, "账号未登录");
         }
         List<SysMenuVO> sysRoleVOList;
         if(Objects.equals(customUserDetailsVO.getRoleCode(), "SUPER_ADMIN")) {

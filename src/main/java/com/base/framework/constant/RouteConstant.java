@@ -11,7 +11,7 @@ public class RouteConstant {
     /**
      * 后台管理前缀
      */
-    public static final String ADMIN_PREFIX = "admin/";
+    public static final String ADMIN_PREFIX = "api/admin/";
 
     /**
      * 小程序前缀

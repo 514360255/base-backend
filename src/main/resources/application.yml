@@ -5,6 +5,4 @@ spring:
     active: prod
 server:
   address: 0.0.0.0
-  servlet:
-    context-path: /api
 #  port: 8181x

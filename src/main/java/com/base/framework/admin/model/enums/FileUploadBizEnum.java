@@ -15,7 +15,8 @@ import org.apache.commons.lang3.ObjectUtils;
 public enum FileUploadBizEnum {
 
     USER_AVATAR("用户头像", "user_avatar"),
-    APPOINTMENT_DISEASE_TYPE("预约疾病类型", "appointment_disease_type");
+    APPOINTMENT_DISEASE_TYPE("预约疾病类型", "appointment_disease_type"),
+    BANNER("banner", "banner");
 
     private final String text;
 

@@ -6,6 +6,7 @@ import com.base.framework.admin.service.AccountService;
 import com.base.framework.utils.JwtTokenUtils;
 import com.base.framework.utils.SecurityUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -33,19 +34,19 @@ public class AdminInterceptor implements HandlerInterceptor {
 
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) throws Exception {
+    public boolean preHandle(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull Object object) throws Exception {
 
         String token = request.getHeader(HEADER_TOKEN);
 
         // 未登录
         if(token == null) {
-            responseHandle(response, 400, "请登录");
+            responseHandle(response, 401, "请登录");
             return false;
         }
 
         // 校验身份是否过期
         if(JwtTokenUtils.isExpiration(token)) {
-            responseHandle(response, 400, "身份过期，请重新登录");
+            responseHandle(response, 401, "身份过期，请重新登录");
             SecurityUtils.removeCurrentUser();
             return false;
         }
@@ -53,7 +54,7 @@ public class AdminInterceptor implements HandlerInterceptor {
         // 判断内存中用户信息是否存在
         Long userId = JwtTokenUtils.getUserId(token);
         if(userId == null) {
-            responseHandle(response, 400, "请登录");
+            responseHandle(response, 401, "请登录");
             return false;
         }
 
