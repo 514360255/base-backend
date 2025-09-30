@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.framework.admin.mapper.AppointmentDepartmentMapper">
+
+    <insert id="save" parameterType="com.base.framework.admin.model.entity.AppointmentDepartmentEntity" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO m_appointment_department(id, name, banner_url, problems, disease_type, diagnosis_items, created_by)
+        VALUES(#{id}, #{name}, #{bannerUrl}, #{problems}, #{diseaseType}, #{diagnosisItems}, #{createdBy})
+    </insert>
+
+    <select id="queryPage" resultType="com.base.framework.admin.model.entity.AppointmentDepartmentEntity">
+        SELECT
+            id,
+            name,
+            banner_url AS bannerUrl,
+            problems,
+            disease_type AS diseaseType,
+            diagnosis_items AS diagnosisItems,
+            created_at AS createdAt,
+            created_by AS createdBy
+        FROM m_appointment_department
+        <where>
+            <if test="name != null and name != ''">
+                `name` LIKE CONCAT('%', #{name}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getDetailByName" resultType="int">
+        SELECT COUNT(1) FROM m_appointment_department WHERE name = #{name}
+    </select>
+
+    <select id="getDetailById" resultType="com.base.framework.admin.model.entity.AppointmentDepartmentEntity">
+        SELECT
+            id,
+            name,
+            banner_url AS bannerUrl,
+            problems,
+            disease_type AS diseaseType,
+            diagnosis_items AS diagnosisItems,
+            created_at AS createdAt,
+            created_by AS createdBy
+        FROM
+            m_appointment_department
+        WHERE id = #{id}
+    </select>
+
+    <update id="update">
+        UPDATE
+            m_appointment_department
+        SET
+            name = #{name},
+            banner_url = #{bannerUrl},
+            problems = #{problems},
+            disease_type = #{diseaseType},
+            diagnosis_items = #{diagnosisItems}
+        WHERE
+            id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM m_appointment_department WHERE id = #{id}
+    </delete>
+
+</mapper>
