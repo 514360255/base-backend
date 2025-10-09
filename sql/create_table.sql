@@ -90,7 +90,8 @@ CREATE TABLE `medical_appointment`.`m_appointment_hospital` (
     `address`                 VARCHAR(255)                NOT NULL                             COMMENT '医院地址',
     `appid`                   VARCHAR(50)                 NOT NULL                             COMMENT 'appid',
     `secret`                  VARCHAR(100)                NOT NULL                             COMMENT 'secret',
-    `department_id`           BIGINT                      NOT NULL                             COMMENT '科室ID',
+    `department_ids`          TEXT                        NOT NULL                             COMMENT '科室ID',
+    `department_names`        VARCHAR(255)                NOT NULL                             COMMENT '科室名称',
     `account_id`              BIGINT                      NOT NULL                             COMMENT '账号ID',
     `feature`                 VARCHAR(50)                                                      COMMENT '医院特色',
     `disease_type`            TEXT                                                             COMMENT '疾病类型',
@@ -103,6 +104,12 @@ CREATE TABLE `medical_appointment`.`m_appointment_hospital` (
     `deleted_by`              VARCHAR(50)                                                      COMMENT '删除人',
     `is_deleted`              TINYINT(0)                  NOT NULL DEFAULT 1                   COMMENT '标记删除 1:未删除，0:已删除'
 ) COMMENT = '预约医院信息' CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+CREATE TABLE `medical_appointment`.`m_appointment_hospital_department_mapping` (
+    `id`                      BIGINT                                               PRIMARY KEY COMMENT '主键',
+    `hospital_id`             BIGINT                                                           COMMENT '医院ID',
+    `department_id`           BIGINT                                                           COMMENT '科室ID'
+) COMMENT = '预约医院科室关系' CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE `medical_appointment`.`m_appointment_department` (
     `id`                      BIGINT                                               PRIMARY KEY COMMENT '主键',
