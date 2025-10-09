@@ -1,9 +1,7 @@
 package com.base.framework.utils;
 
 import com.base.framework.constant.JwtConstant;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 
 import java.util.Date;
 import java.util.Objects;
@@ -37,13 +35,31 @@ public class JwtTokenUtils {
      * 获取Token中的信息 ，解析token
      */
     public static Claims getTokenClaim(String token) {
-        if(Objects.isNull(token)) {
+        // 1. 检查 token 是否为空
+        if (Objects.isNull(token) || token.isEmpty()) {
             return null;
         }
-        if(claims == null) {
-            claims = Jwts.parser().setSigningKey(JwtConstant.APP_SECRET_KEY).parseClaimsJws(getToken(token)).getBody();
+
+        try {
+            // 2. 解析 token
+            return Jwts.parser()
+                    .setSigningKey(JwtConstant.APP_SECRET_KEY)
+                    .parseClaimsJws(getToken(token))
+                    .getBody();
         }
-        return claims;
+        catch (ExpiredJwtException e) {
+            // ✅ JWT 已过期
+            // 返回 null，后续判断为未登录
+            return null;
+        }
+        catch (UnsupportedJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
+            // ✅ 其他 JWT 格式或签名错误
+            return null;
+        }
+        catch (Exception e) {
+            // ✅ 兜底异常
+            return null;
+        }
     }
 
     /**
