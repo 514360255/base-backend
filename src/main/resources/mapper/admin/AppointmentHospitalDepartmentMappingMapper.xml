@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.framework.admin.mapper.AppointmentHospitalDepartmentMappingMapper">
+
+    <insert id="save" parameterType="com.base.framework.admin.model.entity.AppointmentHospitalDepartmentMappingEntity" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO m_appointment_hospital_department_mapping(id, hospital_id, department_id)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id}, #{item.hospitalId}, #{item.departmentId})
+        </foreach>
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM m_appointment_hospital_department_mapping WHERE hospital_id = #{hospitalId}
+    </delete>
+
+</mapper>
