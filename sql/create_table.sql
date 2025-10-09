@@ -114,7 +114,7 @@ CREATE TABLE `medical_appointment`.`m_appointment_hospital_department_mapping` (
 CREATE TABLE `medical_appointment`.`m_appointment_department` (
     `id`                      BIGINT                                               PRIMARY KEY COMMENT '主键',
     `name`                    VARCHAR(50)                 NOT NULL                             COMMENT '科室名',
-    `banner_url`              VARCHAR(255)                NOT NULL                             COMMENT 'banner图',
+    `banner_url`              VARCHAR(255)                                                     COMMENT 'banner图',
     `problem`                 TEXT                                                             COMMENT '问题列表：| 分隔开',
     `disease_type`            TEXT                                                             COMMENT '疾病类型',
     `diagnosis_items`         TEXT                        NOT NULL                             COMMENT '诊疗项目: [{name: "疾病1", url: "xxx/xxx/xxx"}]',
