@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @Author: 郭郭
@@ -36,9 +37,19 @@ public class HospitalFormDTO extends BaseDTO implements Serializable {
     private String address;
 
     /**
-     * 医院科室
+     * 医院特色
      */
-    private String departmentId;
+    private String feature;
+
+    /**
+     * 医院科室id
+     */
+    private String departmentIds;
+
+    /**
+     * 医院科室名称
+     */
+    private String departmentNames;
 
     /**
      * appid

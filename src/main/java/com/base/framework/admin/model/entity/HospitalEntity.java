@@ -33,14 +33,19 @@ public class HospitalEntity extends BaseEntity {
     private String address;
 
     /**
+     * 医院特色
+     */
+    private String feature;
+
+    /**
      * 医院科室id
      */
-    private String departmentId;
+    private String departmentIds;
 
     /**
      * 医院科室名称
      */
-    private String department;
+    private String departmentNames;
 
     /**
      * appid

@@ -6,6 +6,7 @@ import com.base.framework.admin.service.AccountService;
 import com.base.framework.utils.JwtTokenUtils;
 import com.base.framework.utils.SecurityUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.Claims;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
@@ -41,6 +42,13 @@ public class AdminInterceptor implements HandlerInterceptor {
         // 未登录
         if(token == null) {
             responseHandle(response, 401, "请登录");
+            return false;
+        }
+
+        Claims claims = JwtTokenUtils.getTokenClaim(token);
+        if (claims == null) {
+            responseHandle(response, 401, "身份过期，请重新登录");
+            SecurityUtils.removeCurrentUser();
             return false;
         }
 

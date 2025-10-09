@@ -1,7 +1,9 @@
 package com.base.framework.admin.service.impl;
 
 import cn.hutool.extra.cglib.CglibUtil;
+import com.base.framework.admin.mapper.AppointmentHospitalDepartmentMappingMapper;
 import com.base.framework.admin.mapper.HospitalMapper;
+import com.base.framework.admin.model.dto.appointmentDepartment.AppointmentHospitalDepartmentMappingForm;
 import com.base.framework.admin.model.dto.hospital.HospitalFormDTO;
 import com.base.framework.admin.model.dto.hospital.HospitalQueryDTO;
 import com.base.framework.admin.model.entity.HospitalEntity;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,6 +35,9 @@ public class HospitalServiceImpl implements HospitalService {
 
     @Resource
     HospitalMapper hospitalMapper;
+
+    @Resource
+    AppointmentHospitalDepartmentMappingMapper appointmentHospitalDepartmentMappingMapper;
 
     @Override
     public ResultVo queryHospitalPage(HospitalQueryDTO params) {
@@ -101,6 +107,18 @@ public class HospitalServiceImpl implements HospitalService {
     public ResultVo<Boolean> update(HospitalFormDTO params) {
         this.getHospitalDetail(String.valueOf(params.getId()));
         hospitalMapper.update(params);
+//        appointmentHospitalDepartmentMappingMapper.delete(params.getId());
+//        List<AppointmentHospitalDepartmentMappingForm> list = new ArrayList<>();
+//        if(params.getDepartmentIds() == null || params.getDepartmentIds().isEmpty()) {
+//            throw new BusinessException(500, "科室id不能为空");
+//        }
+//        params.getDepartmentIds().forEach(item -> {
+//            AppointmentHospitalDepartmentMappingForm mapping = new AppointmentHospitalDepartmentMappingForm();
+//            mapping.setHospitalId(params.getId());
+//            mapping.setDepartmentId(item);
+//            list.add(mapping);
+//        });
+//        appointmentHospitalDepartmentMappingMapper.save(list);
         return ResultVo.ok(true);
     }
 

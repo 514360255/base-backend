@@ -4,9 +4,9 @@
 
     <insert id="save" parameterType="com.base.framework.admin.model.entity.HospitalEntity" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO
-            m_hospital(id, name, code, description, address, department_id, account_id, appid, secret, is_active, created_by)
+            m_hospital(id, name, code, description, address, account_id, feature, department_names, department_ids, appid, secret, is_active, created_by)
         VALUES
-            (#{id}, #{name}, #{code}, #{description}, #{address}, #{departmentId}, #{accountId}, #{appid}, #{secret}, #{isActive}, #{createdBy})
+            (#{id}, #{name}, #{code}, #{description}, #{address}, #{accountId}, #{feature}, #{departmentNames}, #{departmentIds}, #{appid}, #{secret}, #{isActive}, #{createdBy})
     </insert>
 
     <select id="queryHospitalPage" resultType="com.base.framework.admin.model.entity.HospitalEntity">
@@ -14,15 +14,14 @@
             mh.id,
             mh.name,
             mh.code,
-            mh.department_id As departmentId,
-            sd.name As departmentName,
+            mh.department_ids AS departmentIds,
+            mh.department_names AS departmentNames,
+            mh.feature,
             mh.is_active AS isActive,
             mh.created_at AS createdAt,
-            mh.created_by AS createdBy,
-            sd.name AS department
+            mh.created_by AS createdBy
         FROM
             m_hospital mh
-        LEFT JOIN sys_dict sd ON sd.id = mh.department_id
         <where>
             mh.is_deleted = 1 AND mh.deleted_at IS NULL
             <if test="name != null and name != ''">
@@ -34,9 +33,6 @@
             <if test="accountId != null and accountId != ''">
                 AND mh.account_id = #{accountId}
             </if>
-            <if test="department != null and department != ''">
-                AND mh.department_id = #{department}
-            </if>
         </where>
     </select>
 
@@ -45,18 +41,18 @@
             mh.id,
             mh.name,
             mh.code,
-            mh.department_id AS departmentId,
             mh.address,
             mh.description,
+            mh.department_ids AS departmentIds,
+            mh.department_names AS departmentNames,
+            mh.feature,
             mh.appid,
             mh.secret,
             mh.is_active AS isActive,
             mh.created_at AS createdAt,
-            mh.created_by AS createdBy,
-            sd.name AS department
+            mh.created_by AS createdBy
         FROM
             m_hospital mh
-        LEFT JOIN sys_dict sd ON sd.id = mh.department_id
         WHERE
             mh.code = #{code} OR mh.id = #{id}
     </select>
@@ -89,7 +85,9 @@
         SET
             name = #{name},
             address = #{address},
-            department_id = #{departmentId},
+            feature = #{feature},
+            department_ids = #{departmentIds},
+            department_names = #{departmentNames},
             description = #{description},
             updated_by = #{updatedBy},
             updated_at = now(),
