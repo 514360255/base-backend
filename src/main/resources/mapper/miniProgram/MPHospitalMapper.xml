@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.framework.miniProgram.mapper.MPHospitalMapper">
+
+    <select id="getHospitalDetailByCode" resultType="com.base.framework.miniProgram.model.entity.MPHospitalEntity">
+        SELECT
+            id,
+            name,
+            code,
+            description,
+            address,
+            feature,
+            department_ids AS departmentIds,
+            consultation_hours AS consultationHours
+        FROM
+            m_hospital
+        WHERE
+            code = #{code} AND is_active = 1
+    </select>
+
+
+</mapper>
