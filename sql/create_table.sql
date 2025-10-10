@@ -88,8 +88,10 @@ CREATE TABLE `medical_appointment`.`m_appointment_hospital` (
     `code`                    VARCHAR(255)                NOT NULL                             COMMENT '医院编码唯一',
     `description`             VARCHAR(255)                NOT NULL                             COMMENT '医院描述',
     `address`                 VARCHAR(255)                NOT NULL                             COMMENT '医院地址',
+    `consultation_hours`      VARCHAR(50)                 NOT NULL                             COMMENT '接诊时间',
     `appid`                   VARCHAR(50)                 NOT NULL                             COMMENT 'appid',
     `secret`                  VARCHAR(100)                NOT NULL                             COMMENT 'secret',
+    `auth_number`             INTEGER                     NOT NULL                             COMMENT '授权次数',
     `department_ids`          TEXT                        NOT NULL                             COMMENT '科室ID',
     `department_names`        VARCHAR(255)                NOT NULL                             COMMENT '科室名称',
     `account_id`              BIGINT                      NOT NULL                             COMMENT '账号ID',
@@ -114,6 +116,7 @@ CREATE TABLE `medical_appointment`.`m_appointment_hospital_department_mapping` (
 CREATE TABLE `medical_appointment`.`m_appointment_department` (
     `id`                      BIGINT                                               PRIMARY KEY COMMENT '主键',
     `name`                    VARCHAR(50)                 NOT NULL                             COMMENT '科室名',
+    `title`                   VARCHAR(20)                 NOT NULL                             COMMENT '显示名',
     `banner_url`              VARCHAR(255)                                                     COMMENT 'banner图',
     `problem`                 TEXT                                                             COMMENT '问题列表：| 分隔开',
     `disease_type`            TEXT                                                             COMMENT '疾病类型',
