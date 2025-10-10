@@ -128,7 +128,7 @@ public class SysAccountController {
     /**
      * 用户注销
      */
-    @PostMapping("/logout")
+    @PostMapping("logout")
     public ResultVo<Boolean> userLogout(HttpServletRequest request) {
         String token = request.getHeader(HEADER_TOKEN);
         if (token == null) {
@@ -136,6 +136,11 @@ public class SysAccountController {
         }
         boolean result = accountService.userLogout();
         return ResultVo.ok(result);
+    }
+
+    @GetMapping("admin/user")
+    public ResultVo getAdminUser() {
+        return accountService.getAdminUser();
     }
 
 }

@@ -60,7 +60,7 @@
         SELECT id, name, code, is_active AS isActive, created_at AS createdAt, created_by AS createdBy FROM sys_role
         <where>
             <if test="isActive != null">
-                is_active = #{isActive}
+              is_active = #{isActive}
             </if>
             <if test="name != null and name != ''">
                 AND name LIKE CONCAT('%', #{name}, '%')

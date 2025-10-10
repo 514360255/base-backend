@@ -75,6 +75,12 @@ public interface AccountMapper extends BaseMapper<SysAccount> {
      */
     void delete(Long id, String userName);
 
+    /**
+     * 获取管理员账号
+     * @return
+     */
+    List<SysAccount> getAdminUser();
+
 }
 
 

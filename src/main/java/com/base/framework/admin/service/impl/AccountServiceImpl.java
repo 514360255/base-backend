@@ -194,6 +194,12 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, SysAccount> i
         return ResultVo.ok(true);
     }
 
+    @Override
+    public ResultVo getAdminUser() {
+        List<SysAccount> list = accountMapper.getAdminUser();
+        return ResultVo.ok(CglibUtil.copyList(list, AccountVO::new));
+    }
+
     /**
      * 用户注销
      */

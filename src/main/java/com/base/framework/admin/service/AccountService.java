@@ -84,4 +84,10 @@ public interface AccountService extends IService<SysAccount> {
      *
      */
     boolean userLogout();
+
+    /**
+     * 获取admin用户
+     * @return
+     */
+    ResultVo getAdminUser();
 }
