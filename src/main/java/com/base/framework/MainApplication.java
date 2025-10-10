@@ -15,7 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
  */
 // todo 如需开启 Redis，须移除 exclude 中的内容
 @SpringBootApplication(exclude = {RedisAutoConfiguration.class})
-@MapperScan("com.base.framework.admin.mapper")
+@MapperScan("com.base.framework.**.mapper")
 @EnableScheduling
 @EnableAspectJAutoProxy(proxyTargetClass = true, exposeProxy = true)
 public class MainApplication {

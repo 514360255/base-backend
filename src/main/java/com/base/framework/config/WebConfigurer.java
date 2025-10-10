@@ -1,6 +1,7 @@
 package com.base.framework.config;
 
 import com.base.framework.Interceptor.AdminInterceptor;
+import com.base.framework.Interceptor.MiniProgramInterceptor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +11,9 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.annotation.Resource;
+
+import static com.base.framework.constant.RouteConstant.ADMIN_PREFIX;
+import static com.base.framework.constant.RouteConstant.MINI_PROGRAM_PREFIX;
 
 /**
  * @author 郭郭
@@ -22,6 +26,9 @@ public class WebConfigurer implements WebMvcConfigurer {
     @Resource
     private AdminInterceptor adminInterceptor;
 
+    @Resource
+    private MiniProgramInterceptor miniProgramInterceptor;
+
     @Autowired
     private UploadConfig uploadConfig;
 
@@ -31,11 +38,17 @@ public class WebConfigurer implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry interceptorRegister) {
 
-        // 后端登录
+        // 后台系统
         interceptorRegister
                 .addInterceptor(adminInterceptor)
-                .addPathPatterns("/api/admin/**")
-                .excludePathPatterns("/api/admin/account/login");
+                .addPathPatterns("/" + ADMIN_PREFIX + "**")
+                .excludePathPatterns("/" + ADMIN_PREFIX + "account/login");
+
+        // 小程序
+        interceptorRegister
+                .addInterceptor(miniProgramInterceptor)
+                .addPathPatterns("/" + MINI_PROGRAM_PREFIX +"/**")
+                .excludePathPatterns("/" + ADMIN_PREFIX + "hospital/**", "/" + MINI_PROGRAM_PREFIX + "auth/**");
     }
 
     @Override

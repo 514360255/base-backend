@@ -16,6 +16,6 @@ public class RouteConstant {
     /**
      * 小程序前缀
      */
-    public static final String MINI_PROGRAM_PREFIX = "mini/program/";
+    public static final String MINI_PROGRAM_PREFIX = "api/mini/program/";
 
 }
