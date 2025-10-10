@@ -20,9 +20,11 @@
             mh.feature,
             mh.is_active AS isActive,
             mh.created_at AS createdAt,
-            mh.created_by AS createdBy
+            mh.created_by AS createdBy,
+            sa.name AS  accountName
         FROM
             m_hospital mh
+        LEFT JOIN sys_account sa ON mh.account_id = sa.id
         <where>
             mh.is_deleted = 1 AND mh.deleted_at IS NULL
             <if test="name != null and name != ''">

@@ -55,4 +55,9 @@ public class HospitalVO extends BaseVO {
      * 接诊时间
      */
     private String consultationHours;
+
+    /**
+     * 所属人
+     */
+    private String accountName;
 }
