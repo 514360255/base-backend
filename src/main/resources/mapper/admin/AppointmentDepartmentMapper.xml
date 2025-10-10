@@ -3,14 +3,15 @@
 <mapper namespace="com.base.framework.admin.mapper.AppointmentDepartmentMapper">
 
     <insert id="save" parameterType="com.base.framework.admin.model.entity.AppointmentDepartmentEntity" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO m_appointment_department(id, name, banner_url, problems, disease_type, diagnosis_items, created_by)
-        VALUES(#{id}, #{name}, #{bannerUrl}, #{problems}, #{diseaseType}, #{diagnosisItems}, #{createdBy})
+        INSERT INTO m_appointment_department(id, name, title, banner_url, problems, disease_type, diagnosis_items, created_by)
+        VALUES(#{id}, #{name}, #{title}, #{bannerUrl}, #{problems}, #{diseaseType}, #{diagnosisItems}, #{createdBy})
     </insert>
 
     <select id="queryPage" resultType="com.base.framework.admin.model.entity.AppointmentDepartmentEntity">
         SELECT
             id,
             name,
+            title,
             banner_url AS bannerUrl,
             problems,
             disease_type AS diseaseType,
@@ -33,6 +34,7 @@
         SELECT
             id,
             name,
+            title,
             banner_url AS bannerUrl,
             problems,
             disease_type AS diseaseType,
@@ -49,6 +51,7 @@
             m_appointment_department
         SET
             name = #{name},
+            title = #{title},
             banner_url = #{bannerUrl},
             problems = #{problems},
             disease_type = #{diseaseType},

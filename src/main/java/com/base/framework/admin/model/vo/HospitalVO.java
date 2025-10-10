@@ -50,4 +50,9 @@ public class HospitalVO extends BaseVO {
      * 账号id
      */
     private String accountId;
+
+    /**
+     * 接诊时间
+     */
+    private String consultationHours;
 }

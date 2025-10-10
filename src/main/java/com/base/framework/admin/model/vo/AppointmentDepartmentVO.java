@@ -17,6 +17,11 @@ public class AppointmentDepartmentVO extends BaseVO {
     private String name;
 
     /**
+     * 显示名
+     */
+    private String title;
+
+    /**
      * banner 图片
      */
     private String bannerUrl;

@@ -33,6 +33,6 @@ public class HospitalQueryDTO extends PageRequest implements Serializable {
     /**
      * 科室id
      */
-    private Long department;
+    private Long departmentId;
 
 }

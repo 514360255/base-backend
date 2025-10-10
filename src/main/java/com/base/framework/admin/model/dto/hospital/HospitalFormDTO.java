@@ -61,4 +61,9 @@ public class HospitalFormDTO extends BaseDTO implements Serializable {
      */
     private String secret;
 
+    /**
+     * 接诊时间
+     */
+    private String consultationHours;
+
 }

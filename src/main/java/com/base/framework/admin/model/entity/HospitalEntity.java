@@ -56,4 +56,9 @@ public class HospitalEntity extends BaseEntity {
      * secret
      */
     private String secret;
+
+    /**
+     * 接诊时间
+     */
+    private String consultationHours;
 }

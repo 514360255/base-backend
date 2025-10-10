@@ -18,6 +18,11 @@ public class AppointmentDepartmentEntity extends BaseEntity {
     private String name;
 
     /**
+     * 显示名
+     */
+    private String title;
+
+    /**
      * banner 图片
      */
     private String bannerUrl;

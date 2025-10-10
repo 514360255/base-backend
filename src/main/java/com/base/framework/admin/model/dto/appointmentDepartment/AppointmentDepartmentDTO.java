@@ -21,6 +21,11 @@ public class AppointmentDepartmentDTO extends BaseDTO {
     private String name;
 
     /**
+     * 显示名
+     */
+    private String title;
+
+    /**
      * banner 图片
      */
     private String bannerUrl;
