@@ -20,8 +20,10 @@ public class CreateAndUpdateMetaObjectHandler implements MetaObjectHandler {
     public void insertFill(MetaObject metaObject) {
         try {
             log.info("insertFill...");
-            this.strictInsertFill(metaObject, "createdBy", String.class, SecurityUtils.getCurrentUsername());
-            this.strictInsertFill(metaObject, "accountId", Long.class, SecurityUtils.getCurrentUserId());
+            if(SecurityUtils.getCurrentUserId() != null) {
+                this.strictInsertFill(metaObject, "createdBy", String.class, SecurityUtils.getCurrentUsername());
+                this.strictInsertFill(metaObject, "accountId", Long.class, SecurityUtils.getCurrentUserId());
+            }
         }catch (Exception e) {
             e.printStackTrace();
             System.out.println("自动注入失败：{}" + e.getMessage());
@@ -32,7 +34,9 @@ public class CreateAndUpdateMetaObjectHandler implements MetaObjectHandler {
     public void updateFill(MetaObject metaObject) {
         try {
             log.info("updateFill...");
-            this.strictUpdateFill(metaObject, "updatedBy", String.class, SecurityUtils.getCurrentUsername());
+            if(SecurityUtils.getCurrentUserId() != null) {
+                this.strictUpdateFill(metaObject, "updatedBy", String.class, SecurityUtils.getCurrentUsername());
+            }
         }catch (Exception e) {
             e.printStackTrace();
             System.out.println("自动注入失败：{}" + e.getMessage());
