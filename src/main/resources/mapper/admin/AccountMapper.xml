@@ -86,6 +86,7 @@
             role_code = #{roleCode},
             is_active = #{isActive},
             hospital_id = #{hospitalId},
+            email = #{email},
             password = #{password},
             updated_at = now(),
             updated_by = #{updatedBy}
