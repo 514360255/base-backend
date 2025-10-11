@@ -16,4 +16,11 @@ public interface MPHospitalMapper {
      */
     MPHospitalEntity getHospitalDetailByCode(String code);
 
+    /**
+     * 获取医院详情
+     * @param code String
+     * @return MPHospitalMapper
+     */
+    MPHospitalEntity getDetail(String code);
+
 }

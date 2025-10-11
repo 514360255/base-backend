@@ -18,5 +18,14 @@
             code = #{code} AND is_active = 1
     </select>
 
+    <select id="getDetail"  resultType="com.base.framework.miniProgram.model.entity.MPHospitalEntity">
+        SELECT
+            *
+        FROM
+            m_hospital
+        WHERE
+            code = #{code} AND is_active = 1
+    </select>
+
 
 </mapper>

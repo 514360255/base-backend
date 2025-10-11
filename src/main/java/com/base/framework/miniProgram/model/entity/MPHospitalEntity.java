@@ -49,4 +49,14 @@ public class MPHospitalEntity {
      * 接诊时间
      */
     private String consultationHours;
+
+    /**
+     * secret
+     */
+    private String secret;
+
+    /**
+     * appid
+     */
+    private String appid;
 }
