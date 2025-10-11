@@ -1,9 +1,7 @@
 package com.base.framework.admin.service.impl;
 
 import cn.hutool.extra.cglib.CglibUtil;
-import com.base.framework.admin.mapper.AppointmentHospitalDepartmentMappingMapper;
 import com.base.framework.admin.mapper.HospitalMapper;
-import com.base.framework.admin.model.dto.appointmentDepartment.AppointmentHospitalDepartmentMappingForm;
 import com.base.framework.admin.model.dto.hospital.HospitalFormDTO;
 import com.base.framework.admin.model.dto.hospital.HospitalQueryDTO;
 import com.base.framework.admin.model.entity.HospitalEntity;
@@ -34,9 +32,6 @@ public class HospitalServiceImpl implements HospitalService {
 
     @Resource
     HospitalMapper hospitalMapper;
-
-    @Resource
-    AppointmentHospitalDepartmentMappingMapper appointmentHospitalDepartmentMappingMapper;
 
     @Override
     public ResultVo queryHospitalPage(HospitalQueryDTO params) {

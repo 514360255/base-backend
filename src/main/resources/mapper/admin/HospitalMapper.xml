@@ -52,6 +52,7 @@
             mh.department_ids AS departmentIds,
             mh.department_names AS departmentNames,
             mh.consultation_hours AS consultationHours,
+            mh.account_id AS accountId,
             mh.feature,
             mh.appid,
             mh.secret,
