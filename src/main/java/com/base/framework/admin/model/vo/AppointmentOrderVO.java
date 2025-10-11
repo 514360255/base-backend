@@ -1,4 +1,4 @@
-package com.base.framework.admin.model.entity;
+package com.base.framework.admin.model.vo;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
  **/
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class AppointmentOrderEntity extends BaseEntity {
+public class AppointmentOrderVO extends BaseVO {
 
     /**
      * 姓名

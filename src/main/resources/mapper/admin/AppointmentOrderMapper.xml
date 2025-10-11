@@ -2,4 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.base.framework.admin.mapper.AppointmentOrderMapper">
 
+    <select id="queryPage" resultType="com.base.framework.admin.model.entity.AppointmentOrderEntity">
+        SELECT
+            ma.id,
+            ma.name,
+            ma.age,
+            ma.mobile,
+            ma.appointment_time AS appointmentTime,
+            ma.disease,
+            ma.remark,
+            ma.write_off AS writeOff,
+            ma.hospital_name AS hospitalName,
+            ma.account_name AS accountName
+        FROM
+            m_appointment_order ma
+        <where>
+            <if test="hospitalName != null and hospitalName != ''">
+                ma.hospital_name LIKE CONCAT('%',#{hospitalName},'%')
+            </if>
+            <if test="accountName != null and accountName != ''">
+               AND ma.account_name LIKE CONCAT('%',#{accountName},'%')
+            </if>
+            <if test="name != null and name != ''">
+               AND ma.name LIKE CONCAT('%',#{name},'%')
+            </if>
+        </where>
+    </select>
+
 </mapper>
