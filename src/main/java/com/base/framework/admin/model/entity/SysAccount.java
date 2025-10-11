@@ -54,6 +54,11 @@ public class SysAccount extends BaseEntity implements Serializable {
     private String email;
 
     /**
+     * 收件人
+     */
+    private String recipient;
+
+    /**
      * 角色Code
      */
     private String roleCode;

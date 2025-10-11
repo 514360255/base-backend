@@ -83,6 +83,11 @@ public class AccountVO extends BaseVO implements Serializable {
     private String email;
 
     /**
+     * 收件人
+     */
+    private String recipient;
+
+    /**
      * 角色Code
      */
     private String roleCode;

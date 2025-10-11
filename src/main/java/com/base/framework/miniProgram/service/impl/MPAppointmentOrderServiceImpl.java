@@ -64,7 +64,7 @@ public class MPAppointmentOrderServiceImpl implements MPAppointmentOrderService 
                 "<p>诊疗疾病：" + params.getDisease() + "</p>" +
                 "<p>疾病描述：" + params.getRemark() + "</p>" +
                 "</div>";
-        List<String> emails = new ArrayList<>(Arrays.asList(sysAccount.getEmail().split(";")));
+        List<String> emails = new ArrayList<>(Arrays.asList(sysAccount.getRecipient().split(";")));
         TencentEmailSenderMultiple.sendEmailToMultiple(title, body, emails);
         return ResultVo.ok(params.getId());
     }
