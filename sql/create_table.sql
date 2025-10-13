@@ -145,6 +145,14 @@ CREATE TABLE `medical_appointment`.`m_appointment_order` (
     INDEX idx_appointment_time (appointment_time)
 ) COMMENT = '预约列表' CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
+CREATE TABLE `medical_appointment`.`m_appointment_user` (
+    `id`                      BIGINT                                               PRIMARY KEY COMMENT '主键',
+    `name`                    VARCHAR(50)                NOT NULL                              COMMENT '姓名',
+    `age`                     INT                                                              COMMENT '年龄',
+    `mobile`                  VARCHAR(20)                NOT NULL                              COMMENT '手机号',
+    `account_id`              BIGINT                                                           COMMENT '账号ID'
+) COMMENT = '预约用户' CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
 CREATE TABLE `medical_appointment`.`sys_dict` (
     `id`                      BIGINT                                               PRIMARY KEY COMMENT '主键',
     `parent_id`               BIGINT                                                           COMMENT '上级id',
@@ -173,6 +181,6 @@ CREATE TABLE `medical_appointment`.`image` (
 
 
 INSERT INTO `medical_appointment`.`sys_account`
-(`id`, `name`, `account`, `mobile`, `email`, `role_code`, `is_active`, `password`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`, `is_deleted`)
+(`id`, `name`, `account`, `mobile`, `email`, recipient, `role_code`, `is_active`, `password`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`, `is_deleted`)
 VALUES
-(202507311424560001, '系统管理员', 'admin', '13641663423', '514360255@qq.com', 'SUPER_ADMIN', 1, '55f5ac30819e4db8a61d61126dbc5407', '2023-02-20 14:25:10', 'admin', NULL, NULL, NULL, NULL, 1)
+(202507311424560001, '系统管理员', 'admin', '13641663423', '514360255@qq.com', '514360255@qq.com', 'SUPER_ADMIN', 1, '55f5ac30819e4db8a61d61126dbc5407', '2023-02-20 14:25:10', 'admin', NULL, NULL, NULL, NULL, 1)

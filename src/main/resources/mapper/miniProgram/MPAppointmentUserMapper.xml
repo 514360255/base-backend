@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.framework.miniProgram.mapper.MPAppointmentUserMapper">
+
+    <insert id="save" parameterType="com.base.framework.miniProgram.model.entity.MPAppointmentUserEntity" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO m_appointment_user (id, name, age, mobile, account_id)
+        VALUES (#{id}, #{name}, #{age}, #{mobile}, #{accountId})
+    </insert>
+
+    <update id="update" parameterType="com.base.framework.miniProgram.model.entity.MPAppointmentUserEntity">
+        UPDATE
+            m_appointment_user
+        SET
+            name = #{name},
+            age = #{age}
+        WHERE
+            id = #{id}
+    </update>
+
+    <select id="getDetailByMobile" resultType="com.base.framework.miniProgram.model.entity.MPAppointmentUserEntity">
+        SELECT * FROM m_appointment_user WHERE mobile = #{mobile}
+    </select>
+
+    <select id="getDetailById" resultType="com.base.framework.miniProgram.model.entity.MPAppointmentUserEntity">
+        SELECT * FROM m_appointment_user WHERE id = #{id}
+    </select>
+
+</mapper>

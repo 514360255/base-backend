@@ -8,8 +8,12 @@ package com.base.framework.constant;
 public class JwtConstant {
 
     public static final String APP_SECRET_KEY = "3hN:&Ez59ikteuYwshvln)RQ?6)MKKi-44!BO>aFwJiBJc~w<maP%970gM*fz>B!";
-    // 过期时间
+
+    // 过期时间 7 天
     public static final int EXPIRATION = 7 * 24 * 60 * 60 * 1000;
+
+    // 过期时间 1 年
+    public static final int EXPIRATION_YEAR = 365 * 24 * 60 * 60 * 1000;
 
     public static final String TOKEN_PREFIX = "Bearer";
 

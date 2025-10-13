@@ -1,6 +1,6 @@
 package com.base.framework.miniProgram.service;
 
-import com.base.framework.miniProgram.model.dto.account.AuthForm;
+import com.base.framework.miniProgram.model.dto.account.MPAuthForm;
 import com.base.framework.utils.ResultVo;
 
 /**
@@ -15,6 +15,6 @@ public interface MPAccountService {
      * @param params
      * @return
      */
-    ResultVo login(AuthForm params);
+    ResultVo phoneAuth(MPAuthForm params);
 
 }

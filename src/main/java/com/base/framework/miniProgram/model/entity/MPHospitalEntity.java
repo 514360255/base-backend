@@ -16,6 +16,11 @@ public class MPHospitalEntity {
     private Long id;
 
     /**
+     * 账号Id
+     */
+    private Long accountId;
+
+    /**
      * 医院名称
      */
     private String name;

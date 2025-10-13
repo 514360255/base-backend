@@ -12,9 +12,10 @@ public interface MPAppointmentOrderService {
 
     /**
      * 预约订单保存
+     * @param auth String
      * @param params AppointmentOrderForm
      * @return ResultVo<Long>
      */
-    ResultVo<Long> saveAppointmentOrder(MPAppointmentOrderForm params);
+    ResultVo<Long> saveAppointmentOrder(MPAppointmentOrderForm params, String auth);
 
 }

@@ -11,8 +11,6 @@ import java.util.Objects;
  */
 public class JwtTokenUtils {
 
-    private static Claims claims = null;
-
     /**
      * 生成Token
      */
@@ -24,6 +22,16 @@ public class JwtTokenUtils {
                 .claim("userId", userId)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + JwtConstant.EXPIRATION))
+                .signWith(SignatureAlgorithm.HS256, JwtConstant.APP_SECRET_KEY).compact();
+    }
+
+    public static String createToken(String userId) {
+        return Jwts
+                .builder()
+                .setHeaderParam("typ", "JWT")
+                .claim("userId", userId)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + JwtConstant.EXPIRATION_YEAR))
                 .signWith(SignatureAlgorithm.HS256, JwtConstant.APP_SECRET_KEY).compact();
     }
 

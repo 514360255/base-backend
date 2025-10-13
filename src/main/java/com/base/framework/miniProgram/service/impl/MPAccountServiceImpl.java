@@ -1,12 +1,27 @@
 package com.base.framework.miniProgram.service.impl;
 
+import cn.hutool.core.lang.Snowflake;
+import cn.hutool.core.util.IdUtil;
+import com.base.framework.miniProgram.model.vo.MPAccountLoginVO;
+import com.base.framework.utils.AesEncryptionUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.base.framework.constant.JwtConstant;
+import com.base.framework.exception.BusinessException;
+import com.base.framework.miniProgram.mapper.MPAppointmentUserMapper;
 import com.base.framework.miniProgram.mapper.MPHospitalMapper;
-import com.base.framework.miniProgram.model.dto.account.AuthForm;
+import com.base.framework.miniProgram.model.dto.account.MPAuthForm;
+import com.base.framework.miniProgram.model.dto.account.WxLoginResponse;
+import com.base.framework.miniProgram.model.entity.MPAppointmentUserEntity;
 import com.base.framework.miniProgram.model.entity.MPHospitalEntity;
 import com.base.framework.miniProgram.service.MPAccountService;
+import com.base.framework.utils.JwtTokenUtils;
 import com.base.framework.utils.ResultVo;
+import com.base.framework.utils.WxPhoneDecryptorUtil;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 
@@ -22,12 +37,83 @@ public class MPAccountServiceImpl implements MPAccountService {
     @Resource
     MPHospitalMapper mpHospitalMapper;
 
+    @Resource
+    MPAppointmentUserMapper mpAppointmentUserMapper;
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    private static final String CODE_TO_SESSION_URL =
+            "https://api.weixin.qq.com/sns/jscode2session?" +
+                    "appid=%s&secret=%s&js_code=%s&grant_type=authorization_code";
+
     @Override
-    public ResultVo login(AuthForm params) {
+    public ResultVo phoneAuth(MPAuthForm params) {
+        if (params.getIv() == null || params.getCode() == null || params.getEncryptedData() == null || params.getHospitalCode() == null) {
+            throw new BusinessException(500, "缺少参数");
+        }
 
-        MPHospitalEntity mpHospitalEntity = mpHospitalMapper.getDetail(params.getCode());
+        try {
+            MPHospitalEntity mpHospitalEntity = mpHospitalMapper.getDetailByCode(params.getHospitalCode());
+            String appid = AesEncryptionUtil.decrypt(mpHospitalEntity.getAppid());
+            String url = String.format(
+                    CODE_TO_SESSION_URL,
+                    appid,
+                    AesEncryptionUtil.decrypt(mpHospitalEntity.getSecret()),
+                    params.getCode()
+            );
 
-        return ResultVo.ok("");
+            WxLoginResponse sessionResponse = restTemplate.getForObject(url, WxLoginResponse.class);
+
+            if (sessionResponse == null || sessionResponse.getErrcode() != null && sessionResponse.getErrcode() != 0) {
+                throw new BusinessException(500, "微信接口错误: " + sessionResponse.getErrmsg());
+            }
+
+            String sessionKey = sessionResponse.getSession_key();
+            String decryptedData = WxPhoneDecryptorUtil.decryptPhone(params.getEncryptedData(), params.getIv(), sessionKey);
+
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode rootNode = mapper.readTree(decryptedData);
+
+            // 校验 watermark
+            JsonNode watermark = rootNode.get("watermark");
+
+            if (watermark == null || !appid.equals(watermark.get("appid").asText())) {
+                throw new BusinessException(500, "无效的数据来源");
+            }
+
+            String phoneNumber = rootNode.get("phoneNumber").asText();
+
+            // 更新授权次数
+            mpHospitalMapper.saveAuthNumber(mpHospitalEntity.getId());
+
+            // 根据手机号获取用户信息
+            MPAppointmentUserEntity user = mpAppointmentUserMapper.getDetailByMobile(phoneNumber);
+            MPAppointmentUserEntity mpAppointmentUserEntity = new MPAppointmentUserEntity();
+
+            if(user == null) {
+                // 新增预约用户
+                // 参数：数据中心ID（0-31），机器ID（0-31）
+                Snowflake snowflake = IdUtil.createSnowflake(1, 1);
+                mpAppointmentUserEntity.setAccountId(mpHospitalEntity.getAccountId());
+                mpAppointmentUserEntity.setMobile(phoneNumber);
+                mpAppointmentUserEntity.setId(snowflake.nextId());
+                mpAppointmentUserMapper.save(mpAppointmentUserEntity);
+            }else {
+                mpAppointmentUserEntity.setId(user.getId());
+            }
+
+            MPAccountLoginVO mpAccountLoginVO = new MPAccountLoginVO();
+            String id = String.valueOf(mpAppointmentUserEntity.getId());
+            String token = JwtTokenUtils.createToken(id);
+            mpAccountLoginVO.setId(id);
+            mpAccountLoginVO.setToken(JwtConstant.TOKEN_PREFIX +" "+ token);
+
+            return ResultVo.ok(mpAccountLoginVO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BusinessException(500, "解密失败: " + e.getMessage());
+        }
     }
 
 }

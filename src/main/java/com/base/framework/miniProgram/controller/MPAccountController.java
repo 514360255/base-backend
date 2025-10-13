@@ -1,6 +1,6 @@
 package com.base.framework.miniProgram.controller;
 
-import com.base.framework.miniProgram.model.dto.account.AuthForm;
+import com.base.framework.miniProgram.model.dto.account.MPAuthForm;
 import com.base.framework.miniProgram.service.MPAccountService;
 import com.base.framework.utils.ResultVo;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,9 +24,9 @@ public class MPAccountController {
     @Resource
     MPAccountService mpAccountService;
 
-    @PostMapping("login")
-    public ResultVo login(@RequestBody AuthForm params) {
-        return mpAccountService.login(params);
+    @PostMapping("phone/auth")
+    public ResultVo login(@RequestBody MPAuthForm params) {
+        return mpAccountService.phoneAuth(params);
     }
 
 }

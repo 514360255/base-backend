@@ -21,6 +21,12 @@ public interface MPHospitalMapper {
      * @param code String
      * @return MPHospitalMapper
      */
-    MPHospitalEntity getDetail(String code);
+    MPHospitalEntity getDetailByCode(String code);
+
+    /**
+     * 保存授权次数
+     * @param hospitalId Long
+     */
+    void saveAuthNumber(Long hospitalId);
 
 }

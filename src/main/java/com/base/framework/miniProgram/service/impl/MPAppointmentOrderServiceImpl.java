@@ -6,8 +6,11 @@ import com.base.framework.admin.model.entity.HospitalEntity;
 import com.base.framework.admin.model.entity.SysAccount;
 import com.base.framework.exception.BusinessException;
 import com.base.framework.miniProgram.mapper.MPAppointmentOrderMapper;
+import com.base.framework.miniProgram.mapper.MPAppointmentUserMapper;
 import com.base.framework.miniProgram.model.dto.appointmentOrder.MPAppointmentOrderForm;
+import com.base.framework.miniProgram.model.entity.MPAppointmentUserEntity;
 import com.base.framework.miniProgram.service.MPAppointmentOrderService;
+import com.base.framework.utils.JwtTokenUtils;
 import com.base.framework.utils.ResultVo;
 import com.base.framework.utils.TencentEmailSenderMultiple;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +35,9 @@ public class MPAppointmentOrderServiceImpl implements MPAppointmentOrderService 
     MPAppointmentOrderMapper mpAppointmentOrderMapper;
 
     @Resource
+    MPAppointmentUserMapper mpAppointmentUserMapper;
+
+    @Resource
     HospitalMapper hospitalMapper;
 
     @Resource
@@ -39,7 +45,17 @@ public class MPAppointmentOrderServiceImpl implements MPAppointmentOrderService 
 
     @Override
     @Transactional
-    public ResultVo<Long> saveAppointmentOrder(MPAppointmentOrderForm params) {
+    public ResultVo<Long> saveAppointmentOrder(MPAppointmentOrderForm params, String auth) {
+
+        if(auth == null) {
+            throw new BusinessException(401, "token过期，请登录");
+        }
+        Long userId = JwtTokenUtils.getUserId(auth);
+        if(userId == null) {
+            throw new BusinessException(401, "用户不存在或token过期，请登录");
+        }
+        MPAppointmentUserEntity appointmentUser = mpAppointmentUserMapper.getDetailById(userId);
+
         HospitalEntity hospitalEntity = hospitalMapper.getHospitalDetail(params.getHospitalId());
         if(hospitalEntity == null) {
             throw new BusinessException(500, "医院不存在");
@@ -59,13 +75,20 @@ public class MPAppointmentOrderServiceImpl implements MPAppointmentOrderService 
         String body = "<div>" +
                 "<p>姓名：" + params.getName() + "</p>" +
                 "<p>年龄：" + params.getAge() + "</p>" +
-                "<p>电话号码：" + params.getMobile() + "</p>" +
+                "<p>电话号码：" + appointmentUser.getMobile() + "</p>" +
                 "<p>到院日期：" + params.getAppointmentTime() + "</p>" +
                 "<p>诊疗疾病：" + params.getDisease() + "</p>" +
                 "<p>疾病描述：" + params.getRemark() + "</p>" +
                 "</div>";
         List<String> emails = new ArrayList<>(Arrays.asList(sysAccount.getRecipient().split(";")));
         TencentEmailSenderMultiple.sendEmailToMultiple(title, body, emails);
+
+        MPAppointmentUserEntity mpAppointmentUserEntity = new MPAppointmentUserEntity();
+        mpAppointmentUserEntity.setName(params.getName());
+        mpAppointmentUserEntity.setAge(params.getAge());
+        mpAppointmentUserEntity.setId(userId);
+        mpAppointmentUserMapper.update(mpAppointmentUserEntity);
+
         return ResultVo.ok(params.getId());
     }
 

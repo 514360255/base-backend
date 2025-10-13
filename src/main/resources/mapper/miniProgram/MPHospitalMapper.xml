@@ -18,14 +18,21 @@
             code = #{code} AND is_active = 1
     </select>
 
-    <select id="getDetail"  resultType="com.base.framework.miniProgram.model.entity.MPHospitalEntity">
+    <select id="getDetailByCode"  resultType="com.base.framework.miniProgram.model.entity.MPHospitalEntity">
         SELECT
-            *
+            id,
+            account_id As accountId,
+            appid,
+            secret
         FROM
             m_hospital
         WHERE
             code = #{code} AND is_active = 1
     </select>
+
+    <update id="saveAuthNumber">
+        UPDATE m_hospital SET auth_number = IFNULL(auth_number, 0) + 1 WHERE id = #{hospitalId}
+    </update>
 
 
 </mapper>
