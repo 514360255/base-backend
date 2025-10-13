@@ -150,7 +150,8 @@ CREATE TABLE `medical_appointment`.`m_appointment_user` (
     `name`                    VARCHAR(50)                NOT NULL                              COMMENT '姓名',
     `age`                     INT                                                              COMMENT '年龄',
     `mobile`                  VARCHAR(20)                NOT NULL                              COMMENT '手机号',
-    `account_id`              BIGINT                                                           COMMENT '账号ID'
+    `account_id`              BIGINT                                                           COMMENT '账号ID',
+    `created_at`              DATETIME                   NOT NULL DEFAULT CURRENT_TIMESTAMP    COMMENT '创建时间'
 ) COMMENT = '预约用户' CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE `medical_appointment`.`sys_dict` (

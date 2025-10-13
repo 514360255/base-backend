@@ -49,7 +49,7 @@ public class HospitalVO extends BaseVO {
     /**
      * 账号id
      */
-    private String accountId;
+    private Long accountId;
 
     /**
      * 接诊时间
@@ -60,4 +60,9 @@ public class HospitalVO extends BaseVO {
      * 所属人
      */
     private String accountName;
+
+    /**
+     * 授权次数
+     */
+    private Integer authNumber;
 }

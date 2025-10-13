@@ -18,6 +18,7 @@
             mh.department_names AS departmentNames,
             mh.consultation_hours AS consultationHours,
             mh.feature,
+            mh.auth_number AS authNumber,
             mh.is_active AS isActive,
             mh.created_at AS createdAt,
             mh.created_by AS createdBy,

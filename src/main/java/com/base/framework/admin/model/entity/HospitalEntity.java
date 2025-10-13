@@ -66,4 +66,9 @@ public class HospitalEntity extends BaseEntity {
      * 所属人
      */
     private String accountName;
+
+    /**
+     * 授权次数
+     */
+    private Integer authNumber;
 }
