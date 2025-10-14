@@ -1,4 +1,7 @@
 spring:
+  web:
+    resources:
+      static-locations: file:${user.home}/www/wwwroot/make.pc666999.top/uploads/
   # 数据库配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -30,3 +33,6 @@ mybatis:
   type-aliases-package: com.base.framework.admin.entity
   configuration:
     map-underscore-to-camel-case: true
+# 上传文件路径
+upload:
+  url: /www/wwwroot/make.pc666999.top/uploads

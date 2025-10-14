@@ -48,12 +48,14 @@ public class WebConfigurer implements WebMvcConfigurer {
         interceptorRegister
                 .addInterceptor(miniProgramInterceptor)
                 .addPathPatterns("/" + MINI_PROGRAM_PREFIX +"/**")
-                .excludePathPatterns("/" + ADMIN_PREFIX + "hospital/**", "/" + MINI_PROGRAM_PREFIX + "auth/**");
+                .excludePathPatterns("/" + MINI_PROGRAM_PREFIX + "hospital/**", "/" + MINI_PROGRAM_PREFIX + "account/phone/auth");
     }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         // 覆盖所有请求
+        // 加日志确认是否执行
+        System.out.println(">>> CORS Config Applied");
         registry.addMapping("/**")
                 // 允许发送 Cookie
                 .allowCredentials(true)
