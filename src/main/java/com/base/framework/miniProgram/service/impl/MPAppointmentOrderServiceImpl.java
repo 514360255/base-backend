@@ -67,6 +67,7 @@ public class MPAppointmentOrderServiceImpl implements MPAppointmentOrderService 
         params.setAccountId(sysAccount.getId());
         params.setHospitalName(hospitalEntity.getName());
         params.setAccountName(sysAccount.getName());
+        params.setMobile(appointmentUser.getMobile());
         Integer index = mpAppointmentOrderMapper.save(params);
         if(index == 0) {
             throw new BusinessException(500, "保存失败");

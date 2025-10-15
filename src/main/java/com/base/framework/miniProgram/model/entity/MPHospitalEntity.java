@@ -64,4 +64,14 @@ public class MPHospitalEntity {
      * appid
      */
     private String appid;
+
+    /**
+     * 医院简介图片
+     */
+    private String introPic;
+
+    /**
+     * 医院环境图片
+     */
+    private String envPic;
 }

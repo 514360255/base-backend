@@ -11,7 +11,9 @@
             address,
             feature,
             department_ids AS departmentIds,
-            consultation_hours AS consultationHours
+            consultation_hours AS consultationHours,
+            intro_pic AS introPic,
+            env_pic AS envPic
         FROM
             m_hospital
         WHERE

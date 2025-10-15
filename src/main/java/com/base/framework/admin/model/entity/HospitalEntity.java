@@ -71,4 +71,14 @@ public class HospitalEntity extends BaseEntity {
      * 授权次数
      */
     private Integer authNumber;
+
+    /**
+     * 医院简介图片
+     */
+    private String introPic;
+
+    /**
+     * 医院环境图片
+     */
+    private String envPic;
 }

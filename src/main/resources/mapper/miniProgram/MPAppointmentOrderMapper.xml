@@ -4,7 +4,7 @@
 
     <insert id="save" parameterType="com.base.framework.miniProgram.model.entity.MPAppointmentOrderEntity" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO m_appointment_order (id, name, age, mobile, appointment_time, disease, remark, hospital_id, hospital_name, account_id, account_name)
-        VALUES (#{id}, #{name}, #{age}, 123, #{appointmentTime}, #{disease}, #{remark}, #{hospitalId}, #{hospitalName}, #{accountId}, #{accountName})
+        VALUES (#{id}, #{name}, #{age}, #{mobile}, #{appointmentTime}, #{disease}, #{remark}, #{hospitalId}, #{hospitalName}, #{accountId}, #{accountName})
     </insert>
 
 </mapper>
