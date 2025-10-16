@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.framework.admin.mapper.AppointmentExpertMapper">
+
+    <insert id="save" parameterType="com.base.framework.admin.model.entity.AppointmentExpertEntity">
+        INSERT INTO
+            m_appointment_hospital_expert(id, name, hospital_id, account_id, avatar, title, domain, intro, created_by)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id}, #{item.name}, #{hospitalId}, #{accountId}, #{item.avatar}, #{item.title}, #{item.domain}, #{item.intro}, #{item.createdBy})
+        </foreach>
+    </insert>
+
+    <select id="queryPage" resultType="com.base.framework.admin.model.entity.AppointmentExpertEntity">
+        SELECT
+            he.id,
+            he.name,
+            he.avatar,
+            he.hospital_id AS hospitalId,
+            he.title,
+            he.domain,
+            he.intro,
+            he.created_at AS createdAt,
+            he.created_by As createdBy,
+            mh.name AS hospitalName,
+            sa.name AS accountName
+        FROM
+            m_appointment_hospital_expert he
+        LEFT JOIN m_hospital mh ON mh.id = he.hospital_id
+        LEFT JOIN sys_account sa ON sa.id = he.account_id
+        <where>
+            <if test="accountId != null and accountId != ''">
+                he.account_id = #{accountId}
+            </if>
+            <if test="hospitalId != null and hospitalId != ''">
+                he.hospital_id = #{hospitalId}
+            </if>
+            <if test="name != null and name != ''">
+                AND he.name LIKE CONCAT('%', #{name}, '%')
+            </if>
+        </where>
+    </select>
+
+    <update id="update" parameterType="com.base.framework.admin.model.entity.AppointmentExpertEntity">
+        UPDATE
+            m_appointment_hospital_expert
+        SET
+            name = #{name},
+            avatar = #{avatar},
+            title = #{title},
+            domain = #{domain},
+            intro = #{intro}
+        WHERE
+            id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM m_appointment_hospital_expert WHERE id = #{id}
+    </delete>
+
+</mapper>
