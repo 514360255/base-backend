@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.framework.miniProgram.mapper.MPAppointmentExpertMapper">
+
+    <select id="queryExpertList" resultType="com.base.framework.miniProgram.model.entity.MPAppointmentExpertEntity">
+        SELECT
+            *
+        FROM
+            m_appointment_hospital_expert
+        WHERE
+            hospital_id = #{hospitalId}
+    </select>
+
+</mapper>
