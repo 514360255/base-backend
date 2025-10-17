@@ -18,3 +18,9 @@ ALTER TABLE m_hospital ADD COLUMN `intro_pic` VARCHAR(255) NOT NULL COMMENT '医
 
 # 医院表在 `env_pic` 字段后新增 `医院环境图` 字段
 ALTER TABLE m_hospital ADD COLUMN `env_pic` TEXT NOT NULL COMMENT '医院环境图' AFTER `intro_pic`;
+
+# 医院表在 `env_pic` 字段后新增 `收件人` 字段
+ALTER TABLE m_hospital ADD COLUMN `recipient` TEXT NOT NULL COMMENT '收件人' AFTER `env_pic`;
+
+# 预约列表在 `env_pic` 字段后新增 `预约专家` 字段
+ALTER TABLE m_appointment_order ADD COLUMN `expert` VARCHAR(20) NOT NULL COMMENT '预约专家' AFTER `appointment_time`;
