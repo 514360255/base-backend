@@ -21,6 +21,11 @@ public class MPAccountLoginVO {
     private String name;
 
     /**
+     *  手机号
+     */
+    private String mobile;
+
+    /**
      *  token
      */
     private String token;

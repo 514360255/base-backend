@@ -2,8 +2,10 @@ package com.base.framework.miniProgram.service.impl;
 
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
+import com.base.framework.miniProgram.mapper.MPSysAccountMapper;
+import com.base.framework.miniProgram.model.entity.MPSysAccountEntity;
 import com.base.framework.miniProgram.model.vo.MPAccountLoginVO;
-import com.base.framework.utils.AesEncryptionUtil;
+import com.base.framework.utils.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.base.framework.constant.JwtConstant;
 import com.base.framework.exception.BusinessException;
@@ -14,9 +16,6 @@ import com.base.framework.miniProgram.model.dto.account.WxLoginResponse;
 import com.base.framework.miniProgram.model.entity.MPAppointmentUserEntity;
 import com.base.framework.miniProgram.model.entity.MPHospitalEntity;
 import com.base.framework.miniProgram.service.MPAccountService;
-import com.base.framework.utils.JwtTokenUtils;
-import com.base.framework.utils.ResultVo;
-import com.base.framework.utils.WxPhoneDecryptorUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +23,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @Author: 郭郭
@@ -39,6 +41,9 @@ public class MPAccountServiceImpl implements MPAccountService {
 
     @Resource
     MPAppointmentUserMapper mpAppointmentUserMapper;
+
+    @Resource
+    private MPSysAccountMapper mpSysAccountMapper;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -103,10 +108,23 @@ public class MPAccountServiceImpl implements MPAccountService {
                 mpAppointmentUserEntity.setId(user.getId());
             }
 
+            // 发送邮件
+            MPSysAccountEntity mpSysAccountEntity = mpSysAccountMapper.getDetailByAccountId(mpHospitalEntity.getAccountId());
+            String title = mpHospitalEntity.getName();
+            String body = "<div>" +
+                    "<p>电话号码：" + phoneNumber + "</p>" +
+                    "</div>";
+            List<String> emails = new ArrayList<>(Arrays.asList(mpSysAccountEntity.getRecipient().split(";")));
+            if(mpHospitalEntity.getRecipient() != null) {
+                emails.addAll(Arrays.asList(mpHospitalEntity.getRecipient().split(";")));
+            }
+            TencentEmailSenderMultiple.sendEmailToMultiple(title, body, emails);
+
             MPAccountLoginVO mpAccountLoginVO = new MPAccountLoginVO();
             String id = String.valueOf(mpAppointmentUserEntity.getId());
             String token = JwtTokenUtils.createToken(id);
             mpAccountLoginVO.setId(id);
+            mpAccountLoginVO.setMobile(phoneNumber);
             mpAccountLoginVO.setToken(JwtConstant.TOKEN_PREFIX +" "+ token);
 
             return ResultVo.ok(mpAccountLoginVO);

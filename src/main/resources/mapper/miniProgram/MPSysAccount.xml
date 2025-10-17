@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.framework.miniProgram.mapper.MPSysAccountMapper">
+
+    <select id="getDetailByAccountId" resultType="com.base.framework.miniProgram.model.entity.MPSysAccountEntity">
+        SELECT
+            id,
+            name,
+            account,
+            hospital_id AS hospitalId,
+            mobile,
+            email,
+            recipient
+        FROM
+            sys_account
+        WHERE
+            id = #{id} AND is_deleted = 1 AND deleted_at IS NULL
+    </select>
+
+</mapper>

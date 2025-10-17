@@ -74,4 +74,9 @@ public class MPHospitalEntity {
      * 医院环境图片
      */
     private String envPic;
+
+    /**
+     * 收件人
+     */
+    private String recipient;
 }

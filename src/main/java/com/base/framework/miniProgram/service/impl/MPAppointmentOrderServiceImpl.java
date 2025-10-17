@@ -1,14 +1,14 @@
 package com.base.framework.miniProgram.service.impl;
 
-import com.base.framework.admin.mapper.AccountMapper;
 import com.base.framework.admin.mapper.HospitalMapper;
 import com.base.framework.admin.model.entity.HospitalEntity;
-import com.base.framework.admin.model.entity.SysAccount;
 import com.base.framework.exception.BusinessException;
 import com.base.framework.miniProgram.mapper.MPAppointmentOrderMapper;
 import com.base.framework.miniProgram.mapper.MPAppointmentUserMapper;
+import com.base.framework.miniProgram.mapper.MPSysAccountMapper;
 import com.base.framework.miniProgram.model.dto.appointmentOrder.MPAppointmentOrderForm;
 import com.base.framework.miniProgram.model.entity.MPAppointmentUserEntity;
+import com.base.framework.miniProgram.model.entity.MPSysAccountEntity;
 import com.base.framework.miniProgram.service.MPAppointmentOrderService;
 import com.base.framework.utils.JwtTokenUtils;
 import com.base.framework.utils.ResultVo;
@@ -41,7 +41,7 @@ public class MPAppointmentOrderServiceImpl implements MPAppointmentOrderService 
     HospitalMapper hospitalMapper;
 
     @Resource
-    AccountMapper accountMapper;
+    MPSysAccountMapper mpSysAccountMapper;
 
     @Override
     @Transactional
@@ -60,7 +60,7 @@ public class MPAppointmentOrderServiceImpl implements MPAppointmentOrderService 
         if(hospitalEntity == null) {
             throw new BusinessException(500, "医院不存在");
         }
-        SysAccount sysAccount = accountMapper.getUserInfoById(hospitalEntity.getAccountId());
+        MPSysAccountEntity sysAccount = mpSysAccountMapper.getDetailByAccountId(hospitalEntity.getAccountId());
         if(sysAccount == null) {
             throw new BusinessException(500, "关联用户不存在");
         }
@@ -76,12 +76,15 @@ public class MPAppointmentOrderServiceImpl implements MPAppointmentOrderService 
         String body = "<div>" +
                 "<p>姓名：" + params.getName() + "</p>" +
                 "<p>年龄：" + params.getAge() + "</p>" +
+                "<p>专家：专家</p>" +
                 "<p>电话号码：" + appointmentUser.getMobile() + "</p>" +
                 "<p>到院日期：" + params.getAppointmentTime() + "</p>" +
                 "<p>诊疗疾病：" + params.getDisease() + "</p>" +
                 "<p>疾病描述：" + params.getRemark() + "</p>" +
                 "</div>";
-        List<String> emails = new ArrayList<>(Arrays.asList(sysAccount.getRecipient().split(";")));
+        List<String> emails = new ArrayList<>();
+        emails.addAll(Arrays.asList(sysAccount.getRecipient().split(";")));
+        emails.addAll(Arrays.asList(hospitalEntity.getRecipient().split(";")));
         TencentEmailSenderMultiple.sendEmailToMultiple(title, body, emails);
 
         MPAppointmentUserEntity mpAppointmentUserEntity = new MPAppointmentUserEntity();

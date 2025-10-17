@@ -53,4 +53,9 @@ public class MPAppointmentOrderEntity extends BaseEntity {
      */
     private Integer writeOff;
 
+    /**
+     * 专家
+     */
+    private String expert;
+
 }

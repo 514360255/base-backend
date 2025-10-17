@@ -64,4 +64,9 @@ public class MPAppointmentOrderForm extends BaseDTO implements Serializable {
      * 核销码
      */
     private Integer writeOff;
+
+    /**
+     * 专家
+     */
+    private String expert;
 }
