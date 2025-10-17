@@ -76,4 +76,9 @@ public class HospitalFormDTO extends BaseDTO implements Serializable {
      */
     private String envPic;
 
+    /**
+     * 收件人
+     */
+    private String recipient;
+
 }

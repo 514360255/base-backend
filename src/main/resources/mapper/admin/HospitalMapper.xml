@@ -4,9 +4,9 @@
 
     <insert id="save" parameterType="com.base.framework.admin.model.entity.HospitalEntity" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO
-            m_hospital(id, name, code, description, address, account_id, feature, department_names, department_ids, consultation_hours, appid, secret, is_active, intro_pic, env_pic, created_by)
+            m_hospital(id, name, code, description, address, account_id, feature, department_names, department_ids, consultation_hours, appid, secret, is_active, intro_pic, env_pic, recipient, created_by)
         VALUES
-            (#{id}, #{name}, #{code}, #{description}, #{address}, #{accountId}, #{feature}, #{departmentNames}, #{departmentIds}, #{consultationHours}, #{appid}, #{secret}, #{isActive}, #{introPic}, #{envPic}, #{createdBy})
+            (#{id}, #{name}, #{code}, #{description}, #{address}, #{accountId}, #{feature}, #{departmentNames}, #{departmentIds}, #{consultationHours}, #{appid}, #{secret}, #{isActive}, #{introPic}, #{envPic}, #{recipient}, #{createdBy})
     </insert>
 
     <select id="queryHospitalPage" resultType="com.base.framework.admin.model.entity.HospitalEntity">
@@ -18,6 +18,7 @@
             mh.department_names AS departmentNames,
             mh.consultation_hours AS consultationHours,
             mh.feature,
+            mh.recipient,
             mh.auth_number AS authNumber,
             mh.is_active AS isActive,
             mh.created_at AS createdAt,
@@ -55,6 +56,7 @@
             mh.consultation_hours AS consultationHours,
             mh.account_id AS accountId,
             mh.feature,
+            mh.recipient,
             mh.appid,
             mh.secret,
             mh.intro_pic AS introPic,
@@ -103,6 +105,7 @@
             consultation_hours = #{consultationHours},
             intro_pic = #{introPic},
             env_pic = #{envPic},
+            recipient = #{recipient},
             updated_by = #{updatedBy},
             updated_at = now(),
             is_active = #{isActive}
