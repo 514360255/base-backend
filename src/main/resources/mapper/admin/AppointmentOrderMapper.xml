@@ -10,6 +10,7 @@
             ma.mobile,
             ma.appointment_time AS appointmentTime,
             ma.disease,
+            ma.expert,
             ma.remark,
             ma.write_off AS writeOff,
             ma.hospital_name AS hospitalName,

@@ -62,4 +62,9 @@ public class AppointmentOrderVO extends BaseVO {
      */
     private Integer writeOff;
 
+    /**
+     * 专家
+     */
+    private String expert;
+
 }
