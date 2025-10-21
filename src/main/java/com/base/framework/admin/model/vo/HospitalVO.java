@@ -80,4 +80,9 @@ public class HospitalVO extends BaseVO {
      * 收件人
      */
     private String recipient;
+
+    /**
+     * 额外字段
+     */
+    private String ext;
 }

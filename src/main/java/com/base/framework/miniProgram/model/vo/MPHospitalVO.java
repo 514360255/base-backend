@@ -61,4 +61,9 @@ public class MPHospitalVO {
      * 医院环境图片
      */
     private String envPic;
+
+    /**
+     * 额外字段
+     */
+    private String ext;
 }

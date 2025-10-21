@@ -38,8 +38,8 @@ public class HospitalController {
 
     /**
      * 保存医院信息
-     * @param params
-     * @return
+     * @param params HospitalFormDTO
+     * @return ResultVo<Long>
      */
     @PostMapping
     public ResultVo<Long> save(@RequestBody HospitalFormDTO params) {

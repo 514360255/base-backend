@@ -86,4 +86,9 @@ public class HospitalEntity extends BaseEntity {
      * 收件人
      */
     private String recipient;
+
+    /**
+     * 额外字段
+     */
+    private String ext;
 }

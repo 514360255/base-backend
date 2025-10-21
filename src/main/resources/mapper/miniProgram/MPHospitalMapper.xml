@@ -13,7 +13,8 @@
             department_ids AS departmentIds,
             consultation_hours AS consultationHours,
             intro_pic AS introPic,
-            env_pic AS envPic
+            env_pic AS envPic,
+            ext
         FROM
             m_hospital
         WHERE
