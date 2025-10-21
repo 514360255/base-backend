@@ -4,21 +4,23 @@
 
     <select id="getHospitalDetailByCode" resultType="com.base.framework.miniProgram.model.entity.MPHospitalEntity">
         SELECT
-            id,
-            name,
-            code,
-            description,
-            address,
-            feature,
-            department_ids AS departmentIds,
-            consultation_hours AS consultationHours,
-            intro_pic AS introPic,
-            env_pic AS envPic,
-            ext
+            mh.id,
+            mh.name,
+            mh.code,
+            mh.description,
+            mh.address,
+            mh.feature,
+            mh.department_ids AS departmentIds,
+            mh.consultation_hours AS consultationHours,
+            mh.intro_pic AS introPic,
+            mh.env_pic AS envPic,
+            mh.ext,
+            sa.phone
         FROM
-            m_hospital
+            m_hospital mh
+        LEFT JOIN sys_account sa ON mh.account_id = sa.id
         WHERE
-            code = #{code} AND is_active = 1
+            mh.code = #{code} AND mh.is_active = 1
     </select>
 
     <select id="getDetailByCode"  resultType="com.base.framework.miniProgram.model.entity.MPHospitalEntity">

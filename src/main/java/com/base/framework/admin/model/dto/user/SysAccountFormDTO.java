@@ -59,4 +59,9 @@ public class SysAccountFormDTO extends BaseDTO implements Serializable {
      * 密码
      */
     private String password;
+
+    /**
+     * 联系电话
+     */
+    private String phone;
 }

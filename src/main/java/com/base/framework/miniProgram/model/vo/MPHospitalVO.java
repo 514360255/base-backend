@@ -66,4 +66,9 @@ public class MPHospitalVO {
      * 额外字段
      */
     private String ext;
+
+    /**
+     * 联系电话
+     */
+    private String phone;
 }

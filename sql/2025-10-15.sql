@@ -27,3 +27,6 @@ ALTER TABLE m_hospital ADD COLUMN `ext` TEXT COMMENT '额外字段' AFTER `recip
 
 # 预约列表在 `env_pic` 字段后新增 `预约专家` 字段
 ALTER TABLE m_appointment_order ADD COLUMN `expert` VARCHAR(20) NOT NULL COMMENT '预约专家' AFTER `appointment_time`;
+
+# 预约列表在 `password` 字段后新增 `联系电话` 字段
+ALTER TABLE sys_account ADD COLUMN `phone` VARCHAR(20) NOT NULL COMMENT '联系电话' AFTER `password`;

@@ -73,6 +73,11 @@ public class SysAccount extends BaseEntity implements Serializable {
      */
     private String password;
 
+    /**
+     * 联系电话
+     */
+    private String phone;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

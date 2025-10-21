@@ -48,7 +48,12 @@ public class WebConfigurer implements WebMvcConfigurer {
         interceptorRegister
                 .addInterceptor(miniProgramInterceptor)
                 .addPathPatterns("/" + MINI_PROGRAM_PREFIX +"/**")
-                .excludePathPatterns("/" + MINI_PROGRAM_PREFIX + "hospital/**", "/" + MINI_PROGRAM_PREFIX + "account/phone/auth");
+                .excludePathPatterns(
+                        "/" + MINI_PROGRAM_PREFIX + "hospital/**",
+                        "/" + MINI_PROGRAM_PREFIX + "appointment",
+                        "/" + MINI_PROGRAM_PREFIX + "appointment/expert/**",
+                        "/" + MINI_PROGRAM_PREFIX + "account/phone/auth"
+                );
     }
 
     @Override

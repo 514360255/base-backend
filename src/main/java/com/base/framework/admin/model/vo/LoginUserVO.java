@@ -48,5 +48,10 @@ public class LoginUserVO extends BaseVO implements Serializable {
      */
     private String token;
 
+    /**
+     * 联系电话
+     */
+    private String phone;
+
     private static final long serialVersionUID = 1L;
 }

@@ -97,5 +97,10 @@ public class AccountVO extends BaseVO implements Serializable {
      */
     private String roleName;
 
+    /**
+     * 联系电话
+     */
+    private String phone;
+
     private static final long serialVersionUID = 1L;
 }

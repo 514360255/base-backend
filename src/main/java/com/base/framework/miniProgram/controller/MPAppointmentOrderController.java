@@ -22,8 +22,8 @@ public class MPAppointmentOrderController {
     MPAppointmentOrderService appointmentOrderService;
 
     @PostMapping
-    public ResultVo<Long> saveAppointmentOrder(@RequestBody MPAppointmentOrderForm params, @RequestHeader("Authorization") String auth) {
-        return appointmentOrderService.saveAppointmentOrder(params, auth);
+    public ResultVo saveAppointmentOrder(@RequestBody MPAppointmentOrderForm params) {
+        return appointmentOrderService.saveAppointmentOrder(params);
     }
 
 }
