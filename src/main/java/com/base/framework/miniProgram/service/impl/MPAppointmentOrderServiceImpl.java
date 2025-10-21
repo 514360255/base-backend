@@ -2,6 +2,7 @@ package com.base.framework.miniProgram.service.impl;
 
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.extra.cglib.CglibUtil;
 import com.base.framework.admin.mapper.HospitalMapper;
 import com.base.framework.admin.model.entity.HospitalEntity;
 import com.base.framework.constant.JwtConstant;
@@ -10,9 +11,12 @@ import com.base.framework.miniProgram.mapper.MPAppointmentOrderMapper;
 import com.base.framework.miniProgram.mapper.MPAppointmentUserMapper;
 import com.base.framework.miniProgram.mapper.MPSysAccountMapper;
 import com.base.framework.miniProgram.model.dto.appointmentOrder.MPAppointmentOrderForm;
+import com.base.framework.miniProgram.model.dto.appointmentOrder.MPAppointmentQueryDTO;
+import com.base.framework.miniProgram.model.entity.MPAppointmentOrderEntity;
 import com.base.framework.miniProgram.model.entity.MPAppointmentUserEntity;
 import com.base.framework.miniProgram.model.entity.MPSysAccountEntity;
 import com.base.framework.miniProgram.model.vo.MPAccountLoginVO;
+import com.base.framework.miniProgram.model.vo.MPAppointmentOrderVO;
 import com.base.framework.miniProgram.service.MPAppointmentOrderService;
 import com.base.framework.utils.JwtTokenUtils;
 import com.base.framework.utils.ResultVo;
@@ -109,6 +113,12 @@ public class MPAppointmentOrderServiceImpl implements MPAppointmentOrderService 
         mpAccountLoginVO.setToken(JwtConstant.TOKEN_PREFIX +" "+ token);
 
         return ResultVo.ok(mpAccountLoginVO);
+    }
+
+    @Override
+    public ResultVo queryAppointmentOrderList(MPAppointmentQueryDTO params) {
+        List<MPAppointmentOrderEntity> list = mpAppointmentOrderMapper.queryAppointmentOrderList(params);
+        return ResultVo.ok(CglibUtil.copyList(list, MPAppointmentOrderVO::new));
     }
 
 }

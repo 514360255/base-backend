@@ -3,6 +3,10 @@ package com.base.framework.miniProgram.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.base.framework.admin.model.dto.BaseDTO;
 import com.base.framework.miniProgram.model.dto.appointmentOrder.MPAppointmentOrderForm;
+import com.base.framework.miniProgram.model.dto.appointmentOrder.MPAppointmentQueryDTO;
+import com.base.framework.miniProgram.model.entity.MPAppointmentOrderEntity;
+
+import java.util.List;
 
 /**
  * @Author: 郭郭
@@ -17,5 +21,12 @@ public interface MPAppointmentOrderMapper extends BaseMapper<BaseDTO> {
      * @return Integer
      */
     Integer save(MPAppointmentOrderForm params);
+
+    /**
+     * 查询预约单列表
+     * @param params AppointmentQueryDTO
+     * @return List<MPAppointmentOrderEntity>
+     */
+    List<MPAppointmentOrderEntity> queryAppointmentOrderList(MPAppointmentQueryDTO params);
 
 }

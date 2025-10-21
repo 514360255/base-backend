@@ -7,4 +7,20 @@
         VALUES (#{id}, #{name}, #{age}, #{mobile}, #{appointmentTime}, #{disease}, #{remark}, #{hospitalId}, #{hospitalName}, #{accountId}, #{accountName}, #{expert})
     </insert>
 
+    <select id="queryAppointmentOrderList" resultType="com.base.framework.miniProgram.model.entity.MPAppointmentOrderEntity">
+        SELECT
+            id,
+            name,
+            age,
+            mobile,
+            appointment_time AS appointmentTime,
+            expert,
+            disease,
+            remark
+        FROM
+            m_appointment_order
+        WHERE
+            hospital_id = #{hospitalId} AND mobile = #{mobile}
+    </select>
+
 </mapper>
