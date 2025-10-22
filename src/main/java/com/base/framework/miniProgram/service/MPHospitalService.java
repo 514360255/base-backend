@@ -16,4 +16,11 @@ public interface MPHospitalService {
      */
     ResultVo getHospitalDetailByCode(String code);
 
+    /**
+     * 获取医院名称
+     * @param code String
+     * @return ResultVo
+     */
+    ResultVo getNameByCode(String code);
+
 }

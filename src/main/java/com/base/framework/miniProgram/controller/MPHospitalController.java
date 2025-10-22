@@ -33,4 +33,14 @@ public class MPHospitalController {
         return mpHospitalService.getHospitalDetailByCode(code);
     }
 
+    /**
+     * 根据code查询医院名称
+     * @param code String
+     * @return ResultVo
+     */
+    @GetMapping("detail/{code}")
+    public ResultVo getNameByCode(@PathVariable("code") String code) {
+        return mpHospitalService.getNameByCode(code);
+    }
+
 }

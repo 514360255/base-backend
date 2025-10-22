@@ -8,6 +8,7 @@ import com.base.framework.miniProgram.model.entity.MPHospitalEntity;
 import com.base.framework.miniProgram.model.vo.MPDepartmentVO;
 import com.base.framework.miniProgram.model.vo.MPHospitalVO;
 import com.base.framework.miniProgram.service.MPHospitalService;
+import com.base.framework.utils.AesEncryptionUtil;
 import com.base.framework.utils.ResultVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -15,7 +16,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -44,6 +47,15 @@ public class MPHospitalServiceImpl implements MPHospitalService {
         BeanUtils.copyProperties(mpHospitalEntity, mpHospitalVO);
         mpHospitalVO.setDepartmentList(CglibUtil.copyList(mpDepartmentEntities, MPDepartmentVO::new));
         return ResultVo.ok(mpHospitalVO);
+    }
+
+    @Override
+    public ResultVo getNameByCode(String code) {
+        MPHospitalEntity mpHospitalEntity = mpHospitalMapper.getDetailByCode(code);
+        Map<String, String> map = new HashMap<>();
+        map.put("name", mpHospitalEntity.getName());
+        map.put("appid", AesEncryptionUtil.decrypt(mpHospitalEntity.getAppid()));
+        return ResultVo.ok(map);
     }
 
 }
