@@ -74,10 +74,9 @@ public class WebConfigurer implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(@NotNull ResourceHandlerRegistry resourceHandlerRegistry) {
         // 映射 /uploads/** 到本地文件夹// 配置静态资源映射
-        String userHome = System.getProperty("user.home");
         String url = uploadConfig.getUrl();
         if(url != null) {
-            String uploadPath = userHome + "/" + url + "/";
+            String uploadPath = url + "/";
             resourceHandlerRegistry.addResourceHandler("/uploads/**")
                     .addResourceLocations("file:" + uploadPath);
         }

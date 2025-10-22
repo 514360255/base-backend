@@ -1,7 +1,7 @@
 spring:
   web:
     resources:
-      static-locations: file:${user.home}/www/wwwroot/make.pc666999.top/uploads/
+      static-locations: file:/www/wwwroot/make.pc666999.top/uploads/
   # 数据库配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

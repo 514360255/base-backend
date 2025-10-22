@@ -63,11 +63,10 @@ public class FileServiceImpl implements FileService {
         }
 
         // 文件目录：用户来划分
-        String userHome = System.getProperty("user.home");
         String uuid = UUID.randomUUID().toString().replace("-", "");
         String fileExtension = getFileExtension(multipartFile.getOriginalFilename());
         String filename = uuid + (fileExtension.isEmpty() ? "" : "." + fileExtension);
-        Path filePath = Paths.get(userHome, uploadConfig.getUrl(), String.valueOf(loginUser.getId()), filename);
+        Path filePath = Paths.get(uploadConfig.getUrl(), String.valueOf(loginUser.getId()), filename);
 
 
         try {

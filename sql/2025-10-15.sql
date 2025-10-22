@@ -13,6 +13,9 @@ CREATE TABLE `medical_appointment`.`m_appointment_hospital_expert` (
     `created_by`              VARCHAR(50)                 NOT NULL                             COMMENT '创建人'
 ) COMMENT = '预约医院专家' CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
+# 医院表在 `address` 字段后新增 `接诊时间` 字段
+ALTER TABLE m_hospital ADD COLUMN `consultation_hours` VARCHAR(50) NOT NULL COMMENT '接诊时间' AFTER `address`;
+
 # 医院表在 `consultation_hours` 字段后新增 `医院介绍主图` 字段
 ALTER TABLE m_hospital ADD COLUMN `intro_pic` VARCHAR(255) NOT NULL COMMENT '医院介绍主图' AFTER `consultation_hours`;
 
@@ -30,3 +33,6 @@ ALTER TABLE m_appointment_order ADD COLUMN `expert` VARCHAR(20) NOT NULL COMMENT
 
 # 预约列表在 `password` 字段后新增 `联系电话` 字段
 ALTER TABLE sys_account ADD COLUMN `phone` VARCHAR(20) NOT NULL COMMENT '联系电话' AFTER `password`;
+
+# 预约列表在 `name` 字段后新增 `医生头像` 字段
+ALTER TABLE m_appointment_hospital_expert ADD COLUMN `avatar` VARCHAR(255) NOT NULL COMMENT '医生头像' AFTER `name`;

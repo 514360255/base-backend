@@ -2,7 +2,7 @@
 spring:
   web:
     resources:
-      static-locations: file:${user.home}/Desktop/project/uploads/
+      static-locations: file:/Users/guojiuling/Desktop/project/uploads/
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -36,4 +36,4 @@ mybatis-plus:
       id-type: ASSiGN_ID
 # 上传文件路径
 upload:
-  url: Desktop/project/uploads
+  url: /Users/guojiuling/Desktop/project/uploads
