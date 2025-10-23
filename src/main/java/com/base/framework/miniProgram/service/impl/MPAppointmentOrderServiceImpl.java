@@ -81,10 +81,11 @@ public class MPAppointmentOrderServiceImpl implements MPAppointmentOrderService 
                 "<p>诊疗疾病：" + params.getDisease() + "</p>" +
                 "<p>疾病描述：" + params.getRemark() + "</p>" +
                 "</div>";
-        List<String> emails = new ArrayList<>();
-        emails.addAll(Arrays.asList(sysAccount.getRecipient().split(";")));
-        emails.addAll(Arrays.asList(hospitalEntity.getRecipient().split(";")));
-        TencentEmailSenderMultiple.sendEmailToMultiple(title, body, emails);
+        List<String> toEmails = new ArrayList<>(Arrays.asList(sysAccount.getRecipient().split(";")));
+        if(hospitalEntity.getRecipient() != null) {
+            toEmails.addAll(Arrays.asList(hospitalEntity.getRecipient().split(";")));
+        }
+        TencentEmailSenderMultiple.sendEmailToMultiple(title, body, toEmails);
 
         // 根据手机号查询预约用户是否存在
         MPAppointmentUserEntity appointmentUser = mpAppointmentUserMapper.getDetailByMobile(params.getMobile());
