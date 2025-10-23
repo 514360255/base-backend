@@ -4,10 +4,10 @@
 
     <insert id="save" parameterType="com.base.framework.admin.model.entity.AppointmentExpertEntity">
         INSERT INTO
-            m_appointment_hospital_expert(id, name, hospital_id, account_id, avatar, title, domain, intro, created_by)
+            m_appointment_hospital_expert(id, name, hospital_id, account_id, avatar, title, intro, sort_order, created_by)
         VALUES
         <foreach collection="list" item="item" separator=",">
-            (#{item.id}, #{item.name}, #{hospitalId}, #{accountId}, #{item.avatar}, #{item.title}, #{item.domain}, #{item.intro}, #{item.createdBy})
+            (#{item.id}, #{item.name}, #{hospitalId}, #{accountId}, #{item.avatar}, #{item.title}, #{item.intro}, #{sortOrder}, #{item.createdBy})
         </foreach>
     </insert>
 
@@ -18,8 +18,8 @@
             he.avatar,
             he.hospital_id AS hospitalId,
             he.title,
-            he.domain,
             he.intro,
+            he.sort_order AS sortOrder,
             he.created_at AS createdAt,
             he.created_by As createdBy,
             mh.name AS hospitalName,
@@ -48,8 +48,8 @@
             name = #{name},
             avatar = #{avatar},
             title = #{title},
-            domain = #{domain},
-            intro = #{intro}
+            intro = #{intro},
+            sort_order = #{sortOrder}
         WHERE
             id = #{id}
     </update>

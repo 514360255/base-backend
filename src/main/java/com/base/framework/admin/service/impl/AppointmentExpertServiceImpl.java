@@ -8,6 +8,7 @@ import com.base.framework.admin.model.dto.appointmentExpert.ExpertList;
 import com.base.framework.admin.model.entity.AppointmentExpertEntity;
 import com.base.framework.admin.model.vo.AppointmentExpertVO;
 import com.base.framework.admin.service.AppointmentExpertService;
+import com.base.framework.miniProgram.model.entity.MPAppointmentExpertEntity;
 import com.base.framework.utils.ResultVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -35,6 +37,7 @@ public class AppointmentExpertServiceImpl implements AppointmentExpertService {
 
         List<AppointmentExpertEntity> list = PageHelper.startPage(params.getPageNo(), params.getPageSize(), params.isCount(), params.isReasonable(), params.isPageSizeZero())
                 .doSelectPage(() -> appointmentExpertMapper.queryPage(params));
+        list.sort(Comparator.comparing(AppointmentExpertEntity::getSortOrder, Comparator.nullsFirst(Integer::compareTo)));
 
         return ResultVo.ok(new PageInfo<>(CglibUtil.copyList(list, AppointmentExpertVO::new)));
     }

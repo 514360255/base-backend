@@ -1,17 +1,16 @@
 package com.base.framework.miniProgram.service.impl;
 
 import cn.hutool.extra.cglib.CglibUtil;
-import com.base.framework.admin.model.vo.AppointmentOrderVO;
 import com.base.framework.miniProgram.mapper.MPAppointmentExpertMapper;
 import com.base.framework.miniProgram.model.entity.MPAppointmentExpertEntity;
 import com.base.framework.miniProgram.model.vo.MPAppointmentExpertVO;
 import com.base.framework.miniProgram.service.MPAppointmentExpertService;
 import com.base.framework.utils.ResultVo;
-import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -29,6 +28,8 @@ public class MPAppointmentExpertServiceImpl implements MPAppointmentExpertServic
     @Override
     public ResultVo queryExpertList(Long hospitalId) {
         List<MPAppointmentExpertEntity> list = mpAppointmentExpertMapper.queryExpertList(hospitalId);
+        list.sort(Comparator.comparing(MPAppointmentExpertEntity::getSortOrder, Comparator.nullsFirst(Integer::compareTo)));
+
         return ResultVo.ok(CglibUtil.copyList(list, MPAppointmentExpertVO::new));
     }
 

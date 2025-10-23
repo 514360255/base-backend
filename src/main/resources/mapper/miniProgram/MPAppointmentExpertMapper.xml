@@ -4,7 +4,8 @@
 
     <select id="queryExpertList" resultType="com.base.framework.miniProgram.model.entity.MPAppointmentExpertEntity">
         SELECT
-            *
+            *,
+            sort_order AS sortOrder
         FROM
             m_appointment_hospital_expert
         WHERE

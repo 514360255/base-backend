@@ -29,11 +29,6 @@ public class MPAppointmentExpertVO extends BaseVO {
     private String intro;
 
     /**
-     * 领域
-     */
-    private String domain;
-
-    /**
      * 职称
      */
     private String title;

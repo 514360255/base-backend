@@ -35,4 +35,9 @@ public class ExpertList extends BaseDTO {
      * 职称
      */
     private  String title;
+
+    /**
+     * 排序
+     */
+    private  Integer sortOrder;
 }

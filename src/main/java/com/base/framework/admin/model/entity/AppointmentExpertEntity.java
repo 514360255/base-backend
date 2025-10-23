@@ -52,5 +52,10 @@ public class AppointmentExpertEntity extends BaseEntity {
      */
     private  String title;
 
+    /**
+     * 排序
+     */
+    private  Integer sortOrder;
+
 
 }

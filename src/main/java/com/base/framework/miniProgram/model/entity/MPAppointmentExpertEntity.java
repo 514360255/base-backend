@@ -38,4 +38,9 @@ public class MPAppointmentExpertEntity extends BaseEntity {
      */
     private String title;
 
+    /**
+     * 排序
+     */
+    private Integer sortOrder;
+
 }
