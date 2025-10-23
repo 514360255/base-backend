@@ -9,6 +9,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 /**
  * @Author: 郭郭
@@ -43,7 +44,11 @@ public class TencentEmailSenderMultiple {
             throw  new BusinessException(500, "收件人邮箱不能为空");
         }
 
-        TO_EMAILS.addAll(toEmails);
+        TO_EMAILS.addAll(
+                toEmails.stream().map(String::trim)
+                .filter(email -> !email.isEmpty())
+                .distinct()
+                .collect(Collectors.toList()));
 
         // 设置邮件服务器属性
         Properties props = new Properties();
