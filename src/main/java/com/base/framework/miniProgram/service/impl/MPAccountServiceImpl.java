@@ -118,7 +118,7 @@ public class MPAccountServiceImpl implements MPAccountService {
             if(mpHospitalEntity.getRecipient() != null) {
                 emails.addAll(Arrays.asList(mpHospitalEntity.getRecipient().split(";")));
             }
-            TencentEmailSenderMultiple.sendEmailToMultiple(title, body, emails);
+            new TencentEmailSenderMultiple().sendEmailToMultiple(title, body, emails);
 
             MPAccountLoginVO mpAccountLoginVO = new MPAccountLoginVO();
             String id = String.valueOf(mpAppointmentUserEntity.getId());
