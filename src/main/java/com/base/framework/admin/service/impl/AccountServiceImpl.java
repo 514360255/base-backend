@@ -128,7 +128,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, SysAccount> i
     public ResultVo<Boolean> delete(Long id) {
         this.getUserInfoById(id);
         if(Objects.equals(SecurityUtils.getCurrentUserId(), id)) {
-            throw new BusinessException(500, "删除是自己的账号");
+            throw new BusinessException(500, "不能删除自己的账号，请联系管理员");
         }
         String userName = SecurityUtils.getCurrentUsername();
         accountMapper.delete(id, userName);
@@ -140,6 +140,9 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, SysAccount> i
     @Transactional
     public ResultVo<Boolean> updateState(SysAccountFormDTO params) {
         this.getUserInfoById(params.getId());
+        if(Objects.equals(SecurityUtils.getCurrentUserId(), params.getId())) {
+            throw new BusinessException(500, "不能禁用自己的账号，请联系管理员");
+        }
         accountMapper.updateState(params);
         return ResultVo.ok(true);
     }

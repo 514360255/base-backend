@@ -86,4 +86,15 @@ public class HospitalController {
         return hospitalService.update(params);
     }
 
+    /**
+     * 修改医院secret
+     * @param hospitalId Long
+     * @param secret String
+     * @return ResultVo<Boolean>
+     */
+    @PutMapping("{hospitalId}/{secret}")
+    public ResultVo updateHospitalSecret(@PathVariable("hospitalId") Long hospitalId, @PathVariable("secret") String secret) {
+        return hospitalService.updateHospitalSecret(hospitalId, secret);
+    }
+
 }

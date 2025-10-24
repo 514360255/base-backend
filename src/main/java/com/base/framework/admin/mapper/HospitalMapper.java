@@ -56,4 +56,11 @@ public interface HospitalMapper extends BaseMapper<BaseDTO> {
      */
     void update(HospitalFormDTO params);
 
+    /**
+     * 修改医院信息
+     * @param hospitalId Long
+     * @param secret String
+     */
+    void updateHospitalSecret(Long hospitalId, String secret);
+
 }

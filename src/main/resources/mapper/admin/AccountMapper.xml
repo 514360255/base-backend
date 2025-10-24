@@ -79,7 +79,7 @@
                 AND sa.role_code = #{roleCode}
             </if>
             <if test="parentId != '' and parentId != null">
-                AND sa.parent_id = #{parentId}
+                AND sa.parent_id = #{parentId} OR sa.id = #{parentId}
             </if>
         </where>
     </select>

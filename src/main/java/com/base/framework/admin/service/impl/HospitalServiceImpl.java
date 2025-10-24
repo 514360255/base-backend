@@ -116,4 +116,24 @@ public class HospitalServiceImpl implements HospitalService {
         return ResultVo.ok(true);
     }
 
+    @Override
+    @Transactional
+    public ResultVo updateHospitalSecret(Long hospitalId, String secret) {
+        HospitalEntity hospitalEntity = hospitalMapper.getHospitalDetail(String.valueOf(hospitalId));
+        if(hospitalEntity == null) {
+            throw new BusinessException(500, "医院不存在");
+        }
+        if(hospitalId == null) {
+            throw new BusinessException(500, "医院id不能为空");
+        }
+        if(secret == null) {
+            throw new BusinessException(500, "secret不能为空");
+        }
+        if(!SecurityUtils.isSuperAdmin()) {
+            throw new BusinessException(500, "没有权限修改secret");
+        }
+        hospitalMapper.updateHospitalSecret(hospitalId, AesEncryptionUtil.encrypt(secret));
+        return ResultVo.ok(true);
+    }
+
 }

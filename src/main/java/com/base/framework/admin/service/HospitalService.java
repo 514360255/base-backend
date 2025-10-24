@@ -55,4 +55,12 @@ public interface HospitalService {
      */
     ResultVo<Boolean> update(HospitalFormDTO params);
 
+    /**
+     * 修改医院密钥
+     * @param hospitalId Long
+     * @param secret String
+     * @return ResultVo
+     */
+    ResultVo updateHospitalSecret(Long hospitalId, String secret);
+
 }

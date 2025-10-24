@@ -116,4 +116,13 @@
             id = #{id}
     </update>
 
+    <update id="updateHospitalSecret">
+        UPDATE
+            m_hospital
+        SET
+            secret = #{secret}
+        WHERE
+            id = #{hospitalId}
+    </update>
+
 </mapper>
