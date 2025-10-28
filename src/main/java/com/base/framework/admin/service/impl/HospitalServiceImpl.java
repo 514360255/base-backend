@@ -1,5 +1,6 @@
 package com.base.framework.admin.service.impl;
 
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.extra.cglib.CglibUtil;
 import com.base.framework.admin.mapper.HospitalMapper;
 import com.base.framework.admin.model.dto.hospital.HospitalFormDTO;
@@ -59,10 +60,6 @@ public class HospitalServiceImpl implements HospitalService {
     @Override
     @Transactional
     public ResultVo<Long> save(HospitalFormDTO params)  {
-        HospitalEntity hospitalEntity = hospitalMapper.getHospitalDetail(params.getCode());
-        if(hospitalEntity != null) {
-            throw new BusinessException(500, "医院code重复");
-        }
         if(params.getAppid() == null) {
             throw new BusinessException(500, "appid不能为空");
         }
@@ -73,6 +70,7 @@ public class HospitalServiceImpl implements HospitalService {
         String secret = AesEncryptionUtil.encrypt(params.getSecret());
         params.setAppid(appid);
         params.setSecret(secret);
+        params.setCode(IdUtil.fastSimpleUUID());
         hospitalMapper.save(params);
         return ResultVo.ok(params.getId());
     }
