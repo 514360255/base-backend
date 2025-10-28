@@ -21,6 +21,11 @@ public class MPAccountLoginVO {
     private String name;
 
     /**
+     *  年龄
+     */
+    private Integer age;
+
+    /**
      *  手机号
      */
     private String mobile;

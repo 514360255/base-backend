@@ -126,6 +126,10 @@ public class MPAccountServiceImpl implements MPAccountService {
             mpAccountLoginVO.setId(id);
             mpAccountLoginVO.setMobile(phoneNumber);
             mpAccountLoginVO.setToken(JwtConstant.TOKEN_PREFIX +" "+ token);
+            if(user != null) {
+                mpAccountLoginVO.setName(user.getName());
+                mpAccountLoginVO.setAge(user.getAge());
+            }
 
             return ResultVo.ok(mpAccountLoginVO);
         } catch (Exception e) {
