@@ -91,4 +91,9 @@ public class HospitalEntity extends BaseEntity {
      * 额外字段
      */
     private String ext;
+
+    /**
+     * 诊疗疾病类别
+     */
+    private String diseaseType;
 }

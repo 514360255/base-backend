@@ -89,4 +89,9 @@ public class MPHospitalEntity {
      * 联系电话
      */
     private String phone;
+
+    /**
+     * 诊疗疾病类别
+     */
+    private String diseaseType;
 }

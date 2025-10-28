@@ -7,7 +7,7 @@
             m_appointment_hospital_expert(id, name, hospital_id, account_id, avatar, title, intro, sort_order, created_by)
         VALUES
         <foreach collection="list" item="item" separator=",">
-            (#{item.id}, #{item.name}, #{hospitalId}, #{accountId}, #{item.avatar}, #{item.title}, #{item.intro}, #{sortOrder}, #{item.createdBy})
+            (#{item.id}, #{item.name}, #{hospitalId}, #{accountId}, #{item.avatar}, #{item.title}, #{item.intro}, #{item.sortOrder}, #{item.createdBy})
         </foreach>
     </insert>
 

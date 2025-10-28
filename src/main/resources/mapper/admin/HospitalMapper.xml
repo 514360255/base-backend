@@ -4,9 +4,9 @@
 
     <insert id="save" parameterType="com.base.framework.admin.model.entity.HospitalEntity" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO
-            m_hospital(id, name, code, description, address, account_id, feature, department_names, department_ids, consultation_hours, appid, secret, is_active, intro_pic, env_pic, recipient, created_by, ext)
+            m_hospital(id, name, code, description, address, account_id, feature, department_names, department_ids, consultation_hours, appid, secret, is_active, intro_pic, env_pic, recipient, created_by, ext, disease_type)
         VALUES
-            (#{id}, #{name}, #{code}, #{description}, #{address}, #{accountId}, #{feature}, #{departmentNames}, #{departmentIds}, #{consultationHours}, #{appid}, #{secret}, #{isActive}, #{introPic}, #{envPic}, #{recipient}, #{createdBy}, #{ext})
+            (#{id}, #{name}, #{code}, #{description}, #{address}, #{accountId}, #{feature}, #{departmentNames}, #{departmentIds}, #{consultationHours}, #{appid}, #{secret}, #{isActive}, #{introPic}, #{envPic}, #{recipient}, #{createdBy}, #{ext}, #{diseaseType})
     </insert>
 
     <select id="queryHospitalPage" resultType="com.base.framework.admin.model.entity.HospitalEntity">
@@ -20,6 +20,7 @@
             mh.feature,
             mh.recipient,
             mh.ext,
+            mh.disease_type AS diseaseType,
             mh.auth_number AS authNumber,
             mh.is_active AS isActive,
             mh.created_at AS createdAt,
@@ -58,6 +59,7 @@
             mh.account_id AS accountId,
             mh.feature,
             mh.ext,
+            mh.disease_type AS diseaseType,
             mh.recipient,
             mh.appid,
             mh.secret,
@@ -106,6 +108,7 @@
             description = #{description},
             consultation_hours = #{consultationHours},
             intro_pic = #{introPic},
+            disease_type = #{diseaseType},
             ext = #{ext},
             env_pic = #{envPic},
             recipient = #{recipient},

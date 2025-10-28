@@ -86,4 +86,9 @@ public class HospitalFormDTO extends BaseDTO implements Serializable {
      */
     private String ext;
 
+    /**
+     * 疾病类型
+     */
+    private String diseaseType;
+
 }

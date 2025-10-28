@@ -10,6 +10,7 @@
             mh.description,
             mh.address,
             mh.feature,
+            mh.disease_type AS diseaseType,
             mh.department_ids AS departmentIds,
             mh.consultation_hours AS consultationHours,
             mh.intro_pic AS introPic,
