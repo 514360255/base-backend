@@ -16,6 +16,7 @@
             mh.intro_pic AS introPic,
             mh.env_pic AS envPic,
             mh.ext,
+            mh.is_show_doctor_column AS isShowDoctorColumn,
             sa.phone
         FROM
             m_hospital mh
@@ -27,8 +28,9 @@
     <select id="getDetailByCode"  resultType="com.base.framework.miniProgram.model.entity.MPHospitalEntity">
         SELECT
             id,
-            account_id As accountId,
+            account_id AS accountId,
             name,
+            is_show_doctor_column AS isShowDoctorColumn,
             recipient,
             appid,
             secret

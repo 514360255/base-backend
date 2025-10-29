@@ -54,6 +54,7 @@ public class MPHospitalServiceImpl implements MPHospitalService {
         MPHospitalEntity mpHospitalEntity = mpHospitalMapper.getDetailByCode(code);
         Map<String, String> map = new HashMap<>();
         map.put("name", mpHospitalEntity.getName());
+        map.put("isShowDoctorColumn", String.valueOf(mpHospitalEntity.getIsShowDoctorColumn()));
         map.put("appid", AesEncryptionUtil.decrypt(mpHospitalEntity.getAppid()));
         return ResultVo.ok(map);
     }

@@ -4,9 +4,9 @@
 
     <insert id="save" parameterType="com.base.framework.admin.model.entity.HospitalEntity" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO
-            m_hospital(id, name, code, description, address, account_id, feature, department_names, department_ids, consultation_hours, appid, secret, is_active, intro_pic, env_pic, recipient, created_by, ext, disease_type)
+            m_hospital(id, name, code, description, address, account_id, feature, department_names, department_ids, consultation_hours, appid, secret, is_active, intro_pic, env_pic, recipient, created_by, ext, disease_type, is_show_doctor_column)
         VALUES
-            (#{id}, #{name}, #{code}, #{description}, #{address}, #{accountId}, #{feature}, #{departmentNames}, #{departmentIds}, #{consultationHours}, #{appid}, #{secret}, #{isActive}, #{introPic}, #{envPic}, #{recipient}, #{createdBy}, #{ext}, #{diseaseType})
+            (#{id}, #{name}, #{code}, #{description}, #{address}, #{accountId}, #{feature}, #{departmentNames}, #{departmentIds}, #{consultationHours}, #{appid}, #{secret}, #{isActive}, #{introPic}, #{envPic}, #{recipient}, #{createdBy}, #{ext}, #{diseaseType}, #{isShowDoctorColumn})
     </insert>
 
     <select id="queryHospitalPage" resultType="com.base.framework.admin.model.entity.HospitalEntity">
@@ -22,6 +22,7 @@
             mh.ext,
             mh.disease_type AS diseaseType,
             mh.auth_number AS authNumber,
+            mh.is_show_doctor_column AS isShowDoctorColumn,
             mh.is_active AS isActive,
             mh.created_at AS createdAt,
             mh.created_by AS createdBy,
@@ -65,6 +66,7 @@
             mh.secret,
             mh.intro_pic AS introPic,
             mh.env_pic AS envPic,
+            mh.is_show_doctor_column AS isShowDoctorColumn,
             mh.is_active AS isActive,
             mh.created_at AS createdAt,
             mh.created_by AS createdBy
@@ -111,6 +113,7 @@
             disease_type = #{diseaseType},
             ext = #{ext},
             env_pic = #{envPic},
+            is_show_doctor_column = #{isShowDoctorColumn},
             recipient = #{recipient},
             updated_by = #{updatedBy},
             updated_at = now(),

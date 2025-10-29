@@ -43,4 +43,9 @@ public class MPAppointmentExpertEntity extends BaseEntity {
      */
     private Integer sortOrder;
 
+    /**
+     * 医生预约时间
+     */
+    private String consultationHours;
+
 }

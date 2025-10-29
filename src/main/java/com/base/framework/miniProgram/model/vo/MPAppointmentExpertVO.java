@@ -33,4 +33,9 @@ public class MPAppointmentExpertVO extends BaseVO {
      */
     private String title;
 
+    /**
+     * 医生预约时间
+     */
+    private String consultationHours;
+
 }

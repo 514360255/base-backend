@@ -94,4 +94,9 @@ public class MPHospitalEntity {
      * 诊疗疾病类别
      */
     private String diseaseType;
+
+    /**
+     * 是否展示医生栏目
+     */
+    private int isShowDoctorColumn;
 }

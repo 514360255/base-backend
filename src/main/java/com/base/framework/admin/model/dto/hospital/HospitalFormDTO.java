@@ -91,4 +91,9 @@ public class HospitalFormDTO extends BaseDTO implements Serializable {
      */
     private String diseaseType;
 
+    /**
+     * 是否展示医生栏目
+     */
+    private int isShowDoctorColumn;
+
 }

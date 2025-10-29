@@ -40,4 +40,9 @@ public class ExpertList extends BaseDTO {
      * 排序
      */
     private  Integer sortOrder;
+
+    /**
+     * 预约时间
+     */
+    private  String consultationHours;
 }

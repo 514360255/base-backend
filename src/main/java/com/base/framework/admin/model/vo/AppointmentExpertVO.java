@@ -57,5 +57,10 @@ public class AppointmentExpertVO extends BaseVO {
      */
     private  Integer sortOrder;
 
+    /**
+     * 预约时间
+     */
+    private  String consultationHours;
+
 
 }
