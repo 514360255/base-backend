@@ -18,6 +18,13 @@ import java.util.List;
 public interface HospitalMapper extends BaseMapper<BaseDTO> {
 
     /**
+     * 获取医院列表总数
+     * @param params HospitalQueryDTO
+     * @return int
+     */
+    int countTotal(HospitalQueryDTO params);
+
+    /**
      * 医院列表
      * @param params HospitalQueryDTO
      * @return HospitalEntity

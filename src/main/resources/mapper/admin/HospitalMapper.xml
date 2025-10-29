@@ -9,6 +9,28 @@
             (#{id}, #{name}, #{code}, #{description}, #{address}, #{accountId}, #{feature}, #{departmentNames}, #{departmentIds}, #{consultationHours}, #{appid}, #{secret}, #{isActive}, #{introPic}, #{envPic}, #{recipient}, #{createdBy}, #{ext}, #{diseaseType}, #{isShowDoctorColumn})
     </insert>
 
+    <select id="countTotal" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*)
+        FROM
+            m_hospital mh
+        <where>
+            mh.is_deleted = 1 AND mh.deleted_at IS NULL
+            <if test="name != null and name != ''">
+                AND mh.`name` LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="isActive != null">
+                AND mh.is_active = #{isActive}
+            </if>
+            <if test="accountId != null and accountId != ''">
+                AND mh.account_id = #{accountId}
+            </if>
+            <if test="departmentId != null and departmentId != ''">
+                AND mh.department_ids LIKE CONCAT('%', #{departmentId}, '%')
+            </if>
+        </where>
+    </select>
+
     <select id="queryHospitalPage" resultType="com.base.framework.admin.model.entity.HospitalEntity">
         SELECT
             mh.id,

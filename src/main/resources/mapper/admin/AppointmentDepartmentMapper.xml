@@ -18,7 +18,20 @@
             diagnosis_items AS diagnosisItems,
             created_at AS createdAt,
             created_by AS createdBy
-        FROM m_appointment_department
+        FROM
+            m_appointment_department
+        <where>
+            <if test="name != null and name != ''">
+                `name` LIKE CONCAT('%', #{name}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="countTotal" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*)
+        FROM
+            m_appointment_department
         <where>
             <if test="name != null and name != ''">
                 `name` LIKE CONCAT('%', #{name}, '%')

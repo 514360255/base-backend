@@ -23,6 +23,13 @@ public interface AppointmentDepartmentMapper extends BaseMapper<BaseDTO> {
     List<AppointmentDepartmentEntity> queryPage(QueryAppointmentDepartmentQuery params);
 
     /**
+     * 统计总数
+     * @param params AppointmentUserQueryDTO
+     * @return int
+     */
+    int countTotal(QueryAppointmentDepartmentQuery params);
+
+    /**
      * 保存预约科室
      * @param params AppointmentOrderEntity
      * @return Integer

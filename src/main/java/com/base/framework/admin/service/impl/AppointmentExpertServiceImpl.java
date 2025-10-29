@@ -10,6 +10,7 @@ import com.base.framework.admin.model.vo.AppointmentExpertVO;
 import com.base.framework.admin.service.AppointmentExpertService;
 import com.base.framework.miniProgram.model.entity.MPAppointmentExpertEntity;
 import com.base.framework.utils.ResultVo;
+import com.base.framework.utils.SecurityUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -34,12 +35,17 @@ public class AppointmentExpertServiceImpl implements AppointmentExpertService {
 
     @Override
     public ResultVo queryPage(AppointmentExpertQuery params) {
-
+        String roleCode = SecurityUtils.getRoleCode();
+        if(!"SUPER_ADMIN".equals(roleCode)) {
+            params.setAccountId(SecurityUtils.getCurrentUserId());
+        }
+        int total = appointmentExpertMapper.countTotal(params);
         List<AppointmentExpertEntity> list = PageHelper.startPage(params.getPageNo(), params.getPageSize(), params.isCount(), params.isReasonable(), params.isPageSizeZero())
                 .doSelectPage(() -> appointmentExpertMapper.queryPage(params));
         list.sort(Comparator.comparing(AppointmentExpertEntity::getSortOrder, Comparator.nullsFirst(Integer::compareTo)));
-
-        return ResultVo.ok(new PageInfo<>(CglibUtil.copyList(list, AppointmentExpertVO::new)));
+        PageInfo<AppointmentExpertVO> pageInfo = new PageInfo<>(CglibUtil.copyList(list, AppointmentExpertVO::new));
+        pageInfo.setTotal(total);
+        return ResultVo.ok(pageInfo);
     }
 
     @Override

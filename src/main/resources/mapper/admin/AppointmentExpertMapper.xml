@@ -42,6 +42,24 @@
         </where>
     </select>
 
+    <select id="countTotal" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*)
+        FROM
+        m_appointment_hospital_expert he
+        <where>
+            <if test="accountId != null and accountId != ''">
+                he.account_id = #{accountId}
+            </if>
+            <if test="hospitalId != null and hospitalId != ''">
+                he.hospital_id = #{hospitalId}
+            </if>
+            <if test="name != null and name != ''">
+                AND he.name LIKE CONCAT('%', #{name}, '%')
+            </if>
+        </where>
+    </select>
+
     <update id="update" parameterType="com.base.framework.admin.model.entity.AppointmentExpertEntity">
         UPDATE
             m_appointment_hospital_expert

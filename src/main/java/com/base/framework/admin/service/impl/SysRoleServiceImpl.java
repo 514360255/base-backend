@@ -68,10 +68,13 @@ public class SysRoleServiceImpl implements SysRoleService {
 
     @Override
     public ResultVo queryRoleList(SysRoleRequestDTO params) {
+        int total = sysRoleMapper.countTotal(params);
         List<SysRoleEntity> list =
                 PageHelper.startPage(params.getPageNo(), params.getPageSize(), params.isCount(), params.isReasonable(), params.isPageSizeZero())
                         .doSelectPage(() -> sysRoleMapper.queryUserList(params));
-        return ResultVo.ok(new PageInfo<>(CglibUtil.copyList(list, SysRoleVO::new)));
+        PageInfo<SysRoleVO> pageInfo = new PageInfo<>(CglibUtil.copyList(list, SysRoleVO::new));
+        pageInfo.setTotal(total);
+        return ResultVo.ok(pageInfo);
     }
 
     @Override

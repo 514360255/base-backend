@@ -7,6 +7,7 @@ import com.base.framework.admin.model.entity.AppointmentUserEntity;
 import com.base.framework.admin.model.vo.AppointmentUserVO;
 import com.base.framework.admin.service.AppointmentUserService;
 import com.base.framework.utils.ResultVo;
+import com.base.framework.utils.SecurityUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -29,10 +30,15 @@ public class AppointmentUserServiceImpl implements AppointmentUserService {
 
     @Override
     public ResultVo queryPage(AppointmentUserQueryDTO params) {
-
+        if(!SecurityUtils.isSuperAdmin()) {
+            params.setAccountId(SecurityUtils.getCurrentUserId());
+        }
+        int total = appointmentUserMapper.countTotal(params);
         List<AppointmentUserEntity> list = PageHelper.startPage(params.getPageNo(), params.getPageSize(), params.isCount(), params.isReasonable(), params.isPageSizeZero())
                 .doSelectPage(() -> appointmentUserMapper.queryPage(params));
 
-        return ResultVo.ok(new PageInfo<>(CglibUtil.copyList(list, AppointmentUserVO::new)));
+        PageInfo<AppointmentUserVO> pageInfo = new PageInfo<>(CglibUtil.copyList(list, AppointmentUserVO::new));
+        pageInfo.setTotal(total);
+        return ResultVo.ok(pageInfo);
     }
 }

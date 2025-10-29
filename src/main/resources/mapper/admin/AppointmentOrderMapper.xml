@@ -30,4 +30,25 @@
         </where>
     </select>
 
+    <select id="countTotal" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*)
+        FROM
+        m_appointment_order ma
+        <where>
+            <if test="hospitalName != null and hospitalName != ''">
+                ma.hospital_name LIKE CONCAT('%',#{hospitalName},'%')
+            </if>
+            <if test="accountName != null and accountName != ''">
+                AND ma.account_name LIKE CONCAT('%',#{accountName},'%')
+            </if>
+            <if test="name != null and name != ''">
+                AND ma.name LIKE CONCAT('%',#{name},'%')
+            </if>
+            <if test="accountId != null and accountId != ''">
+                AND ma.account_id = #{accountId}
+            </if>
+        </where>
+    </select>
+
 </mapper>

@@ -1,6 +1,5 @@
 package com.base.framework.admin.mapper;
 
-import com.base.framework.admin.model.dto.appointmentExpert.AppointmentExpertForm;
 import com.base.framework.admin.model.dto.appointmentExpert.AppointmentExpertQuery;
 import com.base.framework.admin.model.dto.appointmentExpert.ExpertList;
 import com.base.framework.admin.model.entity.AppointmentExpertEntity;
@@ -30,6 +29,13 @@ public interface AppointmentExpertMapper {
      * @return List<AppointmentExpertEntity>
      */
     List<AppointmentExpertEntity> queryPage(AppointmentExpertQuery params);
+
+    /**
+     * 统计总数
+     * @param params AppointmentUserQueryDTO
+     * @return int
+     */
+    int countTotal(AppointmentExpertQuery params);
 
     /**
      * 修改

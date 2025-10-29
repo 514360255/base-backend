@@ -7,6 +7,7 @@ import com.base.framework.admin.model.entity.AppointmentOrderEntity;
 import com.base.framework.admin.model.vo.AppointmentOrderVO;
 import com.base.framework.admin.service.AppointmentOrderService;
 import com.base.framework.utils.ResultVo;
+import com.base.framework.utils.SecurityUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -29,9 +30,16 @@ public class AppointmentOrderServiceImpl implements AppointmentOrderService {
 
     @Override
     public ResultVo queryPage(AppointmentOrderQueryDTO params) {
+        String roleCode = SecurityUtils.getRoleCode();
+        if(!"SUPER_ADMIN".equals(roleCode)) {
+            params.setAccountId(SecurityUtils.getCurrentUserId());
+        }
+        int total = appointmentOrderMapper.countTotal(params);
         List<AppointmentOrderEntity> list = PageHelper.startPage(params.getPageNo(), params.getPageSize(), params.isCount(), params.isReasonable(), params.isPageSizeZero())
                 .doSelectPage(() -> appointmentOrderMapper.queryPage(params));
-        return ResultVo.ok(new PageInfo<>(CglibUtil.copyList(list, AppointmentOrderVO::new)));
+        PageInfo<AppointmentOrderVO> pageInfo = new PageInfo<>(CglibUtil.copyList(list, AppointmentOrderVO::new));
+        pageInfo.setTotal(total);
+        return ResultVo.ok(pageInfo);
     }
 
 }

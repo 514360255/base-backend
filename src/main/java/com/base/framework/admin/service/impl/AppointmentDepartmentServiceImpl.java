@@ -33,10 +33,13 @@ public class AppointmentDepartmentServiceImpl implements AppointmentDepartmentSe
 
     @Override
     public ResultVo queryPage(QueryAppointmentDepartmentQuery params) {
+        int total = appointmentDepartmentMapper.countTotal(params);
         List<AppointmentDepartmentEntity> list =
                 PageHelper.startPage(params.getPageNo(), params.getPageSize(), params.isCount(), params.isReasonable(), params.isPageSizeZero())
                         .doSelectPage(() -> appointmentDepartmentMapper.queryPage(params));
-        return ResultVo.ok(new PageInfo<>(CglibUtil.copyList(list, AppointmentDepartmentVO::new)));
+        PageInfo<AppointmentDepartmentVO> pageInfo = new PageInfo<>(CglibUtil.copyList(list, AppointmentDepartmentVO::new));
+        pageInfo.setTotal(total);
+        return ResultVo.ok(pageInfo);
     }
 
     @Override

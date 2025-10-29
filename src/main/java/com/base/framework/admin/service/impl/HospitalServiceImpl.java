@@ -40,10 +40,13 @@ public class HospitalServiceImpl implements HospitalService {
         if(!"SUPER_ADMIN".equals(roleCode)) {
             params.setAccountId(SecurityUtils.getCurrentUserId());
         }
+        int total = hospitalMapper.countTotal(params);
         List<HospitalEntity> list =
                 PageHelper.startPage(params.getPageNo(), params.getPageSize(), params.isCount(), params.isReasonable(), params.isPageSizeZero())
                         .doSelectPage(() -> hospitalMapper.queryHospitalPage(params));
-        return ResultVo.ok(new PageInfo<>(CglibUtil.copyList(list, HospitalVO::new)));
+        PageInfo<HospitalVO> pageInfo = new PageInfo<>(CglibUtil.copyList(list, HospitalVO::new));
+        pageInfo.setTotal(total);
+        return ResultVo.ok(pageInfo);
     }
 
     @Override

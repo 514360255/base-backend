@@ -44,6 +44,13 @@ public interface AccountMapper extends BaseMapper<SysAccount> {
     List<SysAccount> queryUserList(SysAccountQueryRequest et);
 
     /**
+     * 统计总数
+     * @param params AppointmentUserQueryDTO
+     * @return int
+     */
+    int countTotal(SysAccountQueryRequest params);
+
+    /**
      * 保存账号
      * @param params  SysAccountFormDTO
      * @return SysAccount

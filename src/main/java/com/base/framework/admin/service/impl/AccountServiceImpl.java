@@ -95,13 +95,17 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, SysAccount> i
     public PageInfo queryUserList(SysAccountQueryRequest params) {
         if(!SecurityUtils.isSuperAdmin()){
             params.setParentId(SecurityUtils.getCurrentUserId());
+            params.setAccountId(SecurityUtils.getCurrentUserId());
         }
+        int total = accountMapper.countTotal(params);
         List<SysAccount> list = PageHelper
                 .startPage(params.getPageNo(), params.getPageSize(), params.isCount(), params.isReasonable(), params.isPageSizeZero())
                 .doSelectPage(() -> accountMapper.queryUserList(params));
         String userName = SecurityUtils.getCurrentUsername();
         System.out.println("当前用户：" + userName);
-        return new PageInfo<>(CglibUtil.copyList(list, AccountVO::new));
+        PageInfo<AccountVO> pageInfo = new PageInfo<>(CglibUtil.copyList(list, AccountVO::new));
+        pageInfo.setTotal(total);
+        return pageInfo;
     }
 
     private SysAccount getUserInfoById(Long id) {

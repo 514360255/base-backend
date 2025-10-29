@@ -19,4 +19,11 @@ public interface AppointmentUserMapper {
      */
     List<AppointmentUserEntity> queryPage(AppointmentUserQueryDTO params);
 
+    /**
+     * 统计总数
+     * @param params AppointmentUserQueryDTO
+     * @return int
+     */
+    int countTotal(AppointmentUserQueryDTO params);
+
 }

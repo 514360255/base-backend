@@ -27,6 +27,13 @@ public interface SysRoleMapper extends BaseMapper<BaseDTO> {
     List<SysRoleEntity> queryUserList(SysRoleRequestDTO params);
 
     /**
+     * 统计总数
+     * @param params SysRoleRequestDTO
+     * @return int
+     */
+    int countTotal(SysRoleRequestDTO params);
+
+    /**
      * 根据code查询
      * @param code String
      * @return SysRoleEntity

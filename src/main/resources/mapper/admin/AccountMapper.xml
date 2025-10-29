@@ -84,6 +84,28 @@
         </where>
     </select>
 
+    <select id="countTotal" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*)
+        FROM
+            sys_account sa
+        <where>
+            sa.is_deleted = 1 AND sa.deleted_at IS NULL AND sa.role_code != 'SUPER_ADMIN'
+            <if test="name != '' and name != null">
+                AND sa.name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="isActive != '' and isActive != null">
+                AND sa.is_active = #{isActive}
+            </if>
+            <if test="roleCode != '' and roleCode != null">
+                AND sa.role_code = #{roleCode}
+            </if>
+            <if test="parentId != '' and parentId != null">
+                AND sa.parent_id = #{parentId} OR sa.id = #{parentId}
+            </if>
+        </where>
+    </select>
+
     <update id="delete">
         UPDATE sys_account SET is_deleted = 0, deleted_at = now(), deleted_by = #{userName} WHERE id = #{id}
     </update>
