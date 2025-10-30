@@ -23,11 +23,6 @@ public class AppointmentOrderQueryDTO  extends PageRequest implements Serializab
     private String hospitalName;
 
     /**
-     * 用户名
-     */
-    private String accountName;
-
-    /**
      * 姓名
      */
     private String name;
