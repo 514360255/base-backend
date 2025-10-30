@@ -28,6 +28,7 @@
             sys_dict sd
         LEFT JOIN sys_dict di ON sd.parent_id = di.id
         <where>
+            1 = 1
             <if test="isActive != null">
                 AND sd.is_active = #{isActive}
             </if>

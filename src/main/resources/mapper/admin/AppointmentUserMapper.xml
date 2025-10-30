@@ -12,8 +12,9 @@
         FROM
             m_appointment_user
         <where>
+            1 = 1
             <if test="accountId != null and accountId != ''">
-                account_id = #{accountId}
+                AND account_id = #{accountId}
             </if>
             <if test="name != null and name != ''">
                 AND name LIKE CONCAT('%', #{name}, '%')
@@ -23,12 +24,13 @@
 
     <select id="countTotal" resultType="java.lang.Integer">
         SELECT
-        COUNT(*)
+            COUNT(*)
         FROM
-        m_appointment_user
+            m_appointment_user
         <where>
+            1 = 1
             <if test="accountId != null and accountId != ''">
-                account_id = #{accountId}
+                AND account_id = #{accountId}
             </if>
             <if test="name != null and name != ''">
                 AND name LIKE CONCAT('%', #{name}, '%')

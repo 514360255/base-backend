@@ -67,8 +67,9 @@
         FROM
             sys_role
         <where>
+            1 = 1
             <if test="isActive != null">
-              is_active = #{isActive}
+              AND is_active = #{isActive}
             </if>
             <if test="name != null and name != ''">
                 AND name LIKE CONCAT('%', #{name}, '%')
@@ -82,8 +83,9 @@
         FROM
             sys_role
         <where>
+            1 = 1
             <if test="isActive != null">
-                is_active = #{isActive}
+                AND is_active = #{isActive}
             </if>
             <if test="name != null and name != ''">
                 AND name LIKE CONCAT('%', #{name}, '%')

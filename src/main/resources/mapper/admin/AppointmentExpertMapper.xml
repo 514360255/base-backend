@@ -30,11 +30,12 @@
         LEFT JOIN m_hospital mh ON mh.id = he.hospital_id
         LEFT JOIN sys_account sa ON sa.id = he.account_id
         <where>
+            1 = 1
             <if test="accountId != null and accountId != ''">
-                he.account_id = #{accountId}
+                AND he.account_id = #{accountId}
             </if>
             <if test="hospitalId != null and hospitalId != ''">
-                he.hospital_id = #{hospitalId}
+                AND he.hospital_id = #{hospitalId}
             </if>
             <if test="name != null and name != ''">
                 AND he.name LIKE CONCAT('%', #{name}, '%')
@@ -48,11 +49,12 @@
         FROM
         m_appointment_hospital_expert he
         <where>
+            1 = 1
             <if test="accountId != null and accountId != ''">
-                he.account_id = #{accountId}
+                AND he.account_id = #{accountId}
             </if>
             <if test="hospitalId != null and hospitalId != ''">
-                he.hospital_id = #{hospitalId}
+                AND he.hospital_id = #{hospitalId}
             </if>
             <if test="name != null and name != ''">
                 AND he.name LIKE CONCAT('%', #{name}, '%')
