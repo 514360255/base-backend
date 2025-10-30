@@ -4,9 +4,7 @@ import com.base.framework.admin.model.dto.appointmentOrder.AppointmentOrderQuery
 import com.base.framework.admin.service.AppointmentOrderService;
 import com.base.framework.utils.ResultVo;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -27,6 +25,17 @@ public class AppointmentOrderController {
     @GetMapping
     public ResultVo queryPage(@Param("params") AppointmentOrderQueryDTO params) {
         return appointmentOrderService.queryPage(params);
+    }
+
+    /**
+     * 是否已看诊
+     * @param id Long
+     * @param isVisit int
+     * @return ResultVo
+     */
+    @PutMapping("{id}/{isVisit}")
+    public ResultVo hasVisit(@PathVariable("id") Long id, @PathVariable("isVisit") int isVisit) {
+        return appointmentOrderService.hasVisit(id, isVisit);
     }
 
 }

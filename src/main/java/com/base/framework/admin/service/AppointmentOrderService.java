@@ -17,4 +17,12 @@ public interface AppointmentOrderService {
      */
     ResultVo queryPage(AppointmentOrderQueryDTO params);
 
+    /**
+     * 是否已看诊
+     * @param id Long
+     * @param isVisit int
+     * @return ResultVo
+     */
+    ResultVo hasVisit(Long id, int isVisit);
+
 }

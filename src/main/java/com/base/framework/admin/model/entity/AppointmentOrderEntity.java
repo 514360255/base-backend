@@ -63,6 +63,11 @@ public class AppointmentOrderEntity extends BaseEntity {
     private Integer writeOff;
 
     /**
+     * 是否到诊
+     */
+    private Integer isVisit;
+
+    /**
      * 专家
      */
     private String expert;

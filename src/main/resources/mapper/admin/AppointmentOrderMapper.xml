@@ -12,6 +12,7 @@
             ma.disease,
             ma.expert,
             ma.remark,
+            ma.is_visit AS isVisit,
             ma.write_off AS writeOff,
             ma.hospital_name AS hospitalName,
             ma.account_name AS accountName
@@ -25,8 +26,11 @@
             <if test="name != null and name != ''">
                AND ma.name LIKE CONCAT('%',#{name},'%')
             </if>
-            <if test="accountId != null and accountId != ''">
+            <if test="accountId != null and accountId != '' and hospitalId == null">
                 AND ma.account_id = #{accountId}
+            </if>
+            <if test="hospitalId != null and hospitalId != ''">
+                AND ma.hospital_id = #{hospitalId}
             </if>
         </where>
     </select>
@@ -47,7 +51,23 @@
             <if test="accountId != null and accountId != ''">
                 AND ma.account_id = #{accountId}
             </if>
+            <if test="hospitalId != null and hospitalId != ''">
+                AND ma.hospital_id = #{hospitalId}
+            </if>
         </where>
     </select>
+
+    <select id="getDetailById" resultType="com.base.framework.admin.model.entity.AppointmentOrderEntity">
+        SELECT * FROM m_appointment_order WHERE id = #{id}
+    </select>
+
+    <update id="hasVisit">
+        UPDATE
+            m_appointment_order
+        SET
+            is_visit = #{isVisit}
+        WHERE
+            id = #{id}
+    </update>
 
 </mapper>

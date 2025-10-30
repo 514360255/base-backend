@@ -28,4 +28,18 @@ public interface AppointmentOrderMapper extends BaseMapper<BaseDTO> {
      */
     int countTotal(AppointmentOrderQueryDTO params);
 
+    /**
+     * 是否已到诊
+     * @param id Long
+     * @param isVisit int
+     */
+    void hasVisit(Long id, int isVisit);
+
+    /**
+     * 获取详情
+     * @param id Long
+     * @return AppointmentOrderEntity
+     */
+    AppointmentOrderEntity getDetailById(Long id);
+
 }
