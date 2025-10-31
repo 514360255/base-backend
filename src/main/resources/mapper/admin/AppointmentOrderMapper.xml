@@ -32,6 +32,9 @@
             <if test="hospitalId != null and hospitalId != ''">
                 AND ma.hospital_id = #{hospitalId}
             </if>
+            <if test="isVisit != null">
+                AND ma.is_visit = #{isVisit}
+            </if>
         </where>
     </select>
 
@@ -53,6 +56,9 @@
             </if>
             <if test="hospitalId != null and hospitalId != ''">
                 AND ma.hospital_id = #{hospitalId}
+            </if>
+            <if test="isVisit != null">
+                AND ma.is_visit = #{isVisit}
             </if>
         </where>
     </select>

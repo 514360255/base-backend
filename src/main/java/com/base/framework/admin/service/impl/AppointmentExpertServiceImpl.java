@@ -36,7 +36,7 @@ public class AppointmentExpertServiceImpl implements AppointmentExpertService {
     @Override
     public ResultVo queryPage(AppointmentExpertQuery params) {
         String roleCode = SecurityUtils.getRoleCode();
-        if(!"SUPER_ADMIN".equals(roleCode)) {
+        if(!SecurityUtils.isSuperAdmin()) {
             params.setAccountId(SecurityUtils.getCurrentUserId());
         }
         int total = appointmentExpertMapper.countTotal(params);

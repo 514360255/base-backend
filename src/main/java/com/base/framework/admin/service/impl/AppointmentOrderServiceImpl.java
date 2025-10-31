@@ -32,8 +32,7 @@ public class AppointmentOrderServiceImpl implements AppointmentOrderService {
 
     @Override
     public ResultVo queryPage(AppointmentOrderQueryDTO params) {
-        String roleCode = SecurityUtils.getRoleCode();
-        if(!"SUPER_ADMIN".equals(roleCode)) {
+        if(!SecurityUtils.isSuperAdmin()) {
             params.setAccountId(SecurityUtils.getCurrentUserId());
         }
         int total = appointmentOrderMapper.countTotal(params);

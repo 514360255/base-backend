@@ -36,8 +36,7 @@ public class HospitalServiceImpl implements HospitalService {
 
     @Override
     public ResultVo queryHospitalPage(HospitalQueryDTO params) {
-        String roleCode = SecurityUtils.getRoleCode();
-        if(!"SUPER_ADMIN".equals(roleCode)) {
+        if(!SecurityUtils.isSuperAdmin() && params.getAccountId() == null) {
             params.setAccountId(SecurityUtils.getCurrentUserId());
         }
         int total = hospitalMapper.countTotal(params);

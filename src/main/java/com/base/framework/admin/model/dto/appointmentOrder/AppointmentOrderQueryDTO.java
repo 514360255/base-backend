@@ -36,5 +36,10 @@ public class AppointmentOrderQueryDTO  extends PageRequest implements Serializab
      * 姓名
      */
     private Long accountId;
+
+    /**
+     * 是否到诊
+     */
+    private Integer isVisit;
 }
 
