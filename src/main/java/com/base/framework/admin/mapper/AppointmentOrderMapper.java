@@ -42,4 +42,11 @@ public interface AppointmentOrderMapper extends BaseMapper<BaseDTO> {
      */
     AppointmentOrderEntity getDetailById(Long id);
 
+    /**
+     * 删除
+     * @param id Long
+     * @param username String
+     */
+    void deleteById(Long id, String username);
+
 }

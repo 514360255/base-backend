@@ -19,7 +19,7 @@
         FROM
             m_appointment_order ma
         <where>
-            1 = 1
+            is_deleted = 1 AND deleted_at IS NULL
             <if test="hospitalName != null and hospitalName != ''">
                 AND ma.hospital_name LIKE CONCAT('%',#{hospitalName},'%')
             </if>
@@ -72,6 +72,17 @@
             m_appointment_order
         SET
             is_visit = #{isVisit}
+        WHERE
+            id = #{id}
+    </update>
+
+    <update id="deleteById">
+        UPDATE
+            m_appointment_order
+        SET
+            is_deleted = 0,
+            deleted_by = #{username},
+            deleted_at = NOW()
         WHERE
             id = #{id}
     </update>

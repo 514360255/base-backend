@@ -38,4 +38,14 @@ public class AppointmentOrderController {
         return appointmentOrderService.hasVisit(id, isVisit);
     }
 
+    /**
+     * 删除
+     * @param id Long
+     * @return ResultVo
+     */
+    @DeleteMapping("{id}")
+    public ResultVo delete(@PathVariable("id") Long id) {
+        return appointmentOrderService.delete(id);
+    }
+
 }

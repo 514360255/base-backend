@@ -25,4 +25,11 @@ public interface AppointmentOrderService {
      */
     ResultVo hasVisit(Long id, int isVisit);
 
+    /**
+     * 删除
+     * @param id Long
+     * @return ResultVo
+     */
+    ResultVo delete(Long id);
+
 }

@@ -43,14 +43,29 @@ public class AppointmentOrderServiceImpl implements AppointmentOrderService {
         return ResultVo.ok(pageInfo);
     }
 
+    private void checkAppointmentOrder(Long id) {
+        AppointmentOrderEntity appointmentOrderEntity = appointmentOrderMapper.getDetailById(id);
+        if(appointmentOrderEntity == null) {
+            throw new BusinessException(500, "预约记录不存在");
+        }
+    }
+
     @Override
     @Transactional
     public ResultVo hasVisit(Long id, int isVisit){
-        AppointmentOrderEntity appointmentOrderEntity = appointmentOrderMapper.getDetailById(id);
-        if(appointmentOrderEntity == null) {
-            throw new BusinessException(500, "预约不存在");
-        }
+        checkAppointmentOrder(id);
         appointmentOrderMapper.hasVisit(id, isVisit);
+        return ResultVo.ok(true);
+    }
+
+    @Override
+    @Transactional
+    public ResultVo delete(Long id) {
+        checkAppointmentOrder(id);
+        if(!SecurityUtils.isSuperAdmin()) {
+            throw new BusinessException(500, "无权限删除");
+        }
+        appointmentOrderMapper.deleteById(id, SecurityUtils.getCurrentUsername());
         return ResultVo.ok(true);
     }
 
