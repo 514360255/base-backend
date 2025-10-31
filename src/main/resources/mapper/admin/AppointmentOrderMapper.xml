@@ -35,7 +35,11 @@
             <if test="isVisit != null">
                 AND ma.is_visit = #{isVisit}
             </if>
+            <if test="appointmentTimeStart != null and appointmentTimeStart != '' and appointmentTimeEnd != null and appointmentTimeEnd != ''">
+                AND appointment_time >= #{appointmentTimeStart} AND appointment_time &lt;= #{appointmentTimeEnd}
+            </if>
         </where>
+        ORDER BY appointment_time DESC
     </select>
 
     <select id="countTotal" resultType="java.lang.Integer">
@@ -44,7 +48,7 @@
         FROM
         m_appointment_order ma
         <where>
-            1 = 1
+            is_deleted = 1 AND deleted_at IS NULL
             <if test="hospitalName != null and hospitalName != ''">
                 AND ma.hospital_name LIKE CONCAT('%',#{hospitalName},'%')
             </if>
@@ -59,6 +63,9 @@
             </if>
             <if test="isVisit != null">
                 AND ma.is_visit = #{isVisit}
+            </if>
+            <if test="appointmentTimeStart != null and appointmentTimeStart != '' and appointmentTimeEnd != null and appointmentTimeEnd != ''">
+                AND appointment_time >= #{appointmentTimeStart} AND appointment_time &lt;= #{appointmentTimeEnd}
             </if>
         </where>
     </select>

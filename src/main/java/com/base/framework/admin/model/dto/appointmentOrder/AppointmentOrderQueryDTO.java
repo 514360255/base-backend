@@ -41,5 +41,15 @@ public class AppointmentOrderQueryDTO  extends PageRequest implements Serializab
      * 是否到诊
      */
     private Integer isVisit;
+
+    /**
+     * 预约开始时间
+     */
+    private String appointmentTimeStart;
+
+    /**
+     * 预约结束时间
+     */
+    private String appointmentTimeEnd;
 }
 
